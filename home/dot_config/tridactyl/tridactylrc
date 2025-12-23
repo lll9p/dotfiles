@@ -1,0 +1,95 @@
+" General Settings
+set newtab about:blank
+set browser firefox-developer-edition
+set editorcmd nvim %f
+set smoothscroll true
+set newtabfocus page
+set hintchars neiohtsrad
+set configversion 2.0
+set update.lastchecktime 1666676788161
+set update.nag true
+set update.nagwait 7
+set update.lastnaggedversion 1.14.0
+set update.checkintervalsecs 86400
+colorscheme shydactyl
+
+
+" Search
+set searchengine g
+set followpagepatterns.prev Previous
+set searchurls.b https://www.baidu.com/s?ie=UTF-8&wd=%s
+set searchurls.d https://www.douban.com/search?q=%s
+set searchurls.g https://www.google.com/search?q=%s
+set searchurls.alternativeto https://alternativeto.net/browse/search/?q=%s
+set searchurls.ddg https://duckduckgo.com/?q=%s
+set searchurls.aur https://aur.archlinux.org/packages/?O=0&K=%s
+set searchurls.aw https://wiki.archlinux.org/?search=%s
+set searchurls.gh https://github.com/search?q=%s
+set searchurls.wb https://web.archive.org/web/*/%s
+set searchurls.books https://b-ok.cc/s/%s
+set searchurls.yt https://yewtu.be/search?q=%s
+set searchurls.cve https://www.cvedetails.com/cve-details.php?t=1&cve_id=%s
+set searchurls.cvep https://www.cvedetails.com/product-search.php?vendor_id=0&search=%s
+set searchurls.video https://www.google.com/search?hl=en&q=intext%3A%22%s%22%20intitle%3A%22index.of%22%20%2B(wmv%7Cmpg%7Cavi%7Cmp4%7Cmkv%7Cmov)%20%2Dinurl%3A(jsp%7Cpl%7Cphp%7Chtml%7Caspx%7Chtm%7Ccf%7Cshtml)
+set searchurls.audio https://www.google.com/search?hl=en&ei=cSj3X5L0HYXykwXRpKvYAg&q=intext%3A%22%s%22+intitle%3A%22index.of.%2F%22+%28ac3%7Cflac%7Cm4a%7Cmp3%7Cogg%7Cwav%7Cwma%29+-inurl%3A%28jsp%7Cpl%7Cphp%7Chtml%7Caspx%7Chtm%7Ccf%7Cshtml%29&oq=intext%3A%22test%22+intitle%3A%22index.of.%2F%22+%28ac3%7Cflac%7Cm4a%7Cmp3%7Cogg%7Cwav%7Cwma%29+-inurl%3A%28jsp%7Cpl%7Cphp%7Chtml%7Caspx%7Chtm%7Ccf%7Cshtml%29&gs_lcp=CgZwc3ktYWIQA1CGD1jzEGDBEmgAcAB4AIABAIgBAJIBAJgBAaABAaoBB2d3cy13aXrAAQE&sclient=psy-ab&ved=0ahUKEwjS8PamkYruAhUF-aQKHVHSCisQ4dUDCAw&uact=5
+set searchurls.red https://www.reddit.com/search/?q=%s
+set searchurls.sred https://www.reddit.com/r/%s1/
+set searchurls.sreds https://www.reddit.com/r/%s1/search?q=%s2&restrict_sr=on
+set searchurls.zh https://www.zhihu.com/search?type=content&q=%s
+set searchurls.googlelucky https://www.google.com/search?btnI=I'm+Feeling+Lucky&q=
+set searchurls.googleuk https://www.google.co.uk/search?q=
+set searchurls.duckduckgo https://duckduckgo.com/?q=
+set searchurls.twitter https://twitter.com/search?q=
+set searchurls.youtube https://www.youtube.com/results?search_query=
+set searchurls.amazonuk https://www.amazon.co.uk/s/ref=nb_sb_noss?url=search-alias%3Daps&field-keywords=
+set searchurls.github https://github.com/search?utf8=✓&q=
+set searchurls.cnrtl http://www.cnrtl.fr/lexicographie/
+set searchurls.mdn https://developer.mozilla.org/en-US/search?q=
+set searchurls.qwant https://www.qwant.com/?q=
+
+
+" Binds
+" bind / fillcmdline find
+" bind ? fillcmdline find -?
+" bind n findnext 1
+bind N findnext -? 1
+
+" bind ; fillcmdline_notrail
+
+bind <space>h hint -F e => e.dispatchEvent(new MouseEvent('mouseover', {}))
+" Makes link hints only hint links on duck duck go
+""bindurl ^https://duckduckgo.com f hint -Jc [class=result__a]
+""bindurl ^https://duckduckgo.com F hint -Jbc [class=result__a]
+
+" Protonmail hints
+bindurl https://mail.protonmail.com/ f hint -Jc .item-subject,.item-checkbox,.navigation-link,.toolbar-button
+
+" Subconfig Settings
+seturl www.google.com followpagepatterns.next Next
+
+" Aliases
+alias withUrl composite get_current_url |
+alias openvid withUrl !s yt --url
+alias openvidLink composite hint -pipe a[href]:not([display="none"]):not([href=""]) href | !s yt --url
+alias testclickjacking withUrl !s $HOME/.config/tridactyl/scripts/clickjacking | nativeopen
+alias openwithbrave withUrl !s /usr/bin/brave
+alias hint_focus hint -;
+alias wayback composite get_current_url | tabopen wb
+alias autodark js document.body.parentElement.classList.toggle("auto-dark")
+alias tabsort jsb browser.tabs.query({}).then(tabs => tabs.sort((t1, t2) => t1.url.localeCompare(t2.url)).forEach((tab, index) => browser.tabs.move(tab.id, {index})))
+alias tabuniq jsb browser.tabs.query({}).then(tabs => browser.tabs.remove(tabs.filter((tab, index) => tabs.slice(index + 1).find(t => t.url == tab.url)).map(tab => tab.id)))
+
+
+" Autocmds
+autocmd DocStart ^https?://wiki.archlinux.org js (window.location.href.match("[?|&]useskinversion=1") == null) && tri.excmds.urlmodify("-s", "useskinversion", "1")
+autocmd DocStart mail.google.com mode ignore
+" make t open the selection with tabopen
+bind --mode=visual t composite js document.getSelection().toString() | fillcmdline tabopen
+" Inject Google Translate
+" This (clearly) is remotely hosted code. Google will be sent the whole
+" contents of the page you are on if you run `:translate`
+" From https://github.com/jeremiahlee/page-translator
+command translate js let googleTranslateCallback = document.createElement('script'); googleTranslateCallback.innerHTML = "function googleTranslateElementInit(){ new google.translate.TranslateElement(); }"; document.body.insertBefore(googleTranslateCallback, document.body.firstChild); let googleTranslateScript = document.createElement('script'); googleTranslateScript.charset="UTF-8"; googleTranslateScript.src = "https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit&tl=&sl=&hl="; document.body.insertBefore(googleTranslateScript, document.body.firstChild);
+
+" For syntax highlighting see https://github.com/tridactyl/vim-tridactyl
+" vim: set filetype=tridactyl

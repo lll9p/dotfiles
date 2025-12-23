@@ -1,0 +1,63 @@
+pkgs:
+  archBased:
+    universal:
+      # Essentials
+      - "chezmoi"
+      - "git"
+      - "lazygit"
+      - "os-prober"
+      - "tldr"
+      - "tmux"
+      - "tmuxinator"
+      - "wget"
+      - "xorg-xhost"
+
+      # Terminal
+      - "alacritty"
+
+      # Text / Code Editor, IDE
+      - "neovim"
+      - "vim"
+
+      # CLI tools
+      - "aria2"
+      - "bat"
+      - "ctags"
+      - "dust"
+      - "exa"
+      - "fd"
+      - "fzf"
+      - "git-delta"
+      - "gping"
+      - "jq"
+      - "just"
+      - "procs"
+      - "ripgrep"
+      - "rsync"
+      - "sd"
+      - "tree"
+      - "unzip"
+      - "wget"
+      - "yazi"
+      - "yq"
+      - "zip"
+      - "zoxide"
+      - "nushell"
+
+      # Development, languages, interpreters, compilers, etc
+      - "docker"
+      - "docker-compose"
+
+      # Security Utilities
+      - "age"
+      - "gnupg"
+      - "openssl"
+
+      # Monitoring, management and stats
+      - "btop"
+
+      # CLI Fun
+      - "fastfetch"
+
+      # Utils
+      - "bc"

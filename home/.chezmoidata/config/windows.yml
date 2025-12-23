@@ -1,0 +1,28 @@
+config:
+  windows:
+    envs:
+      path:
+        - '%LOCALAPPDATA%\nvim-data\mason\bin'
+        - '%USERPROFILE%\scoop\apps\git\current\usr\bin'
+        - '%LOCALAPPDATA%\Programs\virtualenvs\work\Scripts'
+        - '%USERPROFILE%\.local\bin'
+      others:
+        GIT_SSH: '%USERPROFILE%\scoop\shims\ssh.exe'
+        CLAUDE_CODE_GIT_BASH_PATH: '%USERPROFILE%\scoop\apps\git\current\bin\bash.exe'
+        VIRTUAL_ENVS: '%LOCALAPPDATA%\Programs\virtualenvs'
+        VIRTUAL_ENV: '%LOCALAPPDATA%\Programs\virtualenvs\work'
+        FROM: 'windows'
+        LANG: 'en_US.UTF-8'
+        LANGUAGE: 'zh_CN'
+        LC_ALL: 'en_US.UTF-8'
+    features:
+      enable:
+        # - 'Microsoft-Hyper-V-All'
+        # - 'HypervisorPlatform'
+        # - 'NetFx4Extended-ASPNET45'
+        # - "VirtualMachinePlatform"
+        # - "Microsoft-Windows-Subsystem-Linux"
+        # - "NetFx3"
+        # - "NetFx4-AdvSrvs"
+      disable:
+        - "MicrosoftWindowsPowerShellV2"

@@ -1,0 +1,56 @@
+{{/* Static values */}}
+
+{{ $gpgId := "7430BB68F4020C7409274F3E7C838D9B4A8290F0" }}
+
+{{/* Prompt for SSH port during init (Linux only) */}}
+{{ $sshPort := 22 }}
+{{ if ne .chezmoi.os "windows" }}
+  {{ $sshPort = promptIntOnce . "sshPort" "SSH port for sshd_config (default 22)" 22 }}
+{{ end }}
+
+{{/* GitHub proxy for regions with restricted access */}}
+{{ $ghProxy := "https://gh-proxy.org/" }}
+
+encryption = "age"
+
+{{/* Shell: bash on Linux, pwsh on Windows */}}
+
+{{ $shell := "bash" }}
+{{ if eq .chezmoi.os "windows" }}
+  {{ $shell = "pwsh" }}
+{{ end }}
+
+mode = "file" # file, symlink
+progress = true
+
+[data]
+gpgId = {{ $gpgId | quote }}
+sshPort = {{ $sshPort }}
+ghProxy = {{ $ghProxy | quote }}
+
+[age]
+identity = "~/.age-key.txt"
+recipient = "age1jqs976y9lgluee2v8xfrzrdl4umuskpxysv35lcpgr6wyya0guuqsz6aj0"
+
+[git]
+autoAdd = true # Add changes to the source state after any change
+autoCommit = false
+autoPush = false
+
+[cd]
+command = {{ $shell | quote }}
+
+[completion]
+custom = true
+
+[edit]
+command = "nvim"
+
+[diff]
+command = "delta"
+pager = "delta"
+args = ["--paging=never"]
+
+[merge]
+command = "nvim"
+args = ["-d", "{{ "{{" }} .Destination {{ "}}" }}", "{{ "{{" }} .Source {{ "}}" }}", "{{ "{{" }} .Target {{ "}}" }}"]

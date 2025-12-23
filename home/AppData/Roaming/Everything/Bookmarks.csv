@@ -1,0 +1,39 @@
+Name,Case,Whole Word,Path,Diacritic,Regex,Sort,Descending,Filter,Search,Index,File List,Host,Link Type,Macro,Key,View
+"Everything",0,0,0,0,0,"Name",0,"EVERYTHING","!FileHistory\ file: | folder:",0,"","",1,"everything",1329,
+"Everything by Size",0,0,0,0,0,"Size",1,"EVERYTHING","!FileHistory\ file: | folder:",0,"","",1,"everythingsize",1330,
+"Folders",0,0,0,0,0,"Name",0,"EVERYTHING","!FileHistory\ folder:",0,"","",1,"foldersonly",1331,
+"Empty Folders",0,0,0,0,0,"Path",1,"FOLDER","!<FileHistory\|C:\\> folder: empty:",0,"","",1,"emptyfolders",1332,
+"Long Folder Names",0,0,0,0,0,"Name",0,"FOLDER","!<C:\\|.dat|FileHistory\> folder: len:>85",0,"","",1,"longfoldernames",1333,0
+"Files",0,0,0,0,0,"Name",0,"EVERYTHING","!FileHistory\ file:",0,"","",1,"filesonly",1334,
+"Long Filenames",0,0,0,0,0,"Name",0,"VIDEO","!C:\\ !.dat !FileHistory\ file: len:>85",0,"","",1,"longfilenames",1335,
+"Small Files",0,0,0,0,0,"Size",0,"EVERYTHING","!FileHistory\ file: size:<5MB",0,"","",1,"smallfiles",1336,
+"Large Files",0,0,0,0,0,"Size",1,"EVERYTHING","!FileHistory\ file: size:>2gb",0,"","",1,"bigfiles",1337,
+"Large Duplicate Files",0,0,0,0,0,"Name",0,"EVERYTHING","!FileHistory\ file: dupe: size:>500mb",0,"","",1,"largeduplicatefiles",1361,0
+"Large Files on C",0,0,0,0,0,"Size",1,"EVERYTHING","C:\\ !FileHistory\ file: size:>50MB",0,"","",1,"largefilesc",1367,0
+"Playlists",0,0,0,0,0,"Name",0,"EVERYTHING","!FileHistory\ ext:cue;xspf;asx;m3u;vlc;wpl",0,"","",1,"playlists",1349,
+"External Files",0,0,0,0,0,"Name",0,"EVERYTHING","!<C:\\|FileHistory\>",0,"","",1,"extfiles",1392,
+"External Duplicate Files",0,0,0,0,1,"Name",0,"EVERYTHING","!<FileHistory\|C:\\> file: dupe:",0,"","",1,"duplicatefiles",1393,
+"External Videos",0,0,0,0,0,"Name",0,"VIDEO","!<.dat|C:\\|FileHistory\>",0,"","",1,"extvid",1394,
+"External 720p Videos",0,0,0,0,0,"Name",0,"VIDEO","!<.dat|C:\\|FileHistory\> 720p",0,"","",1,"ext720vids",1395,
+"External 1080p Videos",0,0,0,0,0,"Name",0,"VIDEO","!<.dat|C:\\|FileHistory\> 1080p",0,"","",1,"ext1080pvids",1396,
+"External 2160p (4K) Videos",0,0,0,0,0,"Name",0,"VIDEO","!<.dat|C:\\|FileHistory\> 4K|2160p",0,"","",1,"ext4kvids",1397,
+"External Audio",0,0,0,0,0,"Name",0,"AUDIO","!<.dat|C:\\|FileHistory\>",0,"","",1,"extaudio",1398,
+"External Images",0,0,0,0,0,"Name",0,"PICTURE","!<.dat|C:\\|FileHistory\>",0,"","",1,"extimages",1399,
+"External Archives",0,0,0,0,0,"Name",0,"COMPRESSED","!<.dat|C:\\|FileHistory\>",0,"","",1,"extarchives",1400,
+"External Documents",0,0,0,0,0,"Name",0,"DOCUMENT","!<.dat|C:\\|FileHistory\>",0,"","",1,"extdocuments",1401,
+"External Disc Images",0,0,0,0,0,"Name",0,"EVERYTHING","!<C:\\|FileHistory\> file: size:>90MB ext:dat;iso;mdx;mds;mdf;b5t;b6t;bwt;ccd;cdi;cue;nrg;pdi;isz",0,"","",1,"extdiscimages",1402,
+"Massive Files",0,0,0,0,0,"Size",1,"EVERYTHING","!FileHistory\ file: size:>3GB",0,"","",1,"massivefiles",1316,0
+"Massive Videos",0,0,0,0,0,"Size",1,"VIDEO","!FileHistory\ size:>3GB",0,"","",1,"massivevideos",1315,0
+"Massive Archives",0,0,0,0,0,"Size",1,"COMPRESSED","!FileHistory\ size:>3GB",0,"","",1,"massivearchives",1313,0
+"Massive Images",0,0,0,0,0,"Size",1,"PICTURE","!FileHistory\ file: size:>3MB",0,"","",1,"massiveimages",1314,0
+"Gigantic Videos",0,0,0,0,0,"Size",1,"VIDEO","!FileHistory\ size:>6GB",0,"","",1,"giganticvideos",1360,0
+"60FPS Videos",0,0,0,0,0,"Name",1,"VIDEO","!FileHistory\ --60FPS",0,"","",1,"60fpsvideos",1499,0
+"Uncommon Videos",0,0,0,0,0,"Size",1,"VIDEO","!<C:\\|FileHistory\> file: ext:wmv;avi;mpg;mpeg;mp2;mpe;m2v;flv;f4p;f4a;f4b;rm;rmvb;asf;amv;3gp;3g2",0,"","",1,"uncommonvideos",1501,0
+"Duplicate Videos",0,0,0,0,0,"Size",1,"VIDEO","!C:\\ dupe:",0,"","",1,"dupevideos",1356,
+"Links",0,0,0,0,0,"Path",0,"EVERYTHING","!<\\Windows\\|FileHistory\\> ext:lnk;url",0,"","",1,"links",1466,0
+"Torrents and Usenet",0,0,0,0,0,"Name",0,"EVERYTHING","!FileHistory\\ ext:torrent;nzb",0,"","",1,"torrentsandusenet",1502,0
+"Windows Error Dumps",0,0,0,0,0,"Name",0,"EVERYTHING","!FileHistory\\ minidump\\ ext:dmp",0,"","",1,"windowserrors",1468,
+"Powershell Scripts",0,0,0,0,0,"Path",0,"EVERYTHING","!<FileHistory\\|C:\\Windows\\|\"\"C:\\Program Files\\\"\"|.vscode> ext:ps1",0,"","",1,"powershellscripts",1470,0
+"Batch and Command Files",0,0,0,0,0,"Name",0,"EVERYTHING","!FileHistory\\ ext:bat;cmd",0,"","",1,"batchcommand",1471,
+"Sample Videos and Misc Deletables",0,0,0,0,0,"Size",1,"EVERYTHING","!FileHistory\\ file: \"\"-sample\"\"|*.sfv|*.srr|*.nfo size:<200MB",0,"","",1,"samplevideos",,0
+"Completed Files",0,0,0,0,0,"Size",1,"EVERYTHING","!FileHistory\\ file: ✅",0,"","",1,"compfiles",,0

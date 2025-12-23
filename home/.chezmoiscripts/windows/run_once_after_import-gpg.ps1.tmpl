@@ -1,0 +1,55 @@
+# Set encoding to UTF-8
+[Console]::InputEncoding = [Console]::OutputEncoding = $OutputEncoding = [System.Text.Utf8Encoding]::new()
+#requires -version 5.0
+$ErrorActionPreference = "Stop"
+
+Write-Host "Starting GPG keys auto-import..."
+
+$GpgTemplateDir = Join-Path "{{ .chezmoi.sourceDir }}" "../.vault/gpg"
+
+if (-not (Test-Path $GpgTemplateDir)) {
+    Write-Warning "Directory not found: $GpgTemplateDir. Skipping GPG import."
+    exit 0
+}
+
+Write-Host "Reloading gpg-agent..."
+gpgconf --kill gpg-agent
+gpg-connect-agent /bye
+
+
+# 扫描所有加密的 key 文件
+# 文件名匹配 encrypted_*.age
+$KeyFiles = Get-ChildItem -Path $GpgTemplateDir -Filter "encrypted_*.age"
+
+if ($KeyFiles.Count -eq 0) {
+    Write-Warning "No encrypted GPG keys found in $GpgTemplateDir."
+    exit 0
+}
+
+foreach ($File in $KeyFiles) {
+    Write-Host $File
+    Write-Host "  > Processing $($File.Name)..."
+
+    try {
+        $Output = & {
+            $ErrorActionPreference = 'Continue'
+            chezmoi decrypt $File.FullName | gpg --import --batch --yes 2>&1
+        }
+
+        if ($LASTEXITCODE -eq 0) {
+            Write-Host "    [OK] Imported." -ForegroundColor Green
+        } else {
+            Write-Error "    [FAIL] Exit code: $LASTEXITCODE`n    [OUTPUT]: $Output"
+        }
+    }
+    catch {
+        Write-Error "    [ERROR] Exception processing $($File.Name): $_"
+    }
+}
+
+
+"{{ .secrets.keys.gpg_for_trust | decrypt | trim }}:6:" | gpg --import-ownertrust
+
+"keyattr {{ .secrets.keys.gpg_for_ssh | decrypt | trim }} Use-for-ssh: true", "/bye" | gpg-connect-agent
+
+Write-Host "GPG setup complete."

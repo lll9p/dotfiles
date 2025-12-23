@@ -1,0 +1,57 @@
+#!/usr/bin/env bash
+# hash: {{ include "../../../.sysconfig/etc/ssh/sshd_config_append.tmpl" | sha256sum }}
+# Idempotent SSH hardening script for Linux
+# Only appends config if our marker block doesn't exist
+
+set -euo pipefail
+
+SSHD_CONFIG="/etc/ssh/sshd_config"
+MARKER_START="# BEGIN chezmoi managed block"
+MARKER_END="# END chezmoi managed block"
+
+echo "Checking SSH configuration..."
+
+# Check if our block already exists
+if grep -q "$MARKER_START" "$SSHD_CONFIG" 2>/dev/null; then
+    echo "[SKIP] SSH config already managed by chezmoi"
+    echo "       To update, first remove the block between:"
+    echo "       '$MARKER_START' and '$MARKER_END'"
+    exit 0
+fi
+
+# Check if we have sudo privileges
+if ! sudo -n true 2>/dev/null; then
+    echo "[ERROR] This script requires sudo privileges"
+    echo "        Run: sudo chezmoi apply"
+    exit 1
+fi
+
+# Backup original
+BACKUP="$SSHD_CONFIG.bak.$(date +%Y%m%d%H%M%S)"
+sudo cp "$SSHD_CONFIG" "$BACKUP"
+echo "[BACKUP] Saved to: $BACKUP"
+
+# Append our config block
+sudo tee -a "$SSHD_CONFIG" > /dev/null << 'EOFCONFIG'
+
+# BEGIN chezmoi managed block
+# SSH Hardening - managed by chezmoi
+# DO NOT EDIT THIS BLOCK MANUALLY
+KbdInteractiveAuthentication no
+UsePAM yes
+PrintMotd yes
+Port {{ .sshPort }}
+PasswordAuthentication no
+PermitRootLogin no
+PermitUserEnvironment yes
+AcceptEnv FROM
+# END chezmoi managed block
+EOFCONFIG
+
+echo "[OK] SSH config updated successfully"
+echo ""
+echo "IMPORTANT: Restart SSH service to apply changes:"
+echo "  sudo systemctl restart sshd"
+echo ""
+echo "WARNING: Make sure you have another way to access the server"
+echo "         (e.g., console) in case SSH fails to restart properly!"

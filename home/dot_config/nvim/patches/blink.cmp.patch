@@ -1,0 +1,13 @@
+diff --git a/lua/blink/cmp/fuzzy/download/init.lua b/lua/blink/cmp/fuzzy/download/init.lua
+index 2d7b184..5ac5038 100644
+--- a/lua/blink/cmp/fuzzy/download/init.lua
++++ b/lua/blink/cmp/fuzzy/download/init.lua
+@@ -185,7 +185,7 @@ function download.from_github(tag)
+       return
+     end
+ 
+-    local base_url = 'https://github.com/saghen/blink.cmp/releases/download/' .. tag .. '/'
++    local base_url = vim.g.__github_mirror_blink .. 'https://github.com/saghen/blink.cmp/releases/download/' .. tag .. '/'
+     local library_url = base_url .. system_triple .. files.get_lib_extension()
+     local checksum_url = base_url .. system_triple .. files.get_lib_extension() .. '.sha256'
+ 

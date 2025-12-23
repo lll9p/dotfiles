@@ -1,0 +1,18 @@
+fix(<module>): <description>
+
+# <details>
+
+# <issue>
+
+# type:
+# feat: new feature
+# fix: bug fix
+# docs: documentation
+# style: formatting (no code change)
+# refactor: refactoring
+# test: tests
+# chore: build/tools
+# scope: impact scope (data/controller/view/etc)
+# subject: short summary, <= 50 chars
+# body: detailed description, multiline
+# footer: closes issues or BREAKING CHANGE + migration notes

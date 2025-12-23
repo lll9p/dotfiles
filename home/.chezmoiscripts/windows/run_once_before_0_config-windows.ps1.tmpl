@@ -1,0 +1,52 @@
+# Refs:
+# https://github.com/neersighted/dotfiles/blob/3fd327c6d4c263087999ab1c9e0bfd96c806ab5c/home/.chezmoiscripts/run_onchange_after_windows_preferences.ps1
+
+# Self-elevate the script if required
+if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator'))
+{
+  if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000)
+  {
+    $CommandLine = "-File `"" + $MyInvocation.MyCommand.Path + "`" " + $MyInvocation.UnboundArguments
+    Start-Process -Wait -FilePath PowerShell.exe -Verb Runas -ArgumentList $CommandLine
+    Exit
+  }
+}
+
+Import-Module Microsoft.PowerShell.Security
+Set-ExecutionPolicy -ExecutionPolicy Unrestricted -Scope CurrentUser
+Set-ExecutionPolicy Bypass -Scope Process -Force
+
+Write-Host "Enabling Dev mode..."
+Add-WindowsCapability -Online -Name DeveloperMode~~~~0.0.1.0
+
+Write-Host 'Allowing long path...'
+Set-ItemProperty 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem' -Name 'LongPathsEnabled' -Value 1
+
+# Show hidden files and folders
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name Hidden -Value 1
+# Unhide file ext
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name HideFileExt -Value 0
+Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced' -Name ShowSuperHidden -Value 0
+
+$scoopShims = Join-Path $env:USERPROFILE "scoop\shims"
+
+# 1. Edit with Nvim (Alacritty)
+$nvimPath = Join-Path $scoopShims "alacritty.exe"
+$nvimCmd = '"{0}" -e nvim "%1"' -f $nvimPath
+$regPath1 = "HKCR:\*\shell\Edit with Nvim\command"
+if (-not (Test-Path $regPath1)) { New-Item -Path $regPath1 -Force }
+Set-ItemProperty -Path $regPath1 -Name "(Default)" -Value $nvimCmd
+
+# 2. Edit with Vim
+$gvimPath = Join-Path $scoopShims "gvim.exe"
+$gvimCmd = '"{0}" --remote-tab-silent "%1"' -f $gvimPath
+$regPath2 = "HKCR:\*\shell\Edit with Vim\command"
+if (-not (Test-Path $regPath2)) { New-Item -Path $regPath2 -Force }
+Set-ItemProperty -Path $regPath2 -Name "(Default)" -Value $gvimCmd
+
+# 3. Edit with Neovide
+$neovidePath = Join-Path $scoopShims "neovide.exe"
+$neovideCmd = '"{0}" "%1"' -f $neovidePath
+$regPath3 = "HKCR:\*\shell\Edit with Neovide\command"
+if (-not (Test-Path $regPath3)) { New-Item -Path $regPath3 -Force }
+Set-ItemProperty -Path $regPath3 -Name "(Default)" -Value $neovideCmd

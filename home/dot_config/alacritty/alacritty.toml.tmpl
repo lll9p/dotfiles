@@ -1,0 +1,61 @@
+# https://alacritty.org/config-alacritty.html
+
+[general]
+live_config_reload = true
+working_directory = {{ .chezmoi.homeDir | quote }}
+import = [
+{{ joinPath .chezmoi.homeDir ".config" "alacritty" "themes" "collections" "one_light.toml" | quote }}
+]
+
+[env]
+TERM = "xterm-256color"
+TERMINAL = "alacritty"
+COLORTERM="truecolor"
+
+
+[terminal]
+osc52 = "CopyPaste"
+shell = { program = "nu" }
+
+[selection]
+save_to_clipboard = true
+
+[keyboard]
+bindings = [
+  { key = "V", mods = "Control|Shift", action = "Paste" },
+  { key = "C", mods = "Control|Shift", action = "Copy" },
+  { key = "N", mods = "Control", action = "SpawnNewInstance" },
+  { key = "N", mods = "Control|Shift", action = "CreateNewWindow" },
+  { key = "Space", mods = "Control|Shift", action = "ToggleViMode" },
+]
+
+[cursor]
+  style = { shape = "Block", blinking = "On" }
+  vi_mode_style = { shape = "Beam", blinking = "On" }
+
+[mouse]
+  bindings = [{ mouse = "Right", mods = "Control", action = "Paste" }]
+  hide_when_typing = true
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[font]
+normal = { family = "Sarasa Mono SC Nerd Font", style = "Regular" }
+bold = { family = "Sarasa Mono SC Nerd Font", style = "Bold" }
+italic = { family = "Sarasa Mono SC Nerd Font", style = "Italic" }
+bold_italic = { family = "Sarasa Mono SC Nerd Font", style = "Bold Italic" }
+size = 12.0
+glyph_offset = { x = 0, y = 0 }
+offset = { x = 1, y = 0 }
+
+[window]
+decorations = "Full"
+dynamic_padding = true
+dynamic_title = true
+opacity = 1.0
+startup_mode = "Windowed"
+decorations_theme_variant = "Dark"
+dimensions = { columns = 120, lines = 30 }
+padding = { x = 1, y = 1 }
+

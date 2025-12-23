@@ -1,0 +1,66 @@
+vim.g.mapleader = " "
+-- Open VSCode commands in visual mode
+local function openVSCodeCommandsInVisualMode()
+   vim.cmd "normal! gv"
+   local visualmode = vim.fn.visualmode()
+   if visualmode == "V" then
+      local startLine = vim.fn.line "v"
+      local endLine = vim.fn.line "."
+      vim.fn.VSCodeNotifyRange("workbench.action.showCommands", startLine, endLine, 1)
+   else
+      local startPos = vim.fn.getpos "v"
+      local endPos = vim.fn.getpos "."
+      vim.fn.VSCodeNotifyRangePos("workbench.action.showCommands", startPos[2], endPos[2], startPos[3], endPos[3], 1)
+   end
+end
+
+-- Open whichkey in visual mode
+local function openWhichKeyInVisualMode()
+   vim.cmd "normal! gv"
+   local visualmode = vim.fn.visualmode()
+   if visualmode == "V" then
+      local startLine = vim.fn.line "v"
+      local endLine = vim.fn.line "."
+      vim.fn.VSCodeNotifyRange("whichkey.show", startLine, endLine, 1)
+   else
+      local startPos = vim.fn.getpos "v"
+      local endPos = vim.fn.getpos "."
+      vim.fn.VSCodeNotifyRangePos("whichkey.show", startPos[2], endPos[2], startPos[3], endPos[3], 1)
+   end
+end
+
+-- Key mappings
+local keymap = vim.api.nvim_set_keymap
+local opts = { noremap = true, silent = true }
+
+-- Better Navigation
+keymap("n", "<C-j>", ":call VSCodeNotify('workbench.action.navigateDown')<CR>", opts)
+keymap("x", "<C-j>", ":call VSCodeNotify('workbench.action.navigateDown')<CR>", opts)
+keymap("n", "<C-k>", ":call VSCodeNotify('workbench.action.navigateUp')<CR>", opts)
+keymap("x", "<C-k>", ":call VSCodeNotify('workbench.action.navigateUp')<CR>", opts)
+keymap("n", "<C-h>", ":call VSCodeNotify('workbench.action.navigateLeft')<CR>", opts)
+keymap("x", "<C-h>", ":call VSCodeNotify('workbench.action.navigateLeft')<CR>", opts)
+keymap("n", "<C-l>", ":call VSCodeNotify('workbench.action.navigateRight')<CR>", opts)
+keymap("x", "<C-l>", ":call VSCodeNotify('workbench.action.navigateRight')<CR>", opts)
+keymap("n", "gr", ":call VSCodeNotify('editor.action.goToReferences')<CR>", opts)
+
+keymap("n", "<Space>", ":call VSCodeNotify('whichkey.show')<CR>", opts)
+keymap("x", "<Space>", ":lua openWhichKeyInVisualMode()<CR>", opts)
+-- keymap('x', '<C-P>', ":lua openVSCodeCommandsInVisualMode()<CR>", opts)
+
+-- Commentary mappings
+keymap("x", "gc", "<Plug>VSCodeCommentary", {})
+keymap("n", "gc", "<Plug>VSCodeCommentary", {})
+keymap("o", "gc", "<Plug>VSCodeCommentary", {})
+keymap("n", "gcc", "<Plug>VSCodeCommentaryLine", {})
+
+-- Tab navigation
+keymap("n", "<Tab>", ":Tabnext<CR>", opts)
+keymap("n", "<S-Tab>", ":Tabprev<CR>", opts)
+
+-- Multi cursor
+-- remapped to cmd+d in vscode keybindings
+vim.keymap.set("n", "<C-d>", "mciw*<Cmd>nohl<CR>", { remap = true })
+
+-- Clipboard setting
+vim.o.clipboard = "unnamedplus"

@@ -1,0 +1,32 @@
+# vim:ft=gitignore.chezmoitmpl
+
+# Common ignores
+**/*.swp
+**/*.swo
+**/*.tmp
+.DS_Store
+
+# Nushell runtime files
+.config/nushell/history.txt
+.config/nushell/history.sqlite3
+.config/nushell/history.sqlite3-*
+.config/nushell/plugin.msgpackz
+
+{{ if eq .chezmoi.os "windows" }}
+# Linux-only (ignore on Windows)
+.chezmoiscripts/linux/**
+.local/bin/*.sh
+.config/aria2/**
+.config/tmux/**
+.config/systemd/**
+.docker/**
+{{ else }}
+# Windows-only (ignore on Linux/macOS)
+.chezmoiscripts/windows/**
+.local/bin/*.bat
+.local/bin/*.reg
+.local/bin/*.ps1
+.local/bin/*.vbs
+AppData/**
+Documents/**
+{{ end }}

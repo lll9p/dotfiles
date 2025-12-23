@@ -1,0 +1,29 @@
+local function detect_client()
+   local uis = vim.api.nvim_list_uis()
+   for _, ui in ipairs(uis) do
+      if ui.client and ui.client.name then
+         return ui.client.name
+      end
+   end
+   return nil
+end
+
+local os_name = vim.uv.os_uname().sysname
+vim.g.__is_mac = (os_name == "Darwin")
+vim.g.__is_linux = (os_name == "Linux")
+vim.g.__is_windows = (os_name == "Windows_NT")
+vim.g.__is_nvim_qt = (detect_client() == "nvim-qt")
+vim.g.__home = vim.g.__is_windows and os.getenv("USERPROFILE") or os.getenv("HOME")
+vim.g.__path_sep = vim.g.__is_windows and "\\" or "/"
+vim.g.__venv = "work"
+
+-- GitHub Mirror Configuration
+-- https://greasyfork.org/zh-CN/scripts/412245-github-增强-高速下载
+vim.g.__github_mirror = "{{ .ghProxy }}"
+vim.g.__github_mirror_blink = "{{ .ghProxy }}"
+vim.g.__github_mirror_mason = "{{ .ghProxy }}"
+
+-- Base46 Cache Path
+vim.g.base46_cache = vim.fn.stdpath("data") .. "/base46/"
+vim.g.mapleader = " "
+

@@ -1,0 +1,27 @@
+#!/usr/bin/env bash
+# Re-register nushell plugins when nu version changes
+# Hash: {{ output "nu" "--version" | trim | sha256sum }}
+
+set -euo pipefail
+
+echo "Nushell version changed, re-registering plugins..."
+
+plugins=(
+    "nu_plugin_inc"
+    "nu_plugin_gstat"
+    "nu_plugin_formats"
+    "nu_plugin_query"
+    "nu_plugin_polars"
+)
+
+for plugin in "${plugins[@]}"; do
+    plugin_path=$(which "$plugin" 2>/dev/null || true)
+    if [[ -n "$plugin_path" ]]; then
+        echo "  Adding $plugin..."
+        nu -c "plugin add '$plugin_path'"
+    else
+        echo "  [SKIP] $plugin not found"
+    fi
+done
+
+echo "Plugin registration complete."

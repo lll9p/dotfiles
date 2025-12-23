@@ -1,0 +1,7 @@
+default-cache-ttl 86400
+max-cache-ttl 86400
+{{ if eq .chezmoi.os "windows" -}}
+enable-win32-openssh-support
+enable-putty-support
+{{ end -}}
+enable-ssh-support

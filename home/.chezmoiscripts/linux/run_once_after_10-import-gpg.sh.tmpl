@@ -1,0 +1,46 @@
+#!/usr/bin/env bash
+# GPG keys auto-import script for Linux
+# Mirrors the Windows version: run_once_after_import-gpg.ps1.tmpl
+
+set -euo pipefail
+
+echo "Starting GPG keys auto-import..."
+
+GPG_TEMPLATE_DIR="{{ .chezmoi.sourceDir }}/../.vault/gpg"
+
+if [[ ! -d "$GPG_TEMPLATE_DIR" ]]; then
+    echo "[WARNING] Directory not found: $GPG_TEMPLATE_DIR. Skipping GPG import."
+    exit 0
+fi
+
+echo "Reloading gpg-agent..."
+gpgconf --kill gpg-agent || true
+gpg-connect-agent /bye || true
+
+# Scan all encrypted key files (encrypted_*.age)
+shopt -s nullglob
+KEY_FILES=("$GPG_TEMPLATE_DIR"/encrypted_*.age)
+shopt -u nullglob
+
+if [[ ${#KEY_FILES[@]} -eq 0 ]]; then
+    echo "[WARNING] No encrypted GPG keys found in $GPG_TEMPLATE_DIR."
+    exit 0
+fi
+
+for FILE in "${KEY_FILES[@]}"; do
+    echo "  > Processing $(basename "$FILE")..."
+    
+    if chezmoi decrypt "$FILE" | gpg --import --batch --yes 2>&1; then
+        echo "    [OK] Imported."
+    else
+        echo "    [FAIL] Failed to import $(basename "$FILE")"
+    fi
+done
+
+# Set trust level
+echo "{{ .secrets.keys.gpg_for_trust | decrypt | trim }}:6:" | gpg --import-ownertrust
+
+# Enable key for SSH
+echo -e "keyattr {{ .secrets.keys.gpg_for_ssh | decrypt | trim }} Use-for-ssh: true\n/bye" | gpg-connect-agent
+
+echo "GPG setup complete."

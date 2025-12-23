@@ -1,0 +1,28 @@
+#!/usr/bin/env bash
+
+set -eufo pipefail
+
+DISTRO=$(lsb_release -i | awk '{print $NF}')
+
+case "$DISTRO" in
+"Arch") ;;
+*)
+  exit 0
+  ;;
+esac
+
+##########################################
+
+echo 'UPDATING SOURCES...'
+sudo pacman -Sy
+
+{{ $pkgs := .pkgs.archBased.universal }}
+
+{{ if $pkgs }}
+echo 'INSTALLING PACKAGES...'
+sudo pacman -S {{ $pkgs | quoteList | join " " }} --needed --noconfirm
+{{ end }}
+
+##########################################
+
+echo 'SETTING UP SERVICES...'

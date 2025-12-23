@@ -1,0 +1,64 @@
+[user]
+  email = {{ .gitUserEmail }}
+  name = {{ .gitUserName }}
+  signingkey = {{ .secrets.keys.gpg_for_git_sign | decrypt | trim }}!
+
+[core]
+  quotepath = false
+  safecrlf = true
+  autocrlf = false
+  editor = nvim
+  longpaths = true
+  pager = delta
+  excludesFile = ~/.config/git/ignore
+
+[color]
+  ui = always
+  interactive = always
+
+[interactive]
+  diffFilter = delta --color-only
+
+[delta]
+    navigate = true
+    light = true
+    side-by-side = true
+
+[i18n]
+  logoutputencoding = utf-8
+
+[gui]
+  encoding = utf-8
+
+[i18n "commit"]
+  encoding = utf-8
+
+[pull]
+  rebase = false
+
+[init]
+	defaultBranch = master
+
+[commit]
+  gpgsign = true
+  template = ~/.commit.template
+
+[gpg]
+  program = gpg
+
+[alias]
+  cm = commit -m
+  cam = commit -am
+  last = log -1 HEAD --stat
+  latest= log --color --decorate --graph --date=short --abbrev-commit --pretty=format:\"%C(yellow)%h %C(blue)%ad %C(red)%d %C(reset)%s %C(green)[%cn]\"
+  aliases = "!git config --get-regexp '^alias\\.' | cut -c 7- | sed 's/ / = /'"
+  url = config --get remote.origin.url
+
+[credential "https://github.com"]
+  helper = !'gh' auth git-credential
+
+[credential "https://gist.github.com"]
+  helper = !'gh' auth git-credential
+
+[url "{{ .ghProxy }}https://github.com/"]
+    insteadOf = https://github.com/

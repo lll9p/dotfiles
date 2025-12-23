@@ -1,0 +1,108 @@
+# Nushell Environment Config File
+
+{{- if eq .chezmoi.os "windows" }}
+def expand-win-vars [path_str: string] {
+    if ($path_str | str contains '%') == false {
+        return $path_str
+    }
+    # 遍历切割后的部分：
+    # 偶数位(0,2,4...)是普通文本
+    # 奇数位(1,3,5...)是变量名
+    ($path_str | split row '%') | enumerate | each { |it|
+        if ($it.index mod 2) == 1 {
+            $env | get -o $it.item | default $"%($it.item)%"
+        } else {
+            $it.item
+        }
+    } | str join ""
+}
+# 2. 单独处理 Path (列表类型直接赋值是生效的)
+$env.Path = ($env.Path | each { |p| expand-win-vars $p })
+
+# 3. 批量处理 String 类型的变量 (这是修正的关键部分)
+# 使用 reduce 来构建一个包含所有需要更新的变量的 Record
+let pending_updates = ($env | columns | reduce -f {} { |key, acc|
+    let val = ($env | get $key)
+
+    # 只处理包含 % 的字符串
+    if ($val | describe) == "string" and ($val | str contains "%") {
+        # 计算新值
+        let new_val = (expand-win-vars $val)
+        # 将键值对插入到累加器 Record 中
+        $acc | insert $key $new_val
+    } else {
+        # 不需要修改，返回原累加器
+        $acc
+    }
+})
+
+# 4. 在主作用域中一次性应用所有修改
+load-env $pending_updates
+# 1. Environment Conversions (Standard Boilerplate)
+$env.ENV_CONVERSIONS = {
+    "PATH": {
+        from_string: { |s| $s | split row (char esep) | path expand --no-symlink }
+        to_string: { |v| $v | path expand --no-symlink | str join (char esep) }
+    }
+    "Path": {
+        from_string: { |s| $s | split row (char esep) | path expand --no-symlink }
+        to_string: { |v| $v | path expand --no-symlink | str join (char esep) }
+    }
+}
+
+{{- end }}
+# 2. Plugin Directories (OS-Aware)
+$env.NU_PLUGIN_DIRS = [
+    ($nu.default-config-dir | path join 'plugins')
+    {{- if eq .chezmoi.os "linux" }}
+    "/usr/bin"
+    "/usr/sbin"
+    {{- end }}
+]
+
+# 3. PATH Configuration (The Right Way)
+# Prepend user paths so they override system defaults.
+# Use 'path join' for cross-platform safety.
+$env.PATH = ($env.PATH | split row (char esep) | prepend [
+    ($nu.home-path | path join ".local" "bin")
+    ($nu.home-path | path join ".cargo" "bin")
+] | uniq) # Remove duplicates
+
+# 4. Editor & Tools
+$env.EDITOR = "nvim"
+
+# LazyGit Config
+$env.LG_CONFIG_FILE = ([
+    ($nu.home-path | path join ".config" "lazygit" "config.yml")
+    ($nu.home-path | path join ".cache" "nvim" "lazygit-theme.yml")
+] | str join ",")
+
+# Rust Mirror Configuration
+$env.RUSTUP_DIST_SERVER = "https://rsproxy.cn"
+$env.RUSTUP_UPDATE_ROOT = "https://rsproxy.cn/rustup"
+
+# Rust Source Path
+if (which rustc | is-not-empty) {
+  $env.RUST_SRC_PATH = $"(^rustc --print sysroot)/lib/rustlib/src/rust/src"
+}
+# 5. Zoxide Initialization
+# Only regenerate if missing. Consider adding a check for zoxide binary update in the future.
+let zoxide_cache = ($nu.home-path | path join ".zoxide.nu")
+if not ($zoxide_cache | path exists) {
+    if (which zoxide | is-not-empty) {
+        zoxide init nushell | save -f $zoxide_cache
+    }
+}
+
+$env.LESS = "-RFSX"
+
+# 7. Virtual Environment Configuration (Windows)
+{{- if eq .chezmoi.os "windows" }}
+$env.VIRTUAL_ENVS = ($env.LOCALAPPDATA | path join "Programs" "virtualenvs")
+$env.VIRTUAL_ENV = ($env.LOCALAPPDATA | path join "Programs" "virtualenvs" "work")
+{{- end }}
+
+# 6. Secrets (Injecting variables directly)
+$env.AI_BASE_URL = {{ .secrets.url.ai_base_url | decrypt | trim | quote }}
+$env.AI_BASE_TOKEN = {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
+$env.TAVILY_TOKEN = {{ .secrets.keys.tavily_token | decrypt | trim | quote }}

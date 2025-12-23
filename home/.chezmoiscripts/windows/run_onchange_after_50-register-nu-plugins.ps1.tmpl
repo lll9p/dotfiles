@@ -1,0 +1,26 @@
+{{ if eq .chezmoi.os "windows" -}}
+# Re-register nushell plugins when nu version changes
+# Hash: {{ output "nu" "--version" | trim | sha256sum }}
+
+Write-Host "Nushell version changed, re-registering plugins..."
+
+$plugins = @(
+    "nu_plugin_inc",
+    "nu_plugin_gstat",
+    "nu_plugin_formats",
+    "nu_plugin_query",
+    "nu_plugin_polars"
+)
+
+foreach ($plugin in $plugins) {
+    $pluginPath = (Get-Command $plugin -ErrorAction SilentlyContinue).Source
+    if ($pluginPath) {
+        Write-Host "  Adding $plugin..."
+        nu -c "plugin add '$pluginPath'"
+    } else {
+        Write-Host "  [SKIP] $plugin not found"
+    }
+}
+
+Write-Host "Plugin registration complete."
+{{- end }}

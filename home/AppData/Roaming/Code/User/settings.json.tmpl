@@ -1,0 +1,180 @@
+{
+  "VSCodeCounter.outputDirectory": ".vscode/counter",
+  "[c]": {
+    "editor.defaultFormatter": "ms-vscode.cpptools"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[jsonc]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "yzhang.markdown-all-in-one"
+  },
+  "[python]": {
+    "editor.codeActionsOnSave": {
+      "source.fixAll.ruff": "explicit", // 保存时自动修复可修复的 lint 错误
+      "source.organizeImports.ruff": "explicit" // 保存时自动排序 import 语句
+    },
+    // 仅对 python 文件生效
+    "editor.defaultFormatter": "charliermarsh.ruff", // 默认使用 Ruff 格式化
+    "editor.formatOnSave": true // 保存时自动格式化
+  },
+  "[typst]": {
+    "editor.formatOnSave": true
+  },
+  "conventionalCommits.lineBreak": "\\n",
+  "conventionalCommits.showEditor": true,
+  "editor.fontLigatures": true,
+  "editor.formatOnSave": true,
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "editor.renderControlCharacters": true,
+  "editor.tabCompletion": "on",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "files.eol": "\n",
+  "git.autoStash": true,
+  "git.enableCommitSigning": true,
+  "hediet.vscode-drawio.resizeImages": null,
+  "notebook.consolidatedRunButton": true,
+  "notebook.formatOnSave.enabled": true,
+  "python.analysis.completeFunctionParens": true,
+  "python.analysis.diagnosticMode": "workspace",
+  "python.analysis.fixAll": [
+    "source.convertImportFormat",
+    "source.unusedImports"
+  ],
+  "python.analysis.inlayHints.functionReturnTypes": true,
+  "python.analysis.inlayHints.pytestParameters": true,
+  "python.analysis.inlayHints.variableTypes": true,
+  "python.analysis.typeEvaluation.deprecateTypingAliases": true,
+  "redhat.telemetry.enabled": true,
+  "settingsSync.ignoredSettings": [
+    "-python.venvFolders",
+    "-python.venvPath",
+    "-rust-analyzer.server.path",
+    "-python.defaultInterpreterPath"
+  ],
+  "tailwindCSS.classAttributes": [
+    "class",
+    "className",
+    "ngClass",
+    "class:list",
+    ".*tailwind"
+  ],
+  "tailwindCSS.experimental.classRegex": [
+    ["class\\s*:\\s*\"([^\"]*)"],
+    ["\\s*\"([^\"]*)\\s*\\/\\/ tailwind"]
+  ],
+  "vsicons.dontShowNewVersionMessage": true,
+  "window.restoreWindows": "none",
+  "workbench.activityBar.location": "top",
+  "workbench.iconTheme": "vscode-icons",
+  "workbench.startupEditor": "none",
+  "explorer.fileNesting.patterns": {
+    "*.ts": "${capture}.js",
+    "*.js": "${capture}.js.map, ${capture}.min.js, ${capture}.d.ts",
+    "*.jsx": "${capture}.js",
+    "*.tsx": "${capture}.ts",
+    "tsconfig.json": "tsconfig.*.json",
+    "package.json": "package-lock.json, yarn.lock, pnpm-lock.yaml, bun.lockb",
+    "Cargo.toml": "Cargo.lock",
+    "*.sqlite": "${capture}.${extname}-*",
+    "*.db": "${capture}.${extname}-*",
+    "*.sqlite3": "${capture}.${extname}-*",
+    "*.db3": "${capture}.${extname}-*",
+    "*.sdb": "${capture}.${extname}-*",
+    "*.s3db": "${capture}.${extname}-*"
+  },
+  "roo-cline.allowedCommands": [
+    "git log",
+    "git diff",
+    "git show",
+    "cargo",
+    "cargo test",
+    "cargo check",
+    "*",
+    "python create_map.py",
+    "python",
+    "python tvp/main.py",
+    "npm test",
+    "npm install",
+    "tsc"
+  ],
+  "search.showLineNumbers": true,
+  "python.analysis.typeCheckingMode": "standard",
+  "[typescript]": {
+    "editor.defaultFormatter": "vscode.typescript-language-features"
+  },
+  "window.autoDetectColorScheme": true,
+  "security.workspace.trust.untrustedFiles": "open",
+  "github.copilot.chat.localeOverride": "zh-CN",
+  "diffEditor.experimental.showMoves": true,
+  "diffEditor.renderSideBySide": false,
+  "roo-cline.deniedCommands": [],
+  "terminal.integrated.defaultProfile.windows": "PowerShell",
+  "conventionalCommits.autoCommit": false,
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "http.proxy": "socks5://127.0.0.1:1081",
+  "http.noProxy": ["openrouter.com"],
+  "chat.mcp.gallery.enabled": true,
+  "chat.mcp.autostart": "never",
+  "oaicopilot.baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
+  "oaicopilot.models": [
+    {
+      "id": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
+      "owned_by": "modelscope",
+      "provider": "modelscope",
+      "context_length": 246000,
+      "max_tokens": 16000
+    },
+    {
+      "id": "private/anthropic/claude-opus-4.5",
+      "owned_by": "anthropic",
+      "provider": "anthropic",
+      "context_length": 184000,
+      "max_tokens": 16000
+    },
+    {
+      "id": "private/z-ai/glm-4.6",
+      "name": "GLM 4.6",
+      "owned_by": "zai",
+      "provider": "zai",
+      "context_length": 186752,
+      "max_tokens": 16000
+    },
+    {
+      "id": "gemini-3-pro-preview",
+      "owned_by": "google",
+      "provider": "google",
+      "context_length": 128000,
+      "max_tokens": 64000
+    }
+  ],
+  "chat.tools.terminal.autoApprove": {
+    "cargo check": true,
+    "/^cargo build 2>&1$/": {
+      "approve": true,
+      "matchCommandLine": true
+    },
+    "rg": true,
+    "cargo test": true,
+    "cargo clippy": true,
+    "cargo build": true,
+    "cargo tree": true
+  },
+  "kilo-code.allowedCommands": ["git log", "git diff", "git show"],
+  "kilo-code.deniedCommands": [],
+  "workbench.secondarySideBar.defaultVisibility": "visible",
+  "terminal.integrated.inheritEnv": true,
+  "chat.edits2.enabled": true,
+  "chat.viewSessions.enabled": false
+}

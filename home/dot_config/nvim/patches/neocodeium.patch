@@ -1,0 +1,13 @@
+diff --git a/lua/neocodeium/binary.lua b/lua/neocodeium/binary.lua
+index dec0ea2..dd0c714 100644
+--- a/lua/neocodeium/binary.lua
++++ b/lua/neocodeium/binary.lua
+@@ -103,7 +103,7 @@ function Bin:download(callback)
+       return
+    end
+ 
+-   local base_url = "https://github.com/Exafunction/codeium/releases/download"
++   local base_url = vim.g.__github_mirror_codeium .. "https://github.com/Exafunction/codeium/releases/download"
+    ---@type url
+    local url = string.format("%s/language-server-v%s/%s.gz", base_url, self.version, self.name)
+ 

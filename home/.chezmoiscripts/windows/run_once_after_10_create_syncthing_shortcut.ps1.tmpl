@@ -1,0 +1,11 @@
+{{ if eq .chezmoi.os "windows" -}}
+$WshShell = New-Object -ComObject WScript.Shell
+
+$ShortcutPath = Join-Path "{{ .chezmoi.homeDir }}" "AppData\Roaming\Microsoft\Windows\Start Menu\Programs\Startup\Syncthing.lnk"
+
+# Create the shortcut
+$Shortcut = $WshShell.CreateShortcut($ShortcutPath)
+$Shortcut.TargetPath = "C:\Windows\System32\conhost.exe"
+$Shortcut.Arguments = "syncthing --no-browser --no-console"
+$Shortcut.Save()
+{{- end }}

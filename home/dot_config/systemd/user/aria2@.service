@@ -1,0 +1,18 @@
+[Unit]
+Description=Aria2 - Download utility that supports HTTP(S), FTP, BitTorrent, and Metalink for %I
+Documentation=man:aria2(1)
+Requires=network.target
+After=systemd-fsck@.service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/aria2c --conf-path=/home/%i/.config/aria2/aria2.conf
+User=%i
+Group=users
+UMask=0002
+PIDFile=/home/%i/.config/aria2/aria2.pid
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target
