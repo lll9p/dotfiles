@@ -28,4 +28,6 @@ let carapace_completer = {|spans|
 startup
 
 # path jumping
-source ~/.zoxide.nu
+if ("~/.zoxide.nu" | path expand | path exists) {
+    source ~/.zoxide.nu
+}

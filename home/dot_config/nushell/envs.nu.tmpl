@@ -1,5 +1,17 @@
 # Nushell Environment Config File
 
+# 1. Environment Conversions
+$env.ENV_CONVERSIONS = {
+    "PATH": {
+        from_string: { |s| $s | split row (char esep) | path expand --no-symlink }
+        to_string: { |v| $v | path expand --no-symlink | str join (char esep) }
+    }
+    "Path": {
+        from_string: { |s| $s | split row (char esep) | path expand --no-symlink }
+        to_string: { |v| $v | path expand --no-symlink | str join (char esep) }
+    }
+}
+
 {{- if eq .chezmoi.os "windows" }}
 def expand-win-vars [path_str: string] {
     if ($path_str | str contains '%') == false {
@@ -38,18 +50,6 @@ let pending_updates = ($env | columns | reduce -f {} { |key, acc|
 
 # 4. 在主作用域中一次性应用所有修改
 load-env $pending_updates
-# 1. Environment Conversions (Standard Boilerplate)
-$env.ENV_CONVERSIONS = {
-    "PATH": {
-        from_string: { |s| $s | split row (char esep) | path expand --no-symlink }
-        to_string: { |v| $v | path expand --no-symlink | str join (char esep) }
-    }
-    "Path": {
-        from_string: { |s| $s | split row (char esep) | path expand --no-symlink }
-        to_string: { |v| $v | path expand --no-symlink | str join (char esep) }
-    }
-}
-
 {{- end }}
 # 2. Plugin Directories (OS-Aware)
 $env.NU_PLUGIN_DIRS = [
@@ -86,11 +86,15 @@ if (which rustc | is-not-empty) {
   $env.RUST_SRC_PATH = $"(^rustc --print sysroot)/lib/rustlib/src/rust/src"
 }
 # 5. Zoxide Initialization
-# Only regenerate if missing. Consider adding a check for zoxide binary update in the future.
 let zoxide_cache = ($nu.home-path | path join ".zoxide.nu")
-if not ($zoxide_cache | path exists) {
-    if (which zoxide | is-not-empty) {
+if (which zoxide | is-not-empty) {
+    if not ($zoxide_cache | path exists) {
         zoxide init nushell | save -f $zoxide_cache
+    }
+} else {
+    # Ensure the file exists but is empty/harmless if zoxide is missing
+    if not ($zoxide_cache | path exists) or (($zoxide_cache | path expand | open | is-empty) == false) {
+        "# zoxide not found" | save -f $zoxide_cache
     }
 }
 
