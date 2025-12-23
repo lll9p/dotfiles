@@ -20,7 +20,19 @@ sudo pacman -Sy
 
 {{ if $pkgs }}
 echo 'INSTALLING PACKAGES...'
-sudo pacman -S {{ $pkgs | quoteList | join " " }} --needed --noconfirm
+PKGS=({{ $pkgs | quoteList | join " " }})
+PRESENT_PKGS=()
+for pkg in "${PKGS[@]}"; do
+  if pacman -Si "$pkg" &>/dev/null; then
+    PRESENT_PKGS+=("$pkg")
+  else
+    echo "Warning: Package '$pkg' not found in repositories. Skipping..."
+  fi
+done
+
+if [ ${#PRESENT_PKGS[@]} -gt 0 ]; then
+  sudo pacman -S "${PRESENT_PKGS[@]}" --needed --noconfirm
+fi
 {{ end }}
 
 ##########################################
