@@ -35,7 +35,7 @@ fi
 
 # Deploy the configuration file
 sudo tee "$CONF_FILE" > /dev/null << 'EOFCONFIG'
-{{ include (joinPath .chezmoi.sourceDir "../.sysconfig/etc/ssh/50-hardening.conf.tmpl") }}
+{{ tpl (include (joinPath .chezmoi.sourceDir "../.sysconfig/etc/ssh/50-hardening.conf.tmpl")) . }}
 EOFCONFIG
 
 sudo chmod 644 "$CONF_FILE"
