@@ -41,6 +41,7 @@ pkgs:
       - "zip"
       - "zoxide"
       - "nushell"
+      - "vivid"
 
       # Development, languages, interpreters, compilers, etc
       - "docker"

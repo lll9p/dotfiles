@@ -8,4 +8,3 @@ plugin use gstat
 plugin use formats
 plugin use query
 plugin use polars
-

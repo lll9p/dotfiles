@@ -74,11 +74,11 @@ def get_git_info [] {
   # --porcelain: machine readable
   # -b: include branch info
   let git_status = (do -i { git status --porcelain -b } | complete)
-  
+
   if $git_status.exit_code != 0 {
     return { branch: "", status: "" }
   }
-  
+
   let lines = ($git_status.stdout | lines)
   if ($lines | is-empty) { return { branch: "", status: "" } }
 
@@ -86,11 +86,11 @@ def get_git_info [] {
   let branch_line = ($lines | first)
   # Remove '## ' and potential tracking info '...'
   let branch = ($branch_line | str replace "## " "" | split row "..." | first | str trim)
-  
+
   # If there are more lines than the header, it's dirty
   let is_dirty = ($lines | length) > 1
   let status = if $is_dirty { "×" } else { "·" }
-  
+
   { branch: $branch, status: $status }
 }
 
@@ -98,16 +98,16 @@ export def create_prompt [] {
   if ("TERM_IN_NEOVIM" in $env) {
     return ""
   }
-  
+
   let os = $nu.os-info
   let display_path = path_abbrev_if_needed (home_abbrev $os.name)
   let is_home_in_path = ($env.PWD | str starts-with $nu.home-path)
-  
+
   # Fast git info (no plugin, no heavy status parsing)
   let git_info = (get_git_info)
   let branch_name = $git_info.branch
   let repo_status = $git_info.status
-  
+
   let path_segment = (if (($is_home_in_path) and ($branch_name == "")) {
     [
       (char -u f015)
@@ -130,7 +130,7 @@ export def create_prompt [] {
       ")"
     ] | str join
   })
-  
+
   let last_exit = if ($env.LAST_EXIT_CODE == 0) { "" } else {
     $"(ansi light_red_bold)✘ ($env.LAST_EXIT_CODE | to text)*"
   }
