@@ -1,59 +1,55 @@
 #!/usr/bin/env bash
-# hash: {{ include (joinPath .chezmoi.sourceDir "../.sysconfig/etc/ssh/sshd_config_append.tmpl") | sha256sum }}
-# Idempotent SSH hardening script for Linux
-# Only appends config if our marker block doesn't exist
+# hash: {{ include (joinPath .chezmoi.sourceDir "../.sysconfig/etc/ssh/50-hardening.conf.tmpl") | sha256sum }}
+# Setup SSH hardening via sshd_config.d
 
 set -euo pipefail
 
 SSHD_CONFIG="/etc/ssh/sshd_config"
+SSHD_CONFIG_D="/etc/ssh/sshd_config.d"
+CONF_FILE="$SSHD_CONFIG_D/50-hardening.conf"
+
+echo "Configuring SSH via sshd_config.d..."
+
+# Ensure /etc/ssh/sshd_config.d exists
+if [ ! -d "$SSHD_CONFIG_D" ]; then
+    echo "[INFO] Creating $SSHD_CONFIG_D"
+    sudo mkdir -p "$SSHD_CONFIG_D"
+    sudo chmod 755 "$SSHD_CONFIG_D"
+fi
+
+# Ensure sshd_config has the Include directive
+if ! grep -q "^Include /etc/ssh/sshd_config.d/\*.conf" "$SSHD_CONFIG"; then
+    echo "[INFO] Adding Include directive to $SSHD_CONFIG"
+    # Create backup
+    BACKUP="$SSHD_CONFIG.bak.$(date +%Y%m%d%H%M%S)"
+    sudo cp "$SSHD_CONFIG" "$BACKUP"
+
+    # Prepend Include directive if not present
+    # Using a temporary file to ensure we don't mess up if interrupted
+    TMP_CONFIG=$(mktemp)
+    echo "Include /etc/ssh/sshd_config.d/*.conf" > "$TMP_CONFIG"
+    cat "$SSHD_CONFIG" >> "$TMP_CONFIG"
+    sudo cp "$TMP_CONFIG" "$SSHD_CONFIG"
+    rm "$TMP_CONFIG"
+fi
+
+# Deploy the configuration file
+sudo tee "$CONF_FILE" > /dev/null << 'EOFCONFIG'
+{{ include (joinPath .chezmoi.sourceDir "../.sysconfig/etc/ssh/50-hardening.conf.tmpl") }}
+EOFCONFIG
+
+sudo chmod 644 "$CONF_FILE"
+
+# Clean up old chezmoi managed block if it exists in sshd_config
 MARKER_START="# BEGIN chezmoi managed block"
 MARKER_END="# END chezmoi managed block"
 
-echo "Checking SSH configuration..."
-
-# Check if our block already exists
-if grep -q "$MARKER_START" "$SSHD_CONFIG" 2>/dev/null; then
-    echo "[SKIP] SSH config already managed by chezmoi"
-    echo "       To update, first remove the block between:"
-    echo "       '$MARKER_START' and '$MARKER_END'"
-    exit 0
+if grep -q "$MARKER_START" "$SSHD_CONFIG"; then
+    echo "[INFO] Removing old managed block from $SSHD_CONFIG"
+    sudo sed -i "/$MARKER_START/,/$MARKER_END/d" "$SSHD_CONFIG"
 fi
 
-# Check for sudo privileges
-if ! command -v sudo >/dev/null; then
-    echo "[ERROR] sudo command not found"
-    exit 1
-fi
-
-# Refresh sudo timestamp, will prompt if needed
-sudo -v
-
-# Backup original
-BACKUP="$SSHD_CONFIG.bak.$(date +%Y%m%d%H%M%S)"
-sudo cp "$SSHD_CONFIG" "$BACKUP"
-echo "[BACKUP] Saved to: $BACKUP"
-
-# Append our config block
-sudo tee -a "$SSHD_CONFIG" > /dev/null << 'EOFCONFIG'
-
-# BEGIN chezmoi managed block
-# SSH Hardening - managed by chezmoi
-# DO NOT EDIT THIS BLOCK MANUALLY
-KbdInteractiveAuthentication no
-UsePAM yes
-PrintMotd yes
-Port {{ .sshPort }}
-PasswordAuthentication no
-PermitRootLogin no
-PermitUserEnvironment yes
-AcceptEnv FROM
-# END chezmoi managed block
-EOFCONFIG
-
-echo "[OK] SSH config updated successfully"
+echo "[OK] SSH config updated via sshd_config.d"
 echo ""
 echo "IMPORTANT: Restart SSH service to apply changes:"
 echo "  sudo systemctl restart sshd"
-echo ""
-echo "WARNING: Make sure you have another way to access the server"
-echo "         (e.g., console) in case SSH fails to restart properly!"

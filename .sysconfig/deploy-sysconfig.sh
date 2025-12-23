@@ -28,16 +28,16 @@ deploy_file() {
     local src="$1"
     local dest="$2"
     local desc="$3"
-    
+
     echo -e "\n${YELLOW}[$desc]${NC}"
     echo "  Source:      $src"
     echo "  Destination: $dest"
-    
+
     if [[ ! -f "$src" ]]; then
         echo -e "  ${RED}[SKIP] Source file not found${NC}"
         return 1
     fi
-    
+
     if [[ -f "$dest" ]]; then
         echo -e "  ${YELLOW}[EXISTS] Destination file exists${NC}"
         echo ""
@@ -62,7 +62,7 @@ deploy_file() {
         # Create parent directory if needed
         $SUDO mkdir -p "$(dirname "$dest")"
     fi
-    
+
     $SUDO cp "$src" "$dest"
     echo -e "  ${GREEN}[OK] Deployed successfully${NC}"
 }
@@ -78,6 +78,14 @@ deploy_file \
     "$SYSCONFIG_DIR/containerd/config.toml" \
     "/etc/containerd/config.toml" \
     "Containerd Config (registry mirrors)"
+
+# Deploy SSH Hardening (sshd_config.d)
+# Note: This just deploys the file, user still needs to ensure 'Include' is in sshd_config
+# The chezmoi script handles that automatically.
+deploy_file \
+    "$SYSCONFIG_DIR/ssh/50-hardening.conf.tmpl" \
+    "/etc/ssh/sshd_config.d/50-hardening.conf" \
+    "SSH Hardening Config (sshd_config.d)"
 
 echo ""
 echo -e "${GREEN}=== Deployment Complete ===${NC}"
