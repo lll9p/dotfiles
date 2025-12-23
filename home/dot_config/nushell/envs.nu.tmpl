@@ -88,9 +88,7 @@ if (which rustc | is-not-empty) {
 # 5. Zoxide Initialization
 let zoxide_cache = ($nu.home-path | path join ".zoxide.nu")
 if (which zoxide | is-not-empty) {
-    if not ($zoxide_cache | path exists) {
-        zoxide init nushell | save -f $zoxide_cache
-    }
+    zoxide init nushell | save -f $zoxide_cache
 } else {
     # Ensure the file exists but is empty/harmless if zoxide is missing
     if not ($zoxide_cache | path exists) or (($zoxide_cache | path expand | open | is-empty) == false) {
