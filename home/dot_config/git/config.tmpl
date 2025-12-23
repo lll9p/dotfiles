@@ -41,11 +41,12 @@
 
 [commit]
   gpgsign = true
-  template = ~/.commit.template
+  template = ~/.config/git/commit.template
 
+{{- if eq .chezmoi.os "windows" }}
 [gpg]
-  program = gpg
-
+  program = "~/scoop/apps/gpg4win/current/GnuPG/bin/gpg.exe"
+{{- end}}
 [alias]
   cm = commit -m
   cam = commit -am
