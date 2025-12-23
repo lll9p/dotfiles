@@ -85,16 +85,6 @@ $env.RUSTUP_UPDATE_ROOT = "https://rsproxy.cn/rustup"
 if (which rustc | is-not-empty) {
   $env.RUST_SRC_PATH = $"(^rustc --print sysroot)/lib/rustlib/src/rust/src"
 }
-# 5. Zoxide Initialization
-let zoxide_cache = ($nu.home-path | path join ".zoxide.nu")
-if (which zoxide | is-not-empty) {
-    zoxide init nushell | save -f $zoxide_cache
-} else {
-    # Ensure the file exists but is empty/harmless if zoxide is missing
-    if not ($zoxide_cache | path exists) or (($zoxide_cache | path expand | open | is-empty) == false) {
-        "# zoxide not found" | save -f $zoxide_cache
-    }
-}
 
 $env.LESS = "-RFSX"
 
