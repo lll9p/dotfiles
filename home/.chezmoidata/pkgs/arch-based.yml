@@ -8,12 +8,10 @@ pkgs:
       - "os-prober"
       - "tldr"
       - "tmux"
-      - "tmuxinator"
       - "wget"
-      - "xorg-xhost"
 
-      # Terminal
-      - "alacritty"
+      # Terminal (requires display server)
+      # - "alacritty"
 
       # Text / Code Editor, IDE
       - "neovim"
