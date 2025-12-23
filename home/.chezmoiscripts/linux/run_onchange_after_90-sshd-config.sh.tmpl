@@ -19,12 +19,14 @@ if grep -q "$MARKER_START" "$SSHD_CONFIG" 2>/dev/null; then
     exit 0
 fi
 
-# Check if we have sudo privileges
-if ! sudo -n true 2>/dev/null; then
-    echo "[ERROR] This script requires sudo privileges"
-    echo "        Run: sudo chezmoi apply"
+# Check for sudo privileges
+if ! command -v sudo >/dev/null; then
+    echo "[ERROR] sudo command not found"
     exit 1
 fi
+
+# Refresh sudo timestamp, will prompt if needed
+sudo -v
 
 # Backup original
 BACKUP="$SSHD_CONFIG.bak.$(date +%Y%m%d%H%M%S)"
