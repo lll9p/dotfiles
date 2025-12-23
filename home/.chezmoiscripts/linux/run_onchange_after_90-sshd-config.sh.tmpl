@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# hash: {{ include "../../../.sysconfig/etc/ssh/sshd_config_append.tmpl" | sha256sum }}
+# hash: {{ include (joinPath .chezmoi.sourceDir "../.sysconfig/etc/ssh/sshd_config_append.tmpl") | sha256sum }}
 # Idempotent SSH hardening script for Linux
 # Only appends config if our marker block doesn't exist
 
