@@ -2,10 +2,10 @@
 
 set -eufo pipefail
 
-DISTRO=$(lsb_release -i | awk '{print $NF}')
+DISTRO=$(grep -E '^(ID|ID_LIKE)=' /etc/os-release | cut -d= -f2 | tr -d '"')
 
 case "$DISTRO" in
-"Arch") ;;
+*arch*) ;;
 *)
   exit 0
   ;;
