@@ -29,7 +29,7 @@ fi
 
 for FILE in "${KEY_FILES[@]}"; do
     echo "  > Processing $(basename "$FILE")..."
-    
+
     if chezmoi decrypt "$FILE" | gpg --import --batch --yes 2>&1; then
         echo "    [OK] Imported."
     else
