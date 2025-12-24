@@ -1,1 +1,1 @@
-ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDMuTjNUv1UJS5le14/Qwb26Wf/MF+vYoiMXw5gP1xUM (none)
+{{ .secrets.keys.ssh_authorized_key | decrypt | trim }}
