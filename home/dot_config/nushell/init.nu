@@ -1,5 +1,5 @@
 
-source envs.nu
+source env.nu
 source prompt.nu
 source alias.nu
 source functions.nu
@@ -27,19 +27,5 @@ let carapace_completer = {|spans|
 
 startup
 
-# Zoxide Initialization
-let zoxide_cache = ($nu.home-path | path join ".zoxide.nu")
-if (which zoxide | is-not-empty) {
-    if not ($zoxide_cache | path exists) {
-        zoxide init nushell | save -f $zoxide_cache
-    }
-} else {
-    # Ensure the file exists but is empty/harmless if zoxide is missing
-    if not ($zoxide_cache | path exists) or (($zoxide_cache | path expand | open | is-empty) == false) {
-        "# zoxide not found" | save -f $zoxide_cache
-    }
-}
-# path jumping
-if ($zoxide_cache | path exists) {
-    source ~/.zoxide.nu
-}
+# Zoxide - sourced from generated file
+source ~/.zoxide.nu
