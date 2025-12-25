@@ -3,19 +3,20 @@ config:
     envs:
       path:
         - '%LOCALAPPDATA%\nvim-data\mason\bin'
-        - '%USERPROFILE%\scoop\apps\git\current\usr\bin'
         - '%LOCALAPPDATA%\Programs\virtualenvs\work\Scripts'
         - '%USERPROFILE%\.local\bin'
         - '%USERPROFILE%\.cargo\bin'
       others:
         GIT_SSH: '%USERPROFILE%\scoop\shims\ssh.exe'
         CLAUDE_CODE_GIT_BASH_PATH: '%USERPROFILE%\scoop\apps\git\current\bin\bash.exe'
-        VIRTUAL_ENVS: '%LOCALAPPDATA%\Programs\virtualenvs'
-        VIRTUAL_ENV: '%LOCALAPPDATA%\Programs\virtualenvs\work'
+        OPENCODE_GIT_BASH_PATH: '%USERPROFILE%\scoop\apps\git\current\bin\bash.exe'
         FROM: 'windows'
         LANG: 'en_US.UTF-8'
         LANGUAGE: 'zh_CN'
         LC_ALL: 'en_US.UTF-8'
+        VIRTUAL_ENVS: '%LOCALAPPDATA%\Programs\virtualenvs'
+        VIRTUAL_ENV: '%LOCALAPPDATA%\Programs\virtualenvs\work'
+        PYTHONIOENCODING: 'utf-8'
     features:
       enable:
         # - 'Microsoft-Hyper-V-All'

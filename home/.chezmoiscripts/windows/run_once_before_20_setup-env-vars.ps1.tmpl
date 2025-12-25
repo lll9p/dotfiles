@@ -1,22 +1,80 @@
+$ErrorActionPreference = 'Stop'
+
+# Helper to set environment variable in registry with correct type
+function Set-EnvVar {
+    param (
+        [string]$Name,
+        [string]$Value
+    )
+    $Type = if ($Value -match '%.+%') { "ExpandString" } else { "String" }
+    Set-ItemProperty -Path "HKCU:\Environment" -Name $Name -Value $Value -Type $Type
+}
+
+# Helper to broadcast change
+$BroadcastCode = @'
+[DllImport("user32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+public static extern IntPtr SendMessageTimeout(IntPtr hWnd, uint Msg, UIntPtr wParam, string lParam, uint fuFlags, uint uTimeout, out UIntPtr lpdwResult);
+'@
+if (-not ([System.Management.Automation.PSTypeName]'Native.Win32Utils').Type) {
+    Add-Type -MemberDefinition $BroadcastCode -Name "Win32Utils" -Namespace "Native"
+}
+
+function Send-SettingChange {
+    $WM_SETTINGCHANGE = 0x001A
+    $result = [UIntPtr]::Zero
+    [Native.Win32Utils]::SendMessageTimeout([IntPtr]0xffff, $WM_SETTINGCHANGE, [UIntPtr]::Zero, "Environment", 2, 5000, [ref]$result) | Out-Null
+}
+
 Write-Host 'SETTING UP ENV...'
 
-# Get existing paths and merge unique paths
-$ExistingPaths = [System.Environment]::GetEnvironmentVariable("Path", [System.EnvironmentVariableTarget]::User) -split ";"
-$NewPaths = @({{- .config.windows.envs.path | quoteList | join ", " | replace "\\\\" "\\" -}}) | Where-Object { $_ -notin $ExistingPaths }
-$UpdatedPath = (@($NewPaths) + $ExistingPaths) -join ";"
+# 1. Handle PATH with robust deduplication
+# Get RAW path from registry (preserving % symbols)
+$CurrentPathRaw = (Get-ItemProperty -Path "HKCU:\Environment" -ErrorAction SilentlyContinue).Path
+if ($null -eq $CurrentPathRaw) { $CurrentPathRaw = "" }
+$ExistingPaths = $CurrentPathRaw -split ";" | Where-Object { -not [string]::IsNullOrWhiteSpace($_) }
 
-# Hashtable of environment variables
-$SetupEnv = @{
+$ConfigPaths = @(
+  {{- .config.windows.envs.path | quoteList | join ", " | replace "\\\\" "\\" -}}
+)
+
+$NewPathsToAdd = @()
+
+foreach ($Path in $ConfigPaths) {
+    # Normalize path for comparison: Expand, Trim trailing slash, Lowercase
+    $ExpandedPath = [System.Environment]::ExpandEnvironmentVariables($Path).TrimEnd('\').ToLower()
+    $Found = $false
+    foreach ($Exist in $ExistingPaths) {
+        $ExpandedExist = [System.Environment]::ExpandEnvironmentVariables($Exist).TrimEnd('\').ToLower()
+        if ($ExpandedPath -eq $ExpandedExist) {
+            $Found = $true
+            break
+        }
+    }
+    if (-not $Found) {
+        $NewPathsToAdd += $Path
+    }
+}
+
+if ($NewPathsToAdd.Count -gt 0) {
+    Write-Host "Adding new paths to PATH..."
+    # Prepend new paths to prioritize them
+    $UpdatedPath = ($NewPathsToAdd + $ExistingPaths) -join ";"
+    Set-EnvVar -Name "Path" -Value $UpdatedPath
+}
+
+# 2. Handle Other Variables
+$OtherEnvs = @{
   {{- range $k, $v := .config.windows.envs.others -}}
-  {{- $k -}} = '{{- $v -}}';
+  '{{- $k -}}' = '{{- $v -}}';
   {{- end -}}
-  AI_BASE_URL = '{{ .secrets.url.ai_base_url | decrypt | trim }}';
-  AI_BASE_TOKEN = '{{ .secrets.keys.ai_base_token | decrypt | trim }}';
-  TAVILY_TOKEN = '{{ .secrets.keys.tavily_token | decrypt | trim }}';
-  Path = $UpdatedPath
+  'AI_BASE_URL' = '{{ .secrets.url.ai_base_url | decrypt | trim }}';
+  'AI_BASE_TOKEN' = '{{ .secrets.keys.ai_base_token | decrypt | trim }}';
+  'TAVILY_TOKEN' = '{{ .secrets.keys.tavily_token | decrypt | trim }}';
 }
 
-# Set environment variables
-$SetupEnv.GetEnumerator() | ForEach-Object {
-  [System.Environment]::SetEnvironmentVariable($_.Key, $_.Value, [System.EnvironmentVariableTarget]::User)
+foreach ($Key in $OtherEnvs.Keys) {
+    Set-EnvVar -Name $Key -Value $OtherEnvs[$Key]
 }
+
+# 3. Broadcast changes to all windows (e.g., explorer, shells)
+Send-SettingChange
