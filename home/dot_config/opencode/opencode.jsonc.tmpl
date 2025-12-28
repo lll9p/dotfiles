@@ -14,7 +14,27 @@
   ],
   "permission": {
     "edit": "ask",
-    "bash": "ask"
+    "bash": {
+      "*": "allow",
+      "git": "ask",
+      "rm": "ask"
+    }
+  },
+  "agent": {
+    "plan": {
+      "disable": true
+    },
+    "build": {
+      "disable": true
+    },
+    "explore": {
+      "model": "google/gemini-3-flash-medium",
+      "tools": {
+        "edit": false,
+        "write": false,
+        "bash": false
+      }
+    }
   },
   "formatter":{
     "rust-formatter": {
@@ -259,8 +279,12 @@
           }
         },
         "gemini-3-flash-high": {
-          "id": "gemini-3-flash-preview",
+          "id": "gemini-3-flash-preview-short",
           "name": "Gemini 3 Flash Preview (High Thinking)",
+          "limit": {
+            "context": 250000,
+            "output": 64000
+          },
           "options": {
             "thinkingConfig": {
               "thinkingLevel": "high",
@@ -269,8 +293,12 @@
           }
         },
         "gemini-3-flash-medium": {
-          "id": "gemini-3-flash-preview",
+          "id": "gemini-3-flash-preview-short",
           "name": "Gemini 3 Flash Preview (Medium Thinking)",
+          "limit": {
+            "context": 250000,
+            "output": 64000
+          },
           "options": {
             "thinkingConfig": {
               "thinkingLevel": "medium",
@@ -279,8 +307,12 @@
           }
         },
         "gemini-3-flash-low": {
-          "id": "gemini-3-flash-preview",
+          "id": "gemini-3-flash-preview-short",
           "name": "Gemini 3 Flash Preview (Low Thinking)",
+          "limit": {
+            "context": 250000,
+            "output": 64000
+          },
           "options": {
             "thinkingConfig": {
               "thinkingLevel": "low",
@@ -289,8 +321,12 @@
           }
         },
         "gemini-3-flash-minimal": {
-          "id": "gemini-3-flash-preview",
+          "id": "gemini-3-flash-preview-short",
           "name": "Gemini 3 Flash Preview (Minimal Thinking)",
+          "limit": {
+            "context": 250000,
+            "output": 64000
+          },
           "options": {
             "thinkingConfig": {
               "thinkingLevel": "minimal",

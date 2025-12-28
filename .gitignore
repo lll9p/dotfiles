@@ -1,5 +1,5 @@
 # Chezmoi has ensured to ignore those encrypted files, but jut for sure
 home/.zsh_history
 home/.zshenv_private
-AGENTS.md
+/AGENTS.md
 *.kdbx

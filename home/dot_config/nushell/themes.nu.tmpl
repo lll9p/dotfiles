@@ -3,6 +3,9 @@ use themes/one-half-light.nu
 $env.config.color_config = (one-half-light)
 one-half-light update terminal
 $env.LS_COLORS = (vivid generate one-light)
+$env.COLORFGBG = "7;0"
+
+$env.GPG_TTY = (tty | str trim)
 
 # fix for line separator
 $env.config.color_config.separator = {fg: "#abb2bf", attr: "b" }
