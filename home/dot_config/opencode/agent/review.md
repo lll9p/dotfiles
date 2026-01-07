@@ -1,14 +1,10 @@
 ---
 description: Review uncommitted changes
 mode: subagent
-model: google/gemini-3-pro-high
+model: googlex/gemini-3-pro-high
 temperature: 0.05
-tools:
-  write: false
-  edit: false
-  bash: true
-  webfetch: false
 permission:
+  write: deny
   edit: deny
   bash:
     "git commit": deny

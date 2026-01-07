@@ -54,11 +54,85 @@ local function parse_reasoning_from_extra(data)
    return data
 end
 
+---@param self CodeCompanion.Adapter
+---@return table
+local function get_choices(self)
+   local ok, curl = pcall(require, "plenary.curl")
+   if not ok then
+      return { self.schema.model.default }
+   end
+
+   if not self.env.url or not self.env.api_key then
+      return { self.schema.model.default }
+   end
+
+   local res = curl.get(self.env.url .. "/models", {
+      headers = {
+         Authorization = "Bearer " .. self.env.api_key,
+      },
+   })
+
+   if res.status ~= 200 then
+      return { self.schema.model.default }
+   end
+
+   local ok_json, decoded = pcall(vim.fn.json_decode, res.body)
+   if not ok_json or not decoded.data then
+      return { self.schema.model.default }
+   end
+
+   local choices = {}
+   for _, model in ipairs(decoded.data) do
+      choices[model.id] = {
+         opts = {
+            can_use_tools = true,
+            can_reason = model.id:lower():find "thinking"
+               or model.id:lower():find "reasoning"
+               or model.id:lower():find "r1",
+         },
+      }
+   end
+   return choices
+end
+
+local rules = {
+   {
+      condition = function(context)
+         return context.filetype == "typescript" or context.filetype == "typescriptreact"
+      end,
+      content = [[
+You are a strict TypeScript developer. Follow these rules:
+- Use functional programming patterns where possible.
+- Prefer interfaces over types for public APIs.
+- Ensure all functions have explicit return types.
+- Avoid 'any' at all costs; use 'unknown' if necessary.
+]],
+   },
+   {
+      condition = function(context)
+         return context.filetype == "lua"
+      end,
+      content = [[
+You are an expert Neovim plugin developer.
+- Use 'vim.api' and 'vim.fn' correctly.
+- Prefer 'snacks' or 'mini' libraries when appropriate.
+- Follow Lua best practices in Neovim (e.g., local variables, module structure).
+]],
+   },
+}
+
 local options = {
    interactions = {
       chat = {
+         roles = {
+            system = {
+               opts = {
+                  rules = rules,
+               },
+            },
+         },
          adapter = "gemini",
-         model = "gemini-3-flash-preview",
+         model = "gemini-2.0-flash-exp",
          tools = {
             opts = {
                auto_submit_errors = true,
@@ -77,14 +151,14 @@ local options = {
             },
          },
       },
-      inline = { adapter = "gemini", model = "gemini-3-flash-preview" },
-      agent = { adapter = "gemini", model = "gemini-3-flash-preview" },
-      cmd = { adapter = "gemini", model = "gemini-3-flash-preview" },
+      inline = { adapter = "gemini", model = "gemini-2.0-flash-exp" },
+      agent = { adapter = "gemini", model = "gemini-2.0-flash-exp" },
+      cmd = { adapter = "gemini", model = "gemini-2.0-flash-exp" },
 
       background = {
          adapter = "newapi",
          chat = {
-            model = "gemini-2.5-flash-lite",
+            model = "gemini-2.0-flash-exp",
             opts = { enabled = true },
          },
       },
@@ -94,44 +168,47 @@ local options = {
          opencode = "opencode",
       },
       http = {
+         opts = {
+            show_model_choices = true,
+            show_presets = true,
+         },
          newapi = function()
             return require("codecompanion.adapters").extend("openai_compatible", {
-               name = "new_api",
-               formatted_name = "New-API",
+               name = "newapi",
+               formatted_name = "New API",
                env = {
                   api_key = UNIFY_APIKEY,
                   url = UNIFY_ENDPOINT,
                },
-               handlers = {
-                  parse_message_meta = function(self, data)
-                     return parse_reasoning_from_extra(data)
-                  end,
-               },
                schema = {
                   model = {
-                     default = "deepseek-ai/DeepSeek-V3.2-thinking",
-                     choices = {
-                        ["deepseek-ai/DeepSeek-V3.2-thinking"] = {
-                           opts = {
-                              can_use_tools = true,
-                              has_vision = false,
-                              can_reason = true,
-                              stream = true,
-                           },
-                        },
-                     },
+                     default = "deepseek-chat",
+                     choices = get_choices,
                   },
+               },
+               response = {
+                  parse_meta = function(self, data)
+                     return parse_reasoning_from_extra(data)
+                  end,
                },
             })
          end,
          gemini = function()
-            return require("codecompanion.adapters").extend("gemini", {
-               url = UNIFY_ENDPOINT .. "/v1/chat/completions",
+            return require("codecompanion.adapters").extend("openai_compatible", {
+               name = "gemini",
+               formatted_name = "Gemini",
                env = {
                   api_key = UNIFY_APIKEY,
+                  url = UNIFY_ENDPOINT,
                },
-               handlers = {
-                  parse_message_meta = function(self, data)
+               schema = {
+                  model = {
+                     default = "gemini-2.0-flash-exp",
+                     choices = get_choices,
+                  },
+               },
+               response = {
+                  parse_meta = function(self, data)
                      return parse_reasoning_from_extra(data)
                   end,
                },
@@ -174,6 +251,7 @@ local options = {
             modes = { "v" },
             auto_submit = true,
             stop_context_insertion = false,
+            is_slash_cmd = true,
          },
          prompts = {
             {
@@ -209,6 +287,7 @@ local options = {
             modes = { "v" },
             auto_submit = false,
             stop_context_insertion = true,
+            is_slash_cmd = true,
          },
          prompts = {
             {

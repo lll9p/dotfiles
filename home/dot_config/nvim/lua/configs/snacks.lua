@@ -5,24 +5,24 @@ M.opts = {
       enabled = true,
       preset = {
          header = [[
-   ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
-   ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
-   ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
-   ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
-   ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
-   ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
-        ]],
+    ███╗   ██╗███████╗ ██████╗ ██╗   ██╗██╗███╗   ███╗
+    ████╗  ██║██╔════╝██╔═══██╗██║   ██║██║████╗ ████║
+    ██╔██╗ ██║█████╗  ██║   ██║██║   ██║██║██╔████╔██║
+    ██║╚██╗██║██╔══╝  ██║   ██║╚██╗ ██╔╝██║██║╚██╔╝██║
+    ██║ ╚████║███████╗╚██████╔╝ ╚████╔╝ ██║██║ ╚═╝ ██║
+    ╚═╝  ╚═══╝╚══════╝ ╚═════╝   ╚═══╝  ╚═╝╚═╝     ╚═╝
+         ]],
          keys = {
             { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-            { icon = " ", key = "f", desc = "Find File", action = ":lua Snacks.dashboard.pick('files')" },
-            { icon = " ", key = "r", desc = "Recent Files", action = ":lua Snacks.dashboard.pick('oldfiles')" },
+            { icon = " ", key = "f", desc = "Find File", action = function() Snacks.picker.files() end },
+            { icon = " ", key = "r", desc = "Recent Files", action = function() Snacks.picker.recent() end },
             {
                icon = " ",
                key = "c",
                desc = "Config",
-               action = ":lua Snacks.dashboard.pick('files', {cwd = vim.fn.stdpath('config')})",
+               action = function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end,
             },
-            { icon = " ", key = "s", desc = "Sessions", action = ":lua require('persistence').select()" },
+            { icon = " ", key = "s", desc = "Sessions", action = function() require("persistence").select() end },
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
          },
@@ -35,11 +35,13 @@ M.opts = {
          { icon = " ", title = "Projects", section = "projects", indent = 2, padding = 1 },
       },
    },
+   explorer = { enabled = true },
    indent = { enabled = true },
    input = { enabled = true },
    notifier = { enabled = true },
    picker = { enabled = true },
    quickfile = { enabled = true },
+   scope = { enabled = true },
    scroll = { enabled = true },
    statuscolumn = { enabled = true },
    words = { enabled = true },

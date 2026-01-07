@@ -3,12 +3,8 @@ description: Programming agent with great Software Engineering skills
 mode: subagent
 model: anthropic/MiniMax-M2.1
 temperature: 0.2
-tools:
-  write: true
-  edit: true
-  bash: true
-  webfetch: true
 permission:
+  write: allow
   edit: allow
   bash: allow
   webfetch: allow

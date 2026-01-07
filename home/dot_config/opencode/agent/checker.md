@@ -3,10 +3,10 @@ description: Runs language-specific linters and checkers to validate code correc
 mode: subagent
 model: anthropic/MiniMax-M2.1
 temperature: 0.1
-tools:
-  bash: true
-  write: false
-  edit: false
+permission:
+  bash: allow
+  write: deny
+  edit: deny
 ---
 
 You are a Code Quality Auditor. Your sole purpose is to run static analysis tools, linters, and compilers to check the codebase for errors, warnings, and style issues.

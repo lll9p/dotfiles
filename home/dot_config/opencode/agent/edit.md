@@ -1,14 +1,10 @@
 ---
 description: Programming agent with great Software Engineering skills
 mode: primary
-model: google/gemini-3-pro-high
+model: googlex/gemini-3-flash-high
 temperature: 0.2
-tools:
-  write: true
-  edit: true
-  bash: true
-  webfetch: true
 permission:
+  write: allow
   edit: allow
   bash: allow
   webfetch: allow

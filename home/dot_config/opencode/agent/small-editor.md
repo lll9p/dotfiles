@@ -1,12 +1,12 @@
 ---
 description: Edit only one or two lines in lots of files.
 mode: subagent
-model: other/MiniMax-M2.1
+model: anthropic/MiniMax-M2.1
 temperature: 0.1
-tools:
-  write: true
-  edit: true
-  bash: false
+permission:
+  write: allow
+  edit: allow
+  bash: deny
 ---
 
 You are in small edit mode. Focus on:

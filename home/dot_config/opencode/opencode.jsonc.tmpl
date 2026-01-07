@@ -1,9 +1,13 @@
 {
   "$schema": "https://opencode.ai/config.json",
-  "theme": "system",
+  "plugin": [
+    "@mohak34/opencode-notifier@latest",
+    "@tarquinen/opencode-dcp@latest"
+  ],
+  "theme": "opencode",
   "username": "<!--!>",
-  "model": "claude-opus-4.5-high",
-  "small_model": "Qwen3-Coder",
+  "model": "anthropic/claude-opus-4.5-high",
+  "small_model": "googlex/gemini-3-flash-minimal",
   "autoupdate": false,
   "instructions": [
     "AGENTS.md",
@@ -12,27 +16,32 @@
     "GEMINI.md",
     "QWEN.md"
   ],
+  "compaction": {
+    "auto": true,
+    "prune": true
+  },
   "permission": {
     "edit": "ask",
     "bash": {
-      "*": "allow",
-      "git": "ask",
-      "rm": "ask"
+      "git *": "ask",
+      "rm *": "ask",
+      "*": "allow"
     }
   },
+  "default_agent": "achitect",
   "agent": {
     "plan": {
-      "disable": true
+      "disable": false
     },
     "build": {
-      "disable": true
+      "disable": false
     },
     "explore": {
-      "model": "google/gemini-3-flash-medium",
-      "tools": {
-        "edit": false,
-        "write": false,
-        "bash": false
+      "model": "googlex/gemini-3-flash-medium",
+      "permission": {
+        "edit": "deny",
+        "write": "deny",
+        "bash": "allow"
       }
     }
   },
@@ -61,7 +70,18 @@
   "mcp": {
     "context7": {
       "type": "remote",
-      "url": "https://mcp.context7.com/mcp"
+      "url": "https://mcp.context7.com/mcp",
+      "enabled": true
+    },
+    "tavily-remote":{
+      "type": "remote",
+      "url": "https://api.laolilin.com/proxy/tavily/mcp",
+      "enabled": true,
+      "oauth": false,
+      "headers": {
+        "Authorization": "Bearer {env:TAVILY_TOKEN}",
+        "Accept": "application/json, text/event-stream"
+      }
     },
     "sequential-thinking": {
       "type": "local",
@@ -223,8 +243,8 @@
         }
       }
     },
-    "google":{
-      "name":"Google",
+    "googlex":{
+      "name":"GoogleX",
       "npm": "@ai-sdk/google",
       "options":{
         "baseURL": "{env:AI_BASE_URL}/v1beta",
@@ -371,6 +391,15 @@
         "apiKey": "{env:AI_BASE_TOKEN}"
       },
       "models": {
+        "glm-4.7": {
+          "id":"z-ai/glm4.7",
+          "name":"glm-4.7",
+          "reasoning": true,
+          "tool_call": true,
+          "interleaved": {
+            "field": "reasoning_details"
+          }
+        },
         "Qwen3-Coder": {
           "id":"Qwen/Qwen3-Coder-480B-A35B-Instruct",
           "name":"qwen3-coder",

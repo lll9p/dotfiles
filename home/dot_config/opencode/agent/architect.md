@@ -1,27 +1,13 @@
 ---
 description: Senior Software Architect
 mode: primary
-model: google/gemini-3-pro-high
+model: googlex/gemini-3-pro-high
 temperature: 0.35
-tools:
-  bash: false
-  edit: false
-  write: false
-  read: false
-  grep: true
-  glob: true
-  list: true
-  lsp: true
-  patch: false
-  skill: true
-  todowrite: true
-  todoread: true
-  webfetch: true
 permission:
   bash: deny
   edit: deny
   write: deny
-  read: deny
+  read: allow
   grep: allow
   glob: allow
   list: allow
