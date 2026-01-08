@@ -7,7 +7,26 @@ local patches_path = vim.fn.stdpath "config" .. path_sep .. "patches" -- directo
 local M = {}
 
 local NOTIFIER = "[lazy-local-patcher] "
+M.auto_find_root = function()
+   vim.api.nvim_create_autocmd("BufEnter", {
+      group = vim.api.nvim_create_augroup("UserFindsRoot", { clear = true }),
+      callback = function(ev)
+         if vim.bo[ev.buf].buftype ~= "" or ev.file == "" then
+            return
+         end
 
+         local root_names = { ".git", "Makefile", "package.json", "pyproject.toml", "lua" }
+
+         local root = vim.fs.root(ev.buf, root_names)
+         if not root then
+            root = vim.fs.dirname(ev.file)
+         end
+         if root and root ~= vim.fn.getcwd() then
+            vim.fn.chdir(root)
+         end
+      end,
+   })
+end
 ---@param name string Name of the plugin repository
 ---@param repo_path string Full path of the plugin repository
 local function restore_repo(name, repo_path)

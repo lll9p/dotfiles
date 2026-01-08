@@ -54,21 +54,6 @@ map({ "c" }, "<C-s>", function() require("flash").toggle() end, { desc = "Toggle
 map({ "n", "v", "s", "x", "o", "i", "l", "c", "t" }, "<C-S-v>", function()
    vim.api.nvim_paste(vim.fn.getreg "+", true, -1)
 end, { noremap = true, silent = true, desc = "Paste from clipboard." })
--- load the session for the current directory
--- stylua: ignore
-map("n", "<leader>qS", function() require("persistence").load() end, { desc = "Load session in current dir" })
-
--- select a session to load
--- stylua: ignore
-map("n", "<leader>qs", function() require("persistence").select() end, { desc = "Select session" })
-
--- load the last session
--- stylua: ignore
-map("n", "<leader>ql", function() require("persistence").load({ last = true }) end, { desc = "Load last session" })
-
--- stop Persistence => session won't be saved on exit
--- stylua: ignore
-map("n", "<leader>qd", function() require("persistence").stop() end, { desc = "Stop persistence" })
 
 map("n", "<leader>cc", "<cmd>CodeCompanionChat Toggle<cr>", { desc = "CodeCompanionChat Toggle" })
 

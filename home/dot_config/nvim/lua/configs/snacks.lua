@@ -14,15 +14,38 @@ M.opts = {
          ]],
          keys = {
             { icon = " ", key = "n", desc = "New File", action = ":ene | startinsert" },
-            { icon = " ", key = "f", desc = "Find File", action = function() Snacks.picker.files() end },
-            { icon = " ", key = "r", desc = "Recent Files", action = function() Snacks.picker.recent() end },
+            {
+               icon = " ",
+               key = "f",
+               desc = "Find File",
+               action = function()
+                  Snacks.picker.files()
+               end,
+            },
+            {
+               icon = " ",
+               key = "r",
+               desc = "Recent Files",
+               action = function()
+                  Snacks.picker.recent()
+               end,
+            },
             {
                icon = " ",
                key = "c",
                desc = "Config",
-               action = function() Snacks.picker.files({ cwd = vim.fn.stdpath("config") }) end,
+               action = function()
+                  Snacks.picker.files { cwd = vim.fn.stdpath "config" }
+               end,
             },
-            { icon = " ", key = "s", desc = "Sessions", action = function() require("persistence").select() end },
+            {
+               icon = " ",
+               key = "s",
+               desc = "Sessions",
+               action = function()
+                  require("persistence").select()
+               end,
+            },
             { icon = "󰒲 ", key = "l", desc = "Lazy", action = ":Lazy" },
             { icon = " ", key = "q", desc = "Quit", action = ":qa" },
          },
@@ -50,6 +73,7 @@ M.setup = function(_, opts)
    vim.api.nvim_set_hl(0, "SnacksPickerDir", { fg = "#D7BA7D" })
    local notify = vim.notify
    require("snacks").setup(opts)
+
    -- HACK: restore vim.notify after snacks setup and let noice.nvim take over
    -- this is needed to have early notifications show up in noice history
    vim.notify = notify

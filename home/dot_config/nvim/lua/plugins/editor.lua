@@ -34,20 +34,50 @@ return {
    -- better diagnostics list and others
    { "folke/trouble.nvim", opts = {}, cmd = "Trouble", cond = not vim.g.vscode },
 
-   { "nvim-telescope/telescope.nvim", opts = function() return require "configs.telescope" end, cond = not vim.g.vscode },
+   {
+      "nvim-telescope/telescope.nvim",
+      opts = function()
+         return require "configs.telescope"
+      end,
+      cond = not vim.g.vscode,
+   },
    {
       "folke/persistence.nvim",
-      event = "BufReadPre", -- this will only start session saving when an actual file was opened
+      event = "BufReadPre",
       opts = {},
       keys = {
-         { "<leader>qs", function() require("persistence").load() end, desc = "Restore Session" },
-         { "<leader>qS", function() require("persistence").select() end, desc = "Select Session" },
-         { "<leader>ql", function() require("persistence").load({ last = true }) end, desc = "Restore Last Session" },
-         { "<leader>qd", function() require("persistence").stop() end, desc = "Don't Save Current Session" },
+         {
+            "<leader>qs",
+            function()
+               require("persistence").load()
+            end,
+            desc = "Restore Session",
+         },
+         {
+            "<leader>qS",
+            function()
+               require("persistence").select()
+            end,
+            desc = "Select Session",
+         },
+         {
+            "<leader>ql",
+            function()
+               require("persistence").load { last = true }
+            end,
+            desc = "Restore Last Session",
+         },
+         {
+            "<leader>qd",
+            function()
+               require("persistence").stop()
+            end,
+            desc = "Don't Save Current Session",
+         },
          {
             "<leader>qD",
             function()
-               local dir = vim.fn.stdpath("state") .. "/sessions/"
+               local dir = vim.fn.stdpath "state" .. "/sessions/"
                local sessions = vim.fn.glob(dir .. "*.vim", false, true)
                if #sessions == 0 then
                   vim.notify("No sessions found", vim.log.levels.WARN)
@@ -55,7 +85,10 @@ return {
                end
                vim.ui.select(sessions, {
                   prompt = "Delete session:",
-                  format_item = function(path) return vim.fn.fnamemodify(path, ":t") end,
+                  format_item = function(path)
+                     local display_path = vim.fn.fnamemodify(path, ":t"):gsub("%%", "/"):gsub("%.vim$", "")
+                     return display_path
+                  end,
                }, function(choice)
                   if choice then
                      os.remove(choice)
