@@ -15,7 +15,7 @@ map("n", "<C-c>", "_", {
    desc = "Blackhole",
 })
 if vim.g.vscode then
-   require "vscode.mappings"
+   require "vsc.mappings"
 else
    require "mappings.mappings"
 end

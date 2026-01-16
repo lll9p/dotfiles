@@ -14,7 +14,7 @@ return {
       "monkoose/neocodeium",
       event = "InsertEnter",
       config = function()
-         require("configs.neocodeium")()
+         require "configs.neocodeium"()
       end,
       cond = not vim.g.vscode,
    },
@@ -44,6 +44,14 @@ return {
          -- },
       },
       opts = require "configs.codecompanion",
+      cond = not vim.g.vscode,
+   },
+   {
+      "NickvanDyke/opencode.nvim",
+      -- event = "InsertEnter",
+      config = function()
+         require "configs.opencode"()
+      end,
       cond = not vim.g.vscode,
    },
 }

@@ -1,8 +1,12 @@
 ---
 description: Review uncommitted changes
 mode: subagent
-model: googlex/gemini-3-pro-high
+model: google/gemini-3-flash-short
 temperature: 0.05
+options:
+  thinkingConfig:
+    thinkingLevel: high
+    includeThoughts: true
 permission:
   write: deny
   edit: deny

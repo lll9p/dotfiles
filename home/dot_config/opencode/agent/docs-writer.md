@@ -1,6 +1,7 @@
 ---
 description: Writes and maintains project documentation
 mode: subagent
+model: other/glm-4.7
 permission:
   bash: deny
 ---

@@ -5,6 +5,29 @@ vim.cmd [[cab cca CodeCompanionActions]]
 local UNIFY_ENDPOINT = vim.env["AI_BASE_URL"]
 local UNIFY_APIKEY = vim.env["AI_BASE_TOKEN"]
 
+if not UNIFY_ENDPOINT or not UNIFY_APIKEY then
+   vim.notify("CodeCompanion: AI_BASE_URL or AI_BASE_TOKEN environment variable not set", vim.log.levels.WARN)
+end
+
+-- default adapters
+local model = { name = "newapi", model = "gemini-3-pro-preview" }
+local inline_model = { name = "newapi", model = "gemini-3-flash-preview-short" }
+local agent_model = { name = "newapi", model = "gemini-3-flash-preview-short" }
+local cmd_model = { name = "newapi", model = "gemini-3-flash-preview-short" }
+local background_model = { name = "newapi", model = "gemini-3-flash-preview-short" }
+local quick_model = { name = "newapi", model = "gemini-flash-lite-latest" }
+
+local unify_choices = {
+   ["gemini-3-pro-preview"] = { formatted_name = "Gemini 3 Pro", opts = { can_reason = true, has_vision = true } },
+   ["gemini-3-flash-preview"] = { formatted_name = "Gemini 3 Flash", opts = { can_reason = true, has_vision = true } },
+   ["gemini-3-flash-preview-short"] = {
+      formatted_name = "Gemini 3 Flash Short",
+      opts = { can_reason = true, has_vision = true },
+   },
+   ["z-ai/glm4.7"] = { formatted_name = "Glm-4.7", opts = { can_reason = true, has_vision = false } },
+   ["minimaxai/minimax-m2.1"] = { formatted_name = "Minimax-M2.1", opts = { can_reason = true, has_vision = false } },
+}
+
 -- Map non-standard provider fields (thinking/reasoning) into CodeCompanion's
 -- expected `output.reasoning` shape so `display.chat.show_reasoning` works.
 ---@param data {status: string, output: table, extra: table}|nil
@@ -54,47 +77,6 @@ local function parse_reasoning_from_extra(data)
    return data
 end
 
----@param self CodeCompanion.Adapter
----@return table
-local function get_choices(self)
-   local ok, curl = pcall(require, "plenary.curl")
-   if not ok then
-      return { self.schema.model.default }
-   end
-
-   if not self.env.url or not self.env.api_key then
-      return { self.schema.model.default }
-   end
-
-   local res = curl.get(self.env.url .. "/models", {
-      headers = {
-         Authorization = "Bearer " .. self.env.api_key,
-      },
-   })
-
-   if res.status ~= 200 then
-      return { self.schema.model.default }
-   end
-
-   local ok_json, decoded = pcall(vim.fn.json_decode, res.body)
-   if not ok_json or not decoded.data then
-      return { self.schema.model.default }
-   end
-
-   local choices = {}
-   for _, model in ipairs(decoded.data) do
-      choices[model.id] = {
-         opts = {
-            can_use_tools = true,
-            can_reason = model.id:lower():find "thinking"
-               or model.id:lower():find "reasoning"
-               or model.id:lower():find "r1",
-         },
-      }
-   end
-   return choices
-end
-
 local rules = {
    {
       condition = function(context)
@@ -131,8 +113,7 @@ local options = {
                },
             },
          },
-         adapter = "gemini",
-         model = "gemini-2.0-flash-exp",
+         adapter = model,
          tools = {
             opts = {
                auto_submit_errors = true,
@@ -151,17 +132,10 @@ local options = {
             },
          },
       },
-      inline = { adapter = "gemini", model = "gemini-2.0-flash-exp" },
-      agent = { adapter = "gemini", model = "gemini-2.0-flash-exp" },
-      cmd = { adapter = "gemini", model = "gemini-2.0-flash-exp" },
-
-      background = {
-         adapter = "newapi",
-         chat = {
-            model = "gemini-2.0-flash-exp",
-            opts = { enabled = true },
-         },
-      },
+      inline = { adapter = inline_model },
+      agent = { adapter = agent_model },
+      cmd = { adapter = cmd_model },
+      background = { adapter = background_model },
    },
    adapters = {
       acp = {
@@ -182,36 +156,17 @@ local options = {
                },
                schema = {
                   model = {
-                     default = "deepseek-chat",
-                     choices = get_choices,
+                     default = "gemini-3-flash-preview-short",
+                     choices = unify_choices,
                   },
+                  temperature = { default = 0.3 },
+                  reasoning_effort = { default = "high" },
                },
-               response = {
-                  parse_meta = function(self, data)
-                     return parse_reasoning_from_extra(data)
-                  end,
-               },
-            })
-         end,
-         gemini = function()
-            return require("codecompanion.adapters").extend("openai_compatible", {
-               name = "gemini",
-               formatted_name = "Gemini",
-               env = {
-                  api_key = UNIFY_APIKEY,
-                  url = UNIFY_ENDPOINT,
-               },
-               schema = {
-                  model = {
-                     default = "gemini-2.0-flash-exp",
-                     choices = get_choices,
-                  },
-               },
-               response = {
-                  parse_meta = function(self, data)
-                     return parse_reasoning_from_extra(data)
-                  end,
-               },
+               -- response = {
+               --    parse_message_meta = function(self, data)
+               --       return parse_reasoning_from_extra(data)
+               --    end,
+               -- },
             })
          end,
       },

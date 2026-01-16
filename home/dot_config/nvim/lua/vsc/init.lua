@@ -4,8 +4,8 @@
 local M = {}
 
 M.setup = function()
-   require "vscode.settings"
-   require "vscode.mappings"
+   require "vsc.settings"
+   require "vsc.mappings"
 end
 
 return M

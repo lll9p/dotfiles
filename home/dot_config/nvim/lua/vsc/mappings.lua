@@ -1,5 +1,5 @@
 -- VSCode-Neovim compatible key mappings
-local vscode = require "vscode"
+local vscode = require "vsc"
 local map = vim.keymap.set
 
 -- Switch window/editor

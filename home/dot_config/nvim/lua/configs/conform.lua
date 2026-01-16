@@ -12,10 +12,14 @@ local options = {
             "Cargo.toml",
          },
       },
+      prettier = {
+         -- 强制指定某些格式行为，避免 JSON 报错
+         args = { "--stdin-filepath", "$FILENAME", "--trailing-comma", "none" },
+      },
    },
    formatters_by_ft = {
       lua = { "stylua" },
-      python = { "ruff_format", "ruff_fix" },
+      python = { "ruff_fix", "ruff_format" },
       -- python = function(bufnr)
       --    if require("conform").get_formatter_info("ruff_format", bufnr).available then
       --       return { "ruff_format" }
@@ -25,6 +29,7 @@ local options = {
       -- end,
       sh = { "shfmt" },
       json = { "prettier" },
+      jsonc = { "prettier" },
       typst = { "typstfmt" },
       rust = { "rustfmt_nightly", "rustfmt", lsp_format = "first", stop_after_first = true },
       toml = { lsp_format = "first" },

@@ -1,7 +1,7 @@
 ---
 description: Runs language-specific linters and checkers to validate code correctness.
 mode: subagent
-model: anthropic/MiniMax-M2.1
+model: other/glm-4.7
 temperature: 0.1
 permission:
   bash: allow

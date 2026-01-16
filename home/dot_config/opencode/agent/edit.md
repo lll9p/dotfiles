@@ -1,8 +1,12 @@
 ---
 description: Programming agent with great Software Engineering skills
 mode: primary
-model: googlex/gemini-3-flash-high
+model: google/gemini-3-flash-short
 temperature: 0.2
+options:
+  thinkingConfig:
+    thinkingLevel: high
+    includeThoughts: true
 permission:
   write: allow
   edit: allow
