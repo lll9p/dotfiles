@@ -7,13 +7,13 @@ return {
       lazy = true,
       build = ":TSUpdate",
       opts = function()
-         return require "configs.treesitter"
+         require "configs.treesitter"
       end,
       config = function(_, opts)
-         if vim.g.__is_windows then
-            require("nvim-treesitter.install").compilers = { "clang" }
-         end
-         require("nvim-treesitter.configs").setup(opts)
+         -- if vim.g.__is_windows then
+         --    require("nvim-treesitter.install").compilers = { "clang" }
+         -- end
+         require("nvim-treesitter").setup(opts)
       end,
       cond = not vim.g.vscode,
    },

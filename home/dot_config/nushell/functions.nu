@@ -45,7 +45,7 @@ def --env setup-gpg [] {
 def note [...args] {
     let note_text = ($args | str join " ")
     let date = (date now | format date "%Y-%m-%d %H:%M:%S")
-    print $"date: ($date)\n($note_text)\n" | save --append $"($nu.home-path)/drafts.txt"
+    print $"date: ($date)\n($note_text)\n" | save --append $"($nu.home-dir)/drafts.txt"
 }
 
 # Make a directory if it doesn't exist and cd into it
@@ -184,8 +184,8 @@ export def --env activate [
 def scoop-cn [url: string] {
     let url = $url | str replace --regex "/$" ""
     scoop config scoop_repo $"($url)/https://github.com/ScoopInstaller/Scoop"
-    git -C $"($nu.home-path)/scoop/buckets/main" remote set-url origin $"($url)/https://github.com/ScoopInstaller/Main"
-    git -C $"($nu.home-path)/scoop/buckets/scoop-cn" remote set-url origin $"($url)/https://github.com/duzyn/scoop-cn"
+    git -C $"($nu.home-dir)/scoop/buckets/main" remote set-url origin $"($url)/https://github.com/ScoopInstaller/Main"
+    git -C $"($nu.home-dir)/scoop/buckets/scoop-cn" remote set-url origin $"($url)/https://github.com/duzyn/scoop-cn"
 }
 
 def --env proxies [] {

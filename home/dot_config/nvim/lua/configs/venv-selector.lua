@@ -4,7 +4,7 @@ if vim.g.__is_windows then
    return {
       search = {
          venvs = {
-            command = "fd python" .. ext .. "$ " .. vim.env["VIRTUAL_ENVS"],
+            command = "fd python" .. ext .. "$ " .. (vim.env["VIRTUAL_ENVS"] or ""),
          },
       },
    }

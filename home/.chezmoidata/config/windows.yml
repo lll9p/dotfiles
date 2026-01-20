@@ -6,6 +6,7 @@ config:
         - '%LOCALAPPDATA%\Programs\virtualenvs\work\Scripts'
         - '%USERPROFILE%\.local\bin'
         - '%USERPROFILE%\.cargo\bin'
+        - '%USERPROFILE%\scoop\apps\llvm\current\bin'
       others:
         GIT_SSH: '%USERPROFILE%\scoop\shims\ssh.exe'
         CLAUDE_CODE_GIT_BASH_PATH: '%USERPROFILE%\scoop\apps\git\current\bin\bash.exe'
