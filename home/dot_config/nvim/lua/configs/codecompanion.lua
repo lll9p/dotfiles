@@ -147,7 +147,7 @@ local options = {
             show_presets = true,
          },
          newapi = function()
-            return require("codecompanion.adapters").extend("openai_compatible", {
+            local adapter = require("codecompanion.adapters").extend("openai_compatible", {
                name = "newapi",
                formatted_name = "New API",
                env = {
@@ -162,12 +162,39 @@ local options = {
                   temperature = { default = 0.3 },
                   reasoning_effort = { default = "high" },
                },
-               -- response = {
-               --    parse_message_meta = function(self, data)
-               --       return parse_reasoning_from_extra(data)
-               --    end,
-               -- },
             })
+
+            adapter.handlers = adapter.handlers or {}
+            adapter.handlers.parse_message_meta = function(_, data)
+               return parse_reasoning_from_extra(data)
+            end
+
+            return adapter
+         end,
+         newapi = function()
+            local adapter = require("codecompanion.adapters").extend("openai_compatible", {
+               name = "newapi",
+               formatted_name = "New API",
+               env = {
+                  api_key = UNIFY_APIKEY,
+                  url = UNIFY_ENDPOINT,
+               },
+               schema = {
+                  model = {
+                     default = "gemini-3-flash-preview-short",
+                     choices = unify_choices,
+                  },
+                  temperature = { default = 0.3 },
+                  reasoning_effort = { default = "high" },
+               },
+            })
+
+            adapter.handlers = adapter.handlers or {}
+            adapter.handlers.parse_message_meta = function(_, data)
+               return parse_reasoning_from_extra(data)
+            end
+
+            return adapter
          end,
       },
    },
