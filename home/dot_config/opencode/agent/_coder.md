@@ -1,6 +1,6 @@
 ---
 description: Autonomous coding agent capable of solving complex programming tasks independently
-model: other/glm-4.7
+model: google/gemini-3-flash-short
 temperature: 0.2
 permission:
   edit: allow

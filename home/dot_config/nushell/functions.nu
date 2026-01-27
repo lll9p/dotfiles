@@ -8,7 +8,7 @@ def --env setup-keychain [] {
 
  keychain --eval --agents ssh id_ed25519
   | lines
-  | where not ($it | is-empty)
+  | where {|it| not ($it | is-empty)}
   | parse "{k}={v}; export {k2};"
   | select k v
   | transpose --header-row
@@ -154,7 +154,11 @@ export def --env activate [
 ] {
  let dir = (
   if $dir == '' {
-   (ls */pyvenv.cfg).0.name | path dirname
+   let cfg = (ls */pyvenv.cfg | get -o 0)
+   if ($cfg | is-empty) {
+    error make { msg: "No pyvenv.cfg found in subdirectories" }
+   }
+   $cfg.name | path dirname
   } else {$dir}
  )
  let dir = ($dir | path expand)
@@ -183,9 +187,23 @@ export def --env activate [
 # change scoop-cn proxy url
 def scoop-cn [url: string] {
     let url = $url | str replace --regex "/$" ""
+    let buckets_dir = ($nu.home-dir | path join "scoop" "buckets")
+
+    if not ($buckets_dir | path exists) {
+        error make { msg: $"Scoop buckets directory not found: ($buckets_dir)" }
+    }
+
     scoop config scoop_repo $"($url)/https://github.com/ScoopInstaller/Scoop"
-    git -C $"($nu.home-dir)/scoop/buckets/main" remote set-url origin $"($url)/https://github.com/ScoopInstaller/Main"
-    git -C $"($nu.home-dir)/scoop/buckets/scoop-cn" remote set-url origin $"($url)/https://github.com/duzyn/scoop-cn"
+
+    let main_bucket = ($buckets_dir | path join "main")
+    if ($main_bucket | path exists) {
+        git -C $main_bucket remote set-url origin $"($url)/https://github.com/ScoopInstaller/Main"
+    }
+
+    let cn_bucket = ($buckets_dir | path join "scoop-cn")
+    if ($cn_bucket | path exists) {
+        git -C $cn_bucket remote set-url origin $"($url)/https://github.com/duzyn/scoop-cn"
+    }
 }
 
 def --env proxies [] {

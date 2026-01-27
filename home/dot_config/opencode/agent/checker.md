@@ -1,7 +1,7 @@
 ---
 description: Runs language-specific linters and checkers to validate code correctness.
 mode: subagent
-model: other/glm-4.7
+model: google/gemini-3-flash-short
 temperature: 0.1
 permission:
   bash: allow

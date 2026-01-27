@@ -54,6 +54,11 @@
   latest= log --color --decorate --graph --date=short --abbrev-commit --pretty=format:\"%C(yellow)%h %C(blue)%ad %C(red)%d %C(reset)%s %C(green)[%cn]\"
   aliases = "!git config --get-regexp '^alias\\.' | cut -c 7- | sed 's/ / = /'"
   url = config --get remote.origin.url
+  stats = "!f() { \
+    git log --pretty=tformat: --numstat \"$@\" \
+    | awk '{ add += $1; subs += $2; loc += $1 - $2 } \
+    END { printf \"总计增加: %s 行\\n总计删除: %s 行\\n净增行数: %s 行\\n\", add, subs, loc }'; \
+    }; f"
 
 [credential "https://github.com"]
   helper = !'gh' auth git-credential

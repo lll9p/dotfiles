@@ -18,7 +18,7 @@ alias trim = ^awk '{\$1=\$1;print}'
 alias s = start "."
 alias n = neovide --fork
 alias nf = neovide --fork (fzf)
-alias gbc = git checkout (git branch --all | fzf | str replace '(\*)' '' | str trim);
+alias gbc = git checkout (git branch --all | fzf | str replace '(\*)' '' | str trim)
 
 alias fzf = fzf --bind 'enter:become(nvim {})' --preview 'bat --color=always --style=header,grid --line-range=:500 {}'
 

@@ -1,7 +1,7 @@
 ---
 description: Virtual hunting dog researcher that tracks down information across the web
 temperature: 0.4
-model: other/glm-4.7
+model: google/gemini-3-flash-short
 permission:
   edit: ask
   write: ask

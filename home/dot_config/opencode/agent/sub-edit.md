@@ -1,7 +1,7 @@
 ---
 description: Programming agent with great Software Engineering skills
 mode: subagent
-model: other/glm-4.7
+model: google/gemini-3-flash-short
 temperature: 0.2
 permission:
   write: allow

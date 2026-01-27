@@ -7,6 +7,6 @@ if ! command -v docker &>/dev/null; then
 fi
 
 echo "SETTING UP DOCKER..."
-sudo rm "$HOME/.docker/" -rf || true
-sudo groupadd docker || true
+# NOTE: Removed dangerous 'rm -rf ~/.docker' - preserves existing docker config
+sudo groupadd docker 2>/dev/null || true
 sudo usermod -aG docker "$USER"

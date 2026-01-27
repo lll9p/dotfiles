@@ -26,8 +26,8 @@
   "default_agent": "architect",
   "agent": {
     // "compaction": {
-      // "model": "google/gemini-3-flash-short",
-      // "variant": "medium"
+    // "model": "google/gemini-3-flash-short",
+    // "variant": "medium"
     // },
     "plan": {
       "disable": false
@@ -36,7 +36,7 @@
       "disable": false
     },
     "explore": {
-      "model": "other/glm-4.7",
+      "model": "model: google/gemini-3-flash-short",
       "permission": {
         "edit": "deny",
         "write": "deny",
@@ -243,27 +243,7 @@
       "options": {
         "baseURL": "{env:AI_BASE_URL}/v1"
       },
-      "models": {
-        "MiniMax-M2.1": {
-          "name": "MiniMax-M2.1",
-          "id": "MiniMax-M2.1",
-          "attachment": false,
-          "reasoning": true,
-          "tool_call": true,
-          "interleaved": {
-            "field": "reasoning_details"
-          },
-          "cost": {
-            "input": 0.3,
-            "output": 1.2
-          },
-          "limit": {
-            "context": 204800,
-            "output": 131072
-          },
-          "options": {}
-        }
-      }
+      "models": {}
     },
     "google": {
       "name": "Google",
