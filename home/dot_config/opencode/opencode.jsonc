@@ -1,7 +1,6 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
-    "./plugin/opencode-anthropic-auth-proxy.mjs",
     "@mohak34/opencode-notifier@latest",
     "@tarquinen/opencode-dcp@latest"
   ],
@@ -78,8 +77,8 @@
       "enabled": true,
       "oauth": false,
       "headers": {
-        "Authorization": "Bearer {env:TAVILY_TOKEN}",
-        "Accept": "application/json, text/event-stream"
+        "Authorization": "Bearer {env:TAVILY_TOKEN}"
+        // "Accept": "application/json, text/event-stream"
       }
     },
     "sequential-thinking": {
