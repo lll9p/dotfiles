@@ -1,7 +1,7 @@
 ---
 description: Senior Software Architect
 mode: primary
-model: google/gemini-3-flash-short
+model: google/gemini-3-flash-free
 temperature: 0.35
 options:
   thinkingConfig:

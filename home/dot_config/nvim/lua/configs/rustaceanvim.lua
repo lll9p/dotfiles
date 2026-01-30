@@ -13,7 +13,7 @@ local func = function(_, _)
                return {
                   vim.fs.joinpath(vim.fn.expand "$MASON", "packages", "rust-analyzer", ra_filename or "rust-analyzer"),
                }
-               -- return { ("%s/%s"):format(ra:get_install_path(), ra_filename or "rust-analyzer") }
+            -- return { ("%s/%s"):format(ra:get_install_path(), ra_filename or "rust-analyzer") }
             else
                -- global installation
                return { "rust-analyzer" }

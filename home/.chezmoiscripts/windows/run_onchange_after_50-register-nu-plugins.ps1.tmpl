@@ -1,6 +1,7 @@
 {{ if eq .chezmoi.os "windows" -}}
 # Re-register nushell plugins when nu version changes
 # Hash: {{ output "nu" "--version" | trim | sha256sum }}
+$ErrorActionPreference = 'Stop'
 
 Write-Host "Nushell version changed, re-registering plugins..."
 

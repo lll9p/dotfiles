@@ -1,9 +1,10 @@
+$ErrorActionPreference = 'Stop'
 $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
 
 if (-not (Get-Command "scoop" -ErrorAction SilentlyContinue))
 {
   Write-Error "Scoop hasn't been installed!"
-  exit
+  exit 1
 }
 
 {{ if .pkgs.windows.scoop.buckets }}

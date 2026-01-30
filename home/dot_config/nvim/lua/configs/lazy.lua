@@ -2,7 +2,7 @@ return {
    defaults = { lazy = true },
    git = { url_format = "https://github.com/%s.git" },
    install = { colorscheme = { "nvchad" } },
-   concurrency =5,
+   concurrency = 5,
 
    ui = {
       icons = {

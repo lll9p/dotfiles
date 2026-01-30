@@ -5,9 +5,16 @@
     "@tarquinen/opencode-dcp@latest"
   ],
   "theme": "opencode",
+  "tui": {
+    "scroll_speed": 3,
+    "scroll_acceleration": {
+      "enabled": true
+    }
+  },
+  "share": "disabled",
   "username": "<!--!>",
-  "model": "google/gemini-3-flash-short",
-  "small_model": "google/gemini-3-flash-short",
+  "model": "google/gemini-3-flash-free",
+  "small_model": "google/gemini-3-flash-free",
   "autoupdate": false,
   "instructions": ["AGENTS.md", "openspec/AGENTS.md"],
   "compaction": {
@@ -25,7 +32,7 @@
   "default_agent": "architect",
   "agent": {
     // "compaction": {
-    // "model": "google/gemini-3-flash-short",
+    // "model": "google/gemini-3-flash-preview",
     // "variant": "medium"
     // },
     "plan": {
@@ -35,7 +42,7 @@
       "disable": false
     },
     "explore": {
-      "model": "model: google/gemini-3-flash-short",
+      "model": "google/gemini-3-flash-free",
       "permission": {
         "edit": "deny",
         "write": "deny",
@@ -253,9 +260,9 @@
         "apiKey": "{env:AI_BASE_TOKEN}"
       },
       "models": {
-        "gemini-3-flash-short": {
-          "id": "gemini-3-flash-preview-short",
-          "name": "Gemini 3 Flash Short",
+        "gemini-3-flash-free": {
+          "id": "gemini-3-flash-free",
+          "name": "Gemini 3 Flash Free",
           "release_date": "2025-11-18",
           "reasoning": true,
           "tool_call": true,

@@ -76,7 +76,6 @@ M.set_python_venv = function()
    end
 end
 
-
 M.enable_providers = function()
    local enable_providers = {
       "python3_provider",

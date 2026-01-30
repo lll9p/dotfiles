@@ -15,7 +15,7 @@ return {
       "saecki/crates.nvim",
       event = { "BufRead Cargo.toml" },
       config = function(_, opts)
-         require("configs.crates")(_, opts)
+         require "configs.crates"(_, opts)
       end,
       cond = not vim.g.vscode,
    },

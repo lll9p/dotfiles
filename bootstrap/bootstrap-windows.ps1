@@ -5,11 +5,12 @@
     1. Installs Scoop, Git, Chezmoi (User Scope)
     2. Provisions Age key
     3. Runs chezmoi init --apply
-    
+
     NOTE: This script should be run as a Standard User, NOT Administrator.
     Scoop does not support running as Administrator.
     Sub-scripts managed by Chezmoi will request Admin privileges (UAC) if needed.
 #>
+$ErrorActionPreference = 'Stop'
 
 $ScriptPath = $MyInvocation.MyCommand.Path
 $ScriptDir = Split-Path $ScriptPath
@@ -44,12 +45,12 @@ $KeyPath = "$HOME\.age-key.txt"
 if (-not (Test-Path $KeyPath)) {
     Write-Host "[!] Age key not found at $KeyPath" -ForegroundColor Red
     $AgeKey = Read-Host "Paste your Age secret key (starts with AGE-SECRET-KEY-)"
-    
+
     if ($AgeKey -notmatch "^AGE-SECRET-KEY-") {
         Write-Error "Invalid key format. Must start with AGE-SECRET-KEY-"
         exit 1
     }
-    
+
     Set-Content -Path $KeyPath -Value $AgeKey -Encoding ascii
     Write-Host "[✓] Key saved." -ForegroundColor Green
 } else {

@@ -1,6 +1,6 @@
 ---
 description: Writer for narrative and explanatory content. Focuses on clear, measured prose.
-model: google/gemini-3-flash-short
+model: google/gemini-3-flash-free
 temperature: 1
 permission:
   edit: ask

@@ -1,7 +1,7 @@
 ---
 description: Review uncommitted changes
 mode: subagent
-model: google/gemini-3-flash-short
+model: google/gemini-3-flash-free
 temperature: 0.05
 options:
   thinkingConfig:

@@ -22,7 +22,6 @@ M.pyright = {
    },
 }
 
-
 M.ts_ls = {
    settings = {
       javascript = {
