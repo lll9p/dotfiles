@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1054,SC1072,SC1073,SC1083
 
-set -eufo pipefail
+set -euo pipefail
 
 DISTRO=$(grep -E '^(ID|ID_LIKE)=' /etc/os-release | cut -d= -f2 | tr -d '"')
 

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
-set -eufo pipefail
+set -euo pipefail
 
 if ! command -v docker &>/dev/null; then
-  exit
+    exit
 fi
 
 echo "SETTING UP DOCKER..."

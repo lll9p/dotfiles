@@ -10,21 +10,24 @@ if not UNIFY_ENDPOINT or not UNIFY_APIKEY then
 end
 
 -- default adapters
-local model = { name = "newapi", model = "gemini-3-pro-preview" }
-local inline_model = { name = "newapi", model = "gemini-3-flash-preview-short" }
-local agent_model = { name = "newapi", model = "gemini-3-flash-preview-short" }
-local cmd_model = { name = "newapi", model = "gemini-3-flash-preview-short" }
-local background_model = { name = "newapi", model = "gemini-3-flash-preview-short" }
-local quick_model = { name = "newapi", model = "gemini-flash-lite-latest" }
+local model = { name = "gemini", model = "gemini-3-pro-preview" }
+local inline_model = { name = "gemini", model = "gemini-3-flash-free" }
+local agent_model = { name = "gemini", model = "gemini-3-flash-free" }
+local cmd_model = { name = "gemini", model = "gemini-3-flash-free" }
+local background_model = { name = "gemini", model = "gemini-3-flash-free" }
+local quick_model = { name = "gemini", model = "gemini-flash-lite-latest" }
 
-local unify_choices = {
+local gemini_choices = {
    ["gemini-3-pro-preview"] = { formatted_name = "Gemini 3 Pro", opts = { can_reason = true, has_vision = true } },
    ["gemini-3-flash-preview"] = { formatted_name = "Gemini 3 Flash", opts = { can_reason = true, has_vision = true } },
-   ["gemini-3-flash-preview-short"] = {
-      formatted_name = "Gemini 3 Flash Short",
+   ["gemini-3-flash-free"] = {
+      formatted_name = "Gemini 3 Flash Free",
       opts = { can_reason = true, has_vision = true },
    },
-   ["z-ai/glm4.7"] = { formatted_name = "Glm-4.7", opts = { can_reason = true, has_vision = false } },
+}
+local unify_choices = {
+   ["z-ai/glm4.7"] = { formatted_name = "z-ai/Glm-4.7", opts = { can_reason = true, has_vision = false } },
+   ["ZhipuAI/GLM-4.7"] = { formatted_name = "Modelscope/Glm-4.7", opts = { can_reason = true, has_vision = false } },
    ["minimaxai/minimax-m2.1"] = { formatted_name = "Minimax-M2.1", opts = { can_reason = true, has_vision = false } },
 }
 
@@ -153,11 +156,13 @@ local options = {
                env = {
                   api_key = UNIFY_APIKEY,
                   url = UNIFY_ENDPOINT,
+                  chat_url = "/v1/chat/completions",
+                  models_endpoint = "/v1/models",
                },
                schema = {
                   model = {
-                     default = "gemini-3-flash-preview-short",
-                     choices = unify_choices,
+                     default = "Modelscope/Glm-4.7",
+                     -- choices = unify_choices,
                   },
                   temperature = { default = 0.3 },
                   reasoning_effort = { default = "high" },
@@ -171,21 +176,19 @@ local options = {
 
             return adapter
          end,
-         newapi = function()
-            local adapter = require("codecompanion.adapters").extend("openai_compatible", {
-               name = "newapi",
-               formatted_name = "New API",
+         gemini = function()
+            local adapter = require("codecompanion.adapters").extend("gemini", {
+               name = "gemini",
+               formatted_name = "Gemini",
                env = {
-                  api_key = UNIFY_APIKEY,
+                  api_key = UNIFY_APIKEY .. "/v1beta/openai/chat/completions",
                   url = UNIFY_ENDPOINT,
                },
                schema = {
                   model = {
-                     default = "gemini-3-flash-preview-short",
-                     choices = unify_choices,
+                     default = "gemini-3-flash-free",
+                     choices = gemini_choices,
                   },
-                  temperature = { default = 0.3 },
-                  reasoning_effort = { default = "high" },
                },
             })
 

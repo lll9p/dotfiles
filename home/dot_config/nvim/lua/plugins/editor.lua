@@ -83,7 +83,7 @@ return {
                   vim.notify("No sessions found", vim.log.levels.WARN)
                   return
                end
-               vim.ui.select(sessions, {
+                require("snacks").picker.select(sessions, {
                   prompt = "Delete session:",
                   format_item = function(path)
                      local display_path = vim.fn.fnamemodify(path, ":t"):gsub("%%", "/"):gsub("%.vim$", "")
