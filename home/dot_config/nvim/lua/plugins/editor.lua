@@ -83,18 +83,34 @@ return {
                   vim.notify("No sessions found", vim.log.levels.WARN)
                   return
                end
-                require("snacks").picker.select(sessions, {
-                  prompt = "Delete session:",
-                  format_item = function(path)
-                     local display_path = vim.fn.fnamemodify(path, ":t"):gsub("%%", "/"):gsub("%.vim$", "")
-                     return display_path
+                local items = {}
+               for _, path in ipairs(sessions) do
+                  local display = vim.fn.fnamemodify(path, ":t"):gsub("%%", "/"):gsub("%.vim$", "")
+                  table.insert(items, { text = display, file = path })
+               end
+               require("snacks").picker.pick({
+                  source = "sessions",
+                  title = "Delete Sessions (Tab to multi-select)",
+                  items = items,
+                  format = function(item, _picker)
+                     local ret = {} ---@type snacks.picker.Highlight[]
+                     table.insert(ret, { item.text })
+                     return ret
                   end,
-               }, function(choice)
-                  if choice then
-                     os.remove(choice)
-                     vim.notify("Deleted: " .. vim.fn.fnamemodify(choice, ":t"))
-                  end
-               end)
+                  confirm = function(picker, item)
+                     picker:close()
+                     local selected = picker:selected({ fallback = true })
+                     if #selected == 0 then
+                        return
+                     end
+                     local deleted = {}
+                     for _, sel in ipairs(selected) do
+                        os.remove(sel.file)
+                        table.insert(deleted, vim.fn.fnamemodify(sel.file, ":t"))
+                     end
+                     vim.notify("Deleted " .. #deleted .. " session(s):\n" .. table.concat(deleted, "\n"))
+                  end,
+               })
             end,
             desc = "Delete Session",
          },

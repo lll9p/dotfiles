@@ -1,16 +1,9 @@
 {
   "$schema": "https://opencode.ai/config.json",
   "plugin": [
-    "@mohak34/opencode-notifier@latest",
+    // "@mohak34/opencode-notifier@latest",
     "@tarquinen/opencode-dcp@latest"
   ],
-  "theme": "opencode",
-  "tui": {
-    "scroll_speed": 3,
-    "scroll_acceleration": {
-      "enabled": true
-    }
-  },
   "share": "disabled",
   "username": "<!--!>",
   "model": "google/gemini-3-flash-free",
@@ -27,6 +20,9 @@
       "git *": "ask",
       "rm *": "ask",
       "*": "allow"
+    },
+    "external_directory": {
+      "~/.cargo/**": "allow"
     }
   },
   "default_agent": "_arch",
@@ -42,7 +38,6 @@
       "disable": false
     },
     "explore": {
-      "model": "google/gemini-3-flash-free",
       "permission": {
         "edit": "deny",
         "write": "deny",
@@ -100,86 +95,31 @@
   },
   "provider": {
     "openai": {
+      // "npm": "@ai-sdk/openai",
+      "options": {
+        "baseURL": "{env:AI_BASE_URL}/v1",
+        "store": true
+        // "include": ["reasoning.encrypted_content"],
+        // "store": false
+      },
+      "models": {}
+    },
+    "openai-test": {
+      "npm": "@ai-sdk/openai",
       "options": {
         "baseURL": "{env:AI_BASE_URL}/v1",
         "apiKey": "{env:AI_BASE_TOKEN}",
-        "reasoningEffort": "medium",
-        "reasoningSummary": "auto",
-        "textVerbosity": "medium",
         "include": ["reasoning.encrypted_content"],
-        "store": false
+        "setCacheKey": true
       },
       "models": {
-        "gpt-5.2-xhigh": {
-          "id": "gpt-5.2-xhigh",
-          "name": "GPT 5.2 (Xhigh)",
-          "limit": {
-            "context": 272000,
-            "output": 128000
-          },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "variants": {
-            "none": {
-              "reasoningEffort": "none",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            }
-          }
-        },
-        "gpt-5.2-codex-xhigh": {
-          "id": "gpt-5.2-codex-xhigh",
-          "name": "GPT 5.2 Codex (Xhigh)",
-          "limit": {
-            "context": 272000,
-            "output": 128000
-          },
-          "modalities": {
-            "input": ["text", "image"],
-            "output": ["text"]
-          },
-          "variants": {
-            "low": {
-              "reasoningEffort": "low",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "medium": {
-              "reasoningEffort": "medium",
-              "reasoningSummary": "auto",
-              "textVerbosity": "medium"
-            },
-            "high": {
-              "reasoningEffort": "high",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
-            },
-            "xhigh": {
-              "reasoningEffort": "xhigh",
-              "reasoningSummary": "detailed",
-              "textVerbosity": "medium"
+        "test-model": {
+          "id": "test-model",
+          "reasoning": true,
+          "tool_call": true,
+          "options": {
+            "thinking": {
+              "type": "enabled"
             }
           }
         }
@@ -283,10 +223,15 @@
         "apiKey": "{env:AI_BASE_TOKEN}"
       },
       "models": {
-        "glm-4.7": {
-          "id": "ZhipuAI/GLM-4.7",
-          // "id": "z-ai/glm4.7",
-          "name": "glm-4.7",
+        "glm-5": {
+          // "id": "ZhipuAI/GLM-5",
+          "id": "cucloud/glm-5",
+          "name": "glm-5",
+          "options": {
+            "thinking": {
+              "type": "enabled"
+            }
+          },
           "reasoning": true,
           "tool_call": true,
           "interleaved": {
@@ -295,11 +240,6 @@
           "limit": {
             "context": 200000,
             "output": 128000
-          },
-          "options": {
-            "thinking": {
-              "type": "enabled"
-            }
           },
           "variants": {
             "none": {
@@ -333,13 +273,37 @@
             }
           }
         },
-        "Qwen3-Coder": {
-          "id": "Qwen/Qwen3-Coder-480B-A35B-Instruct",
-          "name": "qwen3-coder",
+        "qwen3.5": {
+          "id": "Qwen/Qwen3.5-397B-A17B",
+          "name": "Qwen3.5",
           "reasoning": true,
           "tool_call": true,
-          "interleaved": {
-            "field": "reasoning_content"
+          "options": {
+            "thinking": {
+              "type": "enabled"
+            }
+          },
+          "limit": {
+            "context": 262144,
+            "output": 32768
+          },
+          "modalities": {
+            "input": ["text", "image", "audio", "video", "pdf"],
+            "output": ["text"]
+          }
+        },
+        "Minimax-M2.5": {
+          "id": "cucloud/MiniMax-M2.5",
+          "reasoning": true,
+          "tool_call": true,
+          "options": {
+            "thinking": {
+              "type": "enabled"
+            }
+          },
+          "limit": {
+            "context": 190000,
+            "output": 64000
           }
         },
         "DeepSeek-V3.2-thinking": {

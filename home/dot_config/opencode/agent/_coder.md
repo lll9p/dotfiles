@@ -1,6 +1,6 @@
 ---
 description: Autonomous coding agent capable of solving complex programming tasks independently
-model: google/gemini-3-flash-free
+model: openai/gpt-5.2
 temperature: 0.2
 permission:
   edit: allow

@@ -34,7 +34,7 @@ return {
          -- "nvim-treesitter/nvim-treesitter",
          -- "stevearc/dressing.nvim", -- Optional: Improves the default Neovim UI
          { "MeanderingProgrammer/render-markdown.nvim", ft = { "markdown", "codecompanion" } },
-         { "echasnovski/mini.diff", opts = {} },
+         -- { "echasnovski/mini.diff", opts = {} },
          -- "ravitemer/mcphub.nvim",
          -- {
          --    "Davidyz/VectorCode",

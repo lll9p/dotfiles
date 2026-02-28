@@ -1,3 +1,4 @@
+-- CodeCompanion AI assistant configuration - OpenAI-compatible adapter with Gemini/Unify provider
 vim.cmd [[cab cc CodeCompanion]]
 vim.cmd [[cab ccc CodeCompanionChat]]
 vim.cmd [[cab cca CodeCompanionActions]]
@@ -116,7 +117,8 @@ local options = {
                },
             },
          },
-         adapter = model,
+         adapter = { name = "opencode" },
+         -- adapter = model,
          tools = {
             opts = {
                auto_submit_errors = true,
@@ -142,7 +144,12 @@ local options = {
    },
    adapters = {
       acp = {
-         opencode = "opencode",
+         opencode = function()
+            return require("codecompanion.adapters").extend("opencode", {})
+         end,
+         opts = {
+            show_presets = false,
+         },
       },
       http = {
          opts = {
@@ -215,10 +222,13 @@ local options = {
          show_header_separator = true,
          show_settings = false,
          start_in_insert_mode = false,
-         fold_reasoning = true,
+         fold_reasoning = false,
          show_reasoning = true,
          show_tools_processing = true, -- Show the loading message when tools are being executed?
          show_token_count = true, -- Show the token count for each response?
+         icons = {
+            chat_fold = "🧠 ",
+         },
       },
       diff = {
          enabled = true,

@@ -1,6 +1,6 @@
 ---
 description: Senior solution architect
-model: other/glm-4.7
+model: openai/gpt-5.2
 temperature: 0.4
 ---
 Bare Minimum Architectural Complexity Framework

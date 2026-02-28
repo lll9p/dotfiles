@@ -218,6 +218,17 @@ def --env un-proxies [] {
   $env.socks_proxy = ""
 }
 
+def "with-proxies" [block: closure] {
+    let proxy_env = {
+        HTTP_PROXY: "http://127.0.0.1:1081"
+        HTTPS_PROXY: "http://127.0.0.1:1081"
+        ALL_PROXY: "socks5://127.0.0.1:1081"
+    }
+    with-env $proxy_env {
+        do $block
+    }
+}
+
 def --env setup-pyvenv [] {
   $env.VIRTUAL_ENVS = "/usr/local/share/virtualenvs"
 }
