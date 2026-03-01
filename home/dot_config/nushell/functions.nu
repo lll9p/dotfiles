@@ -6,14 +6,20 @@ def --env setup-keychain [] {
         return 1
     }
 
- keychain --eval --agents ssh id_ed25519
-  | lines
-  | where {|it| not ($it | is-empty)}
-  | parse "{k}={v}; export {k2};"
-  | select k v
-  | transpose --header-row
-  | into record
-  | load-env
+    let keychain_result = (do -i { ^keychain --eval --agents ssh id_ed25519 | complete })
+    if $keychain_result.exit_code != 0 {
+        print $"Failed to initialize keychain; exit code: ($keychain_result.exit_code)"
+        return $keychain_result.exit_code
+    }
+
+    $keychain_result.stdout
+    | lines
+    | where {|it| not ($it | is-empty)}
+    | parse "{k}={v}; export {k2};"
+    | select k v
+    | transpose --header-row
+    | into record
+    | load-env
 }
 def --env setup-gpg [] {
     # Skip if already initialized this session
@@ -23,7 +29,12 @@ def --env setup-gpg [] {
 
     # Only set GPG_TTY if not already set
     if ('GPG_TTY' not-in $env) {
-        $env.GPG_TTY = (do -i { ^tty | complete | get stdout | str trim })
+        if (which tty | is-not-empty) {
+            let tty_result = (do -i { ^tty | complete })
+            if $tty_result.exit_code == 0 {
+                $env.GPG_TTY = ($tty_result.stdout | str trim)
+            }
+        }
     }
 
     if $os == "linux" {
@@ -83,7 +94,8 @@ def check_cargo_commands [] {
     ]
 
     for cmd in $commands {
-        if (do { ^cargo $cmd.name --version } | complete).exit_code != 0 {
+        let version_result = (do -i { ^cargo $cmd.name --version | complete })
+        if $version_result.exit_code != 0 {
             print $"Installing cargo-($cmd.name)..."
             run-external $cmd.install
         }
@@ -103,8 +115,10 @@ export def 'uv updateall' [] {
   for $o in $outdated {
     uv pip install -U $o
   }
-  let conflicts = uv pip check | complete | get stderr
-                  |lines | find --regex "`.*`,"
+  let check_result = (do -i { ^uv pip check | complete })
+  let conflicts = $check_result.stderr
+                  | lines
+                  | find --regex "`.*`,"
                   | str replace --regex "^.*`(.*)`,.*$" "$1"
   for $c in $conflicts {
     uv pip install $c

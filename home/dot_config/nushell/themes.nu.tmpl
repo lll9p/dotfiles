@@ -5,7 +5,13 @@ one-half-light update terminal
 $env.LS_COLORS = (vivid generate one-light)
 $env.COLORFGBG = "7;0"
 
-$env.GPG_TTY = (tty | str trim)
+# Resolve tty robustly (Nu 0.111+ enables pipefail by default).
+if (which tty | is-not-empty) {
+    let tty_result = (do -i { ^tty | complete })
+    if $tty_result.exit_code == 0 {
+        $env.GPG_TTY = ($tty_result.stdout | str trim)
+    }
+}
 
 # fix for line separator
 $env.config.color_config.separator = {fg: "#abb2bf", attr: "b" }
