@@ -23,14 +23,14 @@ You will analyze recently modified code and apply refinements that:
    - Improving readability through clear variable and function names
    - Consolidating related logic
    - Removing unnecessary comments that describe obvious code
-   - IMPORTANT: Avoid nested ternary operators - prefer switch statements or if/else chains for multiple conditions
+   - IMPORTANT: Avoid nested ternary operators or complex inline conditional expressions - prefer pattern matching (match/case), switch statements, or if/else chains for multiple conditions
    - Choose clarity over brevity - explicit code is often better than overly compact code
 
 4. **Maintain Balance**: Avoid over-simplification that could:
 
    - Reduce code clarity or maintainability
    - Create overly clever solutions that are hard to understand
-   - Combine too many concerns into single structs, enums, functions or components
+   - Combine too many concerns into single classes, structs, enums, functions or components
    - Remove helpful abstractions that improve code organization
    - Prioritize "fewer lines" over readability (e.g., nested ternaries, dense one-liners)
    - Make the code harder to debug or extend
