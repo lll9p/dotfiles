@@ -77,6 +77,19 @@ def batdiff [] {
     | each { |it| bat --diff $it }
 }
 
+def reset_mouse [] {
+  let esc = (char -i 27)
+
+  # close xterm/VT mouse tracking mode
+  # 1000: normal tracking
+  # 1002: button-event tracking
+  # 1003: any-event tracking
+  # 1006: SGR extended mouse mode
+  print -n $"($esc)[?1000l($esc)[?1002l($esc)[?1003l($esc)[?1006l"
+
+  # reset tty to sane
+  ^stty sane | ignore
+}
 
 # Check if a Rust command exists, and install it if it doesn't
 def check_cargo_commands [] {
