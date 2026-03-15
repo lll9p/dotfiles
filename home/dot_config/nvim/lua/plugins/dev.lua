@@ -32,7 +32,8 @@ return {
       opts = {
          inlay_hints = { enabled = true },
       },
-      dependencies = {},
+      -- `configs.lspconfig` requires `blink.cmp` for LSP capabilities.
+      dependencies = { "saghen/blink.cmp" },
       config = function()
          ---@diagnostic disable-next-line: different-requires
          require "configs.lspconfig"
@@ -43,11 +44,11 @@ return {
 
    {
       "mason-org/mason.nvim",
-      opts = {
-         github = {
-            download_url_template = vim.g.__github_mirror_mason .. "https://github.com/%s/releases/download/%s/%s",
-         },
-      },
+      opts = function(_, opts)
+         opts.github = opts.github or {}
+         opts.github.download_url_template = vim.g.__github_mirror_mason
+            .. "https://github.com/%s/releases/download/%s/%s"
+      end,
       event = { "User FilePost", "FileType" },
       cond = not vim.g.vscode,
    },

@@ -24,7 +24,8 @@
       "*": "allow"
     },
     "external_directory": {
-      "~/.cargo/**": "allow"
+      "~/.cargo/**": "allow",
+      "~/AppData/Local/rtk":"allow",
     }
   },
   // "default_agent": "_arch",

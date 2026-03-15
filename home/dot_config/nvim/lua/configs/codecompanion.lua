@@ -132,7 +132,7 @@ local options = {
             ["cmd_runner"] = {
                opts = {
                   provider = "snacks",
-                  requires_approval_before = true,
+					require_approval_before = true,
                },
             },
          },

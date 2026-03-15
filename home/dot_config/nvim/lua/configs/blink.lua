@@ -1,6 +1,3 @@
--- todo: experimental nvchad blink support
-local nvchad_blink = require "nvchad.blink"
-local nvchad_blink_config = require "nvchad.blink.config"
 ---@module 'blink.cmp'
 ---@type blink.cmp.Config
 local opts = {
@@ -63,24 +60,25 @@ local opts = {
             enabled = true,
          },
       },
-      menu = {
-         scrollbar = nvchad_blink.menu.scrollbar,
-         border = nvchad_blink.menu.border,
-         draw = {
-            columns = nvchad_blink.menu.draw.columns,
-            components = nvchad_blink.components,
-            treesitter = { "lsp" },
-         },
+       menu = {
+          scrollbar = true,
+          border = "rounded",
+          draw = {
+             columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" }, { "source_name" } },
+             treesitter = { "lsp" },
+          },
          -- don't show completion when searching
          auto_show = function(ctx)
             return ctx.mode ~= "cmdline" or not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
          end,
       },
-      documentation = {
-         auto_show = true,
-         auto_show_delay_ms = 200,
-         window = nvchad_blink_config.completion.documentation.window,
-      },
+       documentation = {
+          auto_show = true,
+          auto_show_delay_ms = 200,
+          window = {
+             border = "rounded",
+          },
+       },
       ghost_text = {
          enabled = true,
       },

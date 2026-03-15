@@ -30,7 +30,13 @@ return {
    -- git commit, and also lets you interactively stage & unstage
    -- hunks in a commit.
 
-   { "lewis6991/gitsigns.nvim", opts = { debug_mode = false }, cond = not vim.g.vscode },
+    {
+       "lewis6991/gitsigns.nvim",
+       opts = function(_, opts)
+          opts.debug_mode = false
+       end,
+       cond = not vim.g.vscode,
+    },
    -- better diagnostics list and others
    { "folke/trouble.nvim", opts = {}, cmd = "Trouble", cond = not vim.g.vscode },
 
