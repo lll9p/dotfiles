@@ -7,7 +7,7 @@ local options = {
       rustfmt_nightly = {
          stdin = true,
          command = "rustfmt",
-         args = "+nightly",
+         args = { "+nightly" },
          cwd = util.root_file {
             "Cargo.toml",
          },

@@ -12,7 +12,8 @@
   "instructions": ["AGENTS.md", "openspec/AGENTS.md"],
   "compaction": {
     "auto": true,
-    "prune": true
+    "prune": true,
+    "reserved": 16000
   },
   "lsp": false,
   "permission": {
@@ -87,7 +88,7 @@
     "tavily-remote": {
       "type": "remote",
       "url": "https://api.laolilin.com/proxy/tavily/mcp",
-      "enabled": true,
+      "enabled": false,
       "oauth": false,
       "headers": {
         "Authorization": "Bearer {env:TAVILY_TOKEN}"
@@ -95,13 +96,13 @@
       }
     },
     "sequential-thinking": {
+      "enabled": false,
       "type": "local",
       "command": [
         "npx",
         "-y",
         "@modelcontextprotocol/server-sequential-thinking"
-      ],
-      "enabled": true
+      ]
     }
   },
   "provider": {
@@ -114,11 +115,15 @@
         // "store": false
       },
       "models": {
-        // "gpt-5.4": {
-        //   "options": {
-        //     "serviceTier": "priority"
-        //   }
-        // }
+        "gpt-5.4": {
+          "limit": {
+            "context": 272000,
+            "output": 128000
+          }
+          //   "options": {
+          //     "serviceTier": "priority"
+          //   }
+        }
       }
     },
     "openai-test": {
@@ -142,16 +147,16 @@
         }
       }
     },
-    "anthropic": {
-      "name": "claude",
-      "id": "anthropic",
-      "npm": "@ai-sdk/anthropic",
-      "options": {
-        "baseURL": "{env:AI_BASE_URL}/v1",
-        "setCacheKey": true
-      },
-      "models": {}
-    },
+    // "anthropic": {
+    //   "name": "claude",
+    //   "id": "anthropic",
+    //   "npm": "@ai-sdk/anthropic",
+    //   "options": {
+    //     "baseURL": "{env:AI_BASE_URL}/v1",
+    //     "setCacheKey": true
+    //   },
+    //   "models": {}
+    // },
     "google": {
       "name": "Google",
       "id": "google",

@@ -56,19 +56,17 @@ M.tinymist = {
       outputPath = "$root/target/$dir/$name",
    },
 
-   root_dir = function()
-      return vim.fn.getcwd()
+   root_dir = function(_bufnr, on_dir)
+      on_dir(vim.fn.getcwd())
    end,
 }
 M.nushell = {
    cmd = { "nu", "--lsp" },
-   pattern = { "*.nu" },
 }
 M.typos_lsp = {
-   filetypes = { "*" },
    single_file_support = true,
-   root_dir = function()
-      return vim.uv.cwd()
+   root_dir = function(_bufnr, on_dir)
+      on_dir(vim.uv.cwd())
    end,
    init_options = {
       diagnosticSeverity = "Warning",

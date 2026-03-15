@@ -1,0 +1,39 @@
+{
+  "providers": {
+    "anthropic-private": {
+      "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | quote }},
+      "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
+    },
+    "openai": {
+      "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
+      "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
+    },
+    "google": {
+      "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1beta" | quote }},
+      "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }},
+      "api": "google-generative-ai",
+      "models": [
+        {
+          "id": "gemini-3-flash-free",
+          "name": "Gemini 3 Flash Free",
+          "release_date": "2025-11-18",
+          "reasoning": true,
+          "contextWindow": 250000,
+          "maxTokens": 64000,
+          "cost": {
+            "input": 0.5,
+            "output": 3,
+            "cacheRead": 0.05,
+            "cacheWrite": 0.05
+          },
+          "options": {
+            "thinkingConfig": {
+              "includeThoughts": true
+            }
+          },
+          "input": ["text", "image"]
+        }
+      ]
+    }
+  }
+}

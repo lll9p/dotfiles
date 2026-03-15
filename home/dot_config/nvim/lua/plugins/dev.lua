@@ -7,7 +7,7 @@ return {
       lazy = true,
       build = ":TSUpdate",
       opts = function()
-         require "configs.treesitter"
+         return require "configs.treesitter"
       end,
       config = function(_, opts)
          -- if vim.g.__is_windows then
