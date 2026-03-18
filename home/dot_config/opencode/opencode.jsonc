@@ -247,8 +247,8 @@
       },
       "models": {
         "glm-5": {
-          // "id": "ZhipuAI/GLM-5",
-          "id": "cucloud/glm-5",
+          "id": "ZhipuAI/GLM-5",
+          // "id": "cucloud/glm-5",
           "name": "glm-5",
           "options": {
             "thinking": {
