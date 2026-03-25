@@ -21,35 +21,58 @@ def --env setup-keychain [] {
     | into record
     | load-env
 }
-def --env setup-gpg [] {
-    # Skip if already initialized this session
-    if ('__GPG_INITIALIZED' in $env) { return }
 
-    let os = $nu.os-info.name
-
-    # Only set GPG_TTY if not already set
-    if ('GPG_TTY' not-in $env) {
-        if (which tty | is-not-empty) {
-            let tty_result = (do -i { ^tty | complete })
-            if $tty_result.exit_code == 0 {
-                $env.GPG_TTY = ($tty_result.stdout | str trim)
-            }
-        }
+def current-tty [] {
+    if (which tty | is-empty) {
+        return null
     }
 
+    let tty_result = (do -i { ^tty | complete })
+    if $tty_result.exit_code != 0 {
+        return null
+    }
+
+    let tty_name = ($tty_result.stdout | str trim)
+    if ($tty_name | is-empty) {
+        return null
+    }
+
+    $tty_name
+}
+
+def --env refresh-gpg-tty [] {
+    let tty_name = (current-tty)
+    if $tty_name != null {
+        $env.GPG_TTY = $tty_name
+    }
+}
+
+def sync-gpg-agent-startup-tty [] {
+    if (which gpg-connect-agent | is-empty) {
+        return
+    }
+
+    do -i { ^gpg-connect-agent updatestartuptty /bye } | ignore
+}
+
+def --env setup-gpg [] {
+    let os = $nu.os-info.name
+
     if $os == "linux" {
+        refresh-gpg-tty
+
         # Only set SSH_AUTH_SOCK if not already set by system
         if ('SSH_AUTH_SOCK' not-in $env) {
             $env.SSH_AUTH_SOCK = (do -i { ^gpgconf --list-dirs agent-ssh-socket | complete | get stdout | str trim })
         }
-        # updatestartuptty is fast, always run
-        do -i { ^gpg-connect-agent updatestartuptty /bye } | ignore
+
+        if ('TMUX' not-in $env) {
+            sync-gpg-agent-startup-tty
+        }
     } else if $os == "windows" {
         # Optimization: ps on Windows is slow. Just try to launch checking is internal.
         do -i { ^gpgconf --launch gpg-agent } | ignore
     }
-
-    $env.__GPG_INITIALIZED = true
 }
 
 # Add a note to a file
