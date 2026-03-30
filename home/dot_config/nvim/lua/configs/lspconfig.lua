@@ -12,7 +12,7 @@ local servers = {
    ruff = {
       on_attach = function(client, bufnr)
          if vim.api.nvim_buf_get_name(bufnr) == "" then
-            client.stop()
+            client:stop()
          end
       end,
    },

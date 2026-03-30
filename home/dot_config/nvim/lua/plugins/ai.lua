@@ -45,6 +45,7 @@ return {
       },
       opts = require "configs.codecompanion",
       cond = not vim.g.vscode,
+      build = false,
    },
    {
       "NickvanDyke/opencode.nvim",
