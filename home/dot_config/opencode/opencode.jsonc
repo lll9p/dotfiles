@@ -22,7 +22,8 @@
     },
     "external_directory": {
       "~/.cargo/**": "allow",
-      "~/AppData/Local/rtk": "allow"
+      "~/.config/wxbot/**": "allow",
+      "~/.local/state/wxbot/**": "allow"
     }
   },
   // "default_agent": "_arch",
