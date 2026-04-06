@@ -30,13 +30,13 @@ return {
    -- git commit, and also lets you interactively stage & unstage
    -- hunks in a commit.
 
-    {
-       "lewis6991/gitsigns.nvim",
-       opts = function(_, opts)
-          opts.debug_mode = false
-       end,
-       cond = not vim.g.vscode,
-    },
+   {
+      "lewis6991/gitsigns.nvim",
+      opts = function(_, opts)
+         opts.debug_mode = false
+      end,
+      cond = not vim.g.vscode,
+   },
    -- better diagnostics list and others
    { "folke/trouble.nvim", opts = {}, cmd = "Trouble", cond = not vim.g.vscode },
 
@@ -89,12 +89,12 @@ return {
                   vim.notify("No sessions found", vim.log.levels.WARN)
                   return
                end
-                local items = {}
+               local items = {}
                for _, path in ipairs(sessions) do
                   local display = vim.fn.fnamemodify(path, ":t"):gsub("%%", "/"):gsub("%.vim$", "")
                   table.insert(items, { text = display, file = path })
                end
-               require("snacks").picker.pick({
+               require("snacks").picker.pick {
                   source = "sessions",
                   title = "Delete Sessions (Tab to multi-select)",
                   items = items,
@@ -105,7 +105,7 @@ return {
                   end,
                   confirm = function(picker, item)
                      picker:close()
-                     local selected = picker:selected({ fallback = true })
+                     local selected = picker:selected { fallback = true }
                      if #selected == 0 then
                         return
                      end
@@ -116,7 +116,7 @@ return {
                      end
                      vim.notify("Deleted " .. #deleted .. " session(s):\n" .. table.concat(deleted, "\n"))
                   end,
-               })
+               }
             end,
             desc = "Delete Session",
          },

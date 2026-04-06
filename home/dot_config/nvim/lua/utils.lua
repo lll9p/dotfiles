@@ -57,11 +57,34 @@ M.set_gui = function()
       gui_opt("Option", "RenderLigatures", 1)
       gui_opt("WindowOpacity", 0.95)
    elseif vim.g.neovide then
-      vim.o.guifont = "Sarasa Mono SC Nerd Font,Symbols Nerd Font:h12"
+      local function set_neovide_title_background()
+         if not vim.g.__is_windows then
+            return
+         end
+
+         local normal = vim.api.nvim_get_hl(0, { name = "Normal", link = false })
+         if normal.bg then
+            vim.g.neovide_title_background_color = string.format("#%06x", normal.bg)
+         end
+      end
+
+      vim.o.guifont = "Sarasa Mono SC Nerd Font,Symbols Nerd Font:h12:#e-subpixelantialias"
+      vim.g.neovide_pixel_geometry = "RGBH"
       vim.g.neovide_scale_factor = 1.0
       vim.g.neovide_opacity = 1.0
       vim.g.neovide_remember_window_size = true
       vim.g.neovide_input_ime = true
+      vim.g.neovide_progress_bar_enabled = true
+
+      if vim.g.__is_windows then
+         vim.g.neovide_corner_preference = "round"
+
+         vim.api.nvim_create_autocmd("ColorScheme", {
+            group = vim.api.nvim_create_augroup("NeovideWindowsUi", { clear = true }),
+            callback = set_neovide_title_background,
+         })
+         vim.schedule(set_neovide_title_background)
+      end
    end
 end
 

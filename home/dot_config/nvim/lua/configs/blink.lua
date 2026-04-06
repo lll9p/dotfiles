@@ -60,25 +60,25 @@ local opts = {
             enabled = true,
          },
       },
-       menu = {
-          scrollbar = true,
-          border = "rounded",
-          draw = {
-             columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" }, { "source_name" } },
-             treesitter = { "lsp" },
-          },
+      menu = {
+         scrollbar = true,
+         border = "rounded",
+         draw = {
+            columns = { { "label", "label_description", gap = 1 }, { "kind_icon", "kind" }, { "source_name" } },
+            treesitter = { "lsp" },
+         },
          -- don't show completion when searching
          auto_show = function(ctx)
             return ctx.mode ~= "cmdline" or not vim.tbl_contains({ "/", "?" }, vim.fn.getcmdtype())
          end,
       },
-       documentation = {
-          auto_show = true,
-          auto_show_delay_ms = 200,
-          window = {
-             border = "rounded",
-          },
-       },
+      documentation = {
+         auto_show = true,
+         auto_show_delay_ms = 200,
+         window = {
+            border = "rounded",
+         },
+      },
       ghost_text = {
          enabled = true,
       },
