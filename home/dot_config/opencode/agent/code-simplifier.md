@@ -1,6 +1,6 @@
 ---
 description: Simplifies and refines code for clarity, consistency, and maintainability while preserving all functionality. Focuses on recently modified code unless instructed otherwise.
-model: openai/gpt-5.2
+model: openai/gpt-5.4
 temperature: 0.2
 permission:
   edit: allow
