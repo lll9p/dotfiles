@@ -307,7 +307,3 @@ def --env startup [] {
       }
     }
 }
-
-def --wrapped opencode [...rest] {
-  with-env { OPENCODE_EXPERIMENTAL_MARKDOWN: "false" } { ^opencode ...$rest }
-}
