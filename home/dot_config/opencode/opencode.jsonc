@@ -294,6 +294,34 @@
             "output": ["text"]
           }
         },
+        "DeepSeek Pro": {
+          "id": "deepseek-v4-pro",
+          "reasoning": true,
+          "tool_call": true,
+          "limit": {
+            "context": 1048576,
+            "output": 384000
+          },
+          "options": {
+            "thinking": {
+              "type": "enabled"
+            },
+            "reasoning_effort": "high"
+          },
+          "variants": {
+            "none": {
+              "thinking": {
+                "type": "disabled"
+              }
+            },
+            "high": {
+              "reasoning_effort": "high"
+            },
+            "max": {
+              "reasoning_effort": "max"
+            }
+          }
+        },
         "DeepSeek Flash": {
           "id": "deepseek-v4-flash",
           "reasoning": true,
