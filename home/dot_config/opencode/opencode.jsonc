@@ -155,11 +155,11 @@
           "tool_call": true,
           "limit": { "context": 1048576, "output": 384000 },
           "interleaved": { "field": "reasoning_content" },
-          "options": { "thinking": { "type": "enabled" }, "reasoning_effort": "high" },
+          "options": { "thinking": { "type": "enabled" }, "reasoningEffort": "high" },
           "variants": {
             "none": { "thinking": { "type": "disabled" } },
-            "high": { "reasoning_effort": "high" },
-            "max": { "reasoning_effort": "max" }
+            "high": { "reasoningEffort": "high" },
+            "max": { "reasoningEffort": "max" }
           }
         },
         "DeepSeek Flash": {
@@ -168,11 +168,11 @@
           "tool_call": true,
           "limit": { "context": 1048576, "output": 384000 },
           "interleaved": { "field": "reasoning_content" },
-          "options": { "thinking": { "type": "enabled" }, "reasoning_effort": "high" },
+          "options": { "thinking": { "type": "enabled" }, "reasoningEffort": "high" },
           "variants": {
             "none": { "thinking": { "type": "disabled" } },
-            "high": { "reasoning_effort": "high" },
-            "max": { "reasoning_effort": "max" }
+            "high": { "reasoningEffort": "high" },
+            "max": { "reasoningEffort": "max" }
           }
         },
         "Minimax M2.7": {
