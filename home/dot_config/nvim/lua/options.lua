@@ -12,4 +12,3 @@ utils.set_visible_chars()
 utils.enable_inlay_hints()
 
 autocmds.create_auto_lazy_patch()
-autocmds.auto_find_root()

@@ -25,7 +25,8 @@ map("n", "<leader>tQ", "<cmd>Trouble qflist toggle<cr>", { desc = "Quickfix List
 
 -- inlayhints
 map("n", "<leader>i", function()
-   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { 0 }, { 0 })
+   local filter = { bufnr = 0 }
+   vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled(filter), filter)
 end, { desc = "Toggle inlay hints." })
 
 -- open float diagnostic

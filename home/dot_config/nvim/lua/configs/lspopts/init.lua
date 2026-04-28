@@ -6,8 +6,8 @@ M.powershell_es = {
 }
 
 M.pyright = {
+   filetypes = { "python" },
    settings = {
-      filetypes = { "python" },
       pyright = {
          disableOrganizeImports = true, -- Using Ruff's import organizer
          -- openFilesOnly = true,
@@ -55,19 +55,12 @@ M.tinymist = {
       exportPdf = "onType", -- Choose onType, onSave or never.
       outputPath = "$root/target/$dir/$name",
    },
-
-   root_dir = function(_bufnr, on_dir)
-      on_dir(vim.fn.getcwd())
-   end,
 }
 M.nushell = {
    cmd = { "nu", "--lsp" },
 }
 M.typos_lsp = {
    single_file_support = true,
-   root_dir = function(_bufnr, on_dir)
-      on_dir(vim.uv.cwd())
-   end,
    init_options = {
       diagnosticSeverity = "Warning",
    },
