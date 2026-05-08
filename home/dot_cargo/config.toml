@@ -13,6 +13,4 @@ registry = "sparse+https://rsproxy.cn/index/"
 
 [http]
 timeout = 600
-low-speed-limit = 1
-low-speed-timeout = 120
 multiplexing = false

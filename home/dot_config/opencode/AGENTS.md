@@ -11,15 +11,25 @@
   - **命令使用**: 所有命令行都是在`bash`环境下的。检测到我在 `Windows` + `Bash` 环境时，所有静默输出必须写成 `>/dev/null 2>&1`，严禁出现 `nul`、`NUL` 作为重定向目标。
 - **其他**:
   - **任务列表**: 任何时候都应创建`todo list`，并实时更新。
-  - **git ignore政策**: 一般情况下以下文件或文件夹会被`git`忽略，但是对你来说是可见的。
-     - AGENTS.md
-     - .agent/
-     - .opencode/
-     - .claude/
-     - CLAUDE.md
-     - .ignore
-     - .github/copilot-instructions.md
-     - .augment-guidelines
-     - .rooignore
-     - openspec/
-     - .trellis/
+
+# Repository Policy: Trellis is local-only
+
+`.trellis/` is intentionally gitignored in this repository.
+
+Never stage or commit `.trellis/` files. During finish-work:
+- Use `task.py archive ... --no-commit`
+- Use `add_session.py ... --no-commit`
+- Do not run `git add .trellis`, `git add -f .trellis`, or any commit containing `.trellis/`
+- Treat Trellis archive/journal changes as local bookkeeping only
+- 一般情况下以下文件或文件夹会被`git`忽略，但是对你来说是可见的。
+  - AGENTS.md
+  - .agent/
+  - .opencode/
+  - .claude/
+  - CLAUDE.md
+  - .ignore
+  - .github/copilot-instructions.md
+  - .augment-guidelines
+  - .rooignore
+  - openspec/
+  - .trellis/
