@@ -3,11 +3,16 @@
 {{ $gpgId := "7430BB68F4020C7409274F3E7C838D9B4A8290F0" }}
 
 {{/* Machine role and optional features (non-Windows only) */}}
+{{ $isTermux := or (eq .chezmoi.os "android") (hasPrefix "/data/data/com.termux" .chezmoi.homeDir) }}
+{{ $machineProfileDefault := "server" }}
+{{ if $isTermux }}
+  {{ $machineProfileDefault = "termux" }}
+{{ end }}
 {{ $machineProfile := "desktop" }}
 {{ $installDevTools := false }}
 {{ $enableSyncthing := false }}
 {{ if ne .chezmoi.os "windows" }}
-  {{ $machineProfile = promptChoiceOnce . "machineProfile" "Machine profile" (list "server" "desktop" "termux") "server" }}
+  {{ $machineProfile = promptChoiceOnce . "machineProfile" "Machine profile" (list "server" "desktop" "termux") $machineProfileDefault }}
   {{ $installDevTools = promptBoolOnce . "installDevTools" "Install development tools like docker?" false }}
   {{ $enableSyncthing = promptBoolOnce . "enableSyncthing" "Install and enable Syncthing?" false }}
 {{ end }}

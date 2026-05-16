@@ -12,7 +12,12 @@
 .config/nushell/history.sqlite3-*
 .config/nushell/plugin.msgpackz
 
-{{ $machineProfile := get . "machineProfile" | default "server" }}
+{{ $isTermux := or (eq .chezmoi.os "android") (hasPrefix "/data/data/com.termux" .chezmoi.homeDir) }}
+{{ $machineProfileDefault := "server" }}
+{{ if $isTermux }}
+{{ $machineProfileDefault = "termux" }}
+{{ end }}
+{{ $machineProfile := get . "machineProfile" | default $machineProfileDefault }}
 {{ $installDevTools := get . "installDevTools" | default false }}
 {{ $enableSyncthing := get . "enableSyncthing" | default false }}
 

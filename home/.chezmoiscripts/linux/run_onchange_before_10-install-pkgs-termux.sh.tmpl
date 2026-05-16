@@ -1,9 +1,14 @@
 #!/usr/bin/env bash
-# shellcheck disable=SC1054,SC1072,SC1073,SC1083
+# shellcheck disable=SC1036,SC1050,SC1054,SC1056,SC1065,SC1072,SC1073,SC1083
 
 set -euo pipefail
 
-{{ $machineProfile := get . "machineProfile" | default "server" -}}
+{{ $isTermux := or (eq .chezmoi.os "android") (hasPrefix "/data/data/com.termux" .chezmoi.homeDir) -}}
+{{ $machineProfileDefault := "server" -}}
+{{ if $isTermux -}}
+{{ $machineProfileDefault = "termux" -}}
+{{ end -}}
+{{ $machineProfile := get . "machineProfile" | default $machineProfileDefault -}}
 {{ $enableSyncthing := get . "enableSyncthing" | default false -}}
 {{ $pkgs := .pkgs.termux.base -}}
 {{ if $enableSyncthing -}}
