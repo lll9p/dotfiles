@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!{{ if or (eq .chezmoi.os "android") (hasPrefix "/data/data/com.termux" .chezmoi.homeDir) }}/data/data/com.termux/files/usr/bin/bash{{ else }}/usr/bin/env bash{{ end }}
 # GPG keys auto-import script for Linux
 # Mirrors the Windows version: run_once_after_import-gpg.ps1.tmpl
 
