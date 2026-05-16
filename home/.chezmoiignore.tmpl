@@ -12,6 +12,10 @@
 .config/nushell/history.sqlite3-*
 .config/nushell/plugin.msgpackz
 
+{{ $machineProfile := get . "machineProfile" | default "server" }}
+{{ $installDevTools := get . "installDevTools" | default false }}
+{{ $enableSyncthing := get . "enableSyncthing" | default false }}
+
 {{ if eq .chezmoi.os "windows" }}
 # Linux-only (ignore on Windows)
 .chezmoiscripts/linux/**
@@ -29,4 +33,32 @@
 .local/bin/*.vbs
 AppData/**
 Documents/**
+
+{{ if eq $machineProfile "termux" }}
+# Arch/systemd/sudo-only files (ignore on Termux)
+.chezmoiscripts/linux/10-install-pkgs-arch-based.sh
+.chezmoiscripts/linux/100-setup-docker.sh
+.chezmoiscripts/linux/20-setup-syncthing.sh
+.chezmoiscripts/linux/90-sshd-config.sh
+.config/systemd/**
+.docker/**
+{{ else }}
+# Termux-only installer
+.chezmoiscripts/linux/10-install-pkgs-termux.sh
+
+{{ if ne $machineProfile "server" }}
+# Server-only SSH hardening
+.chezmoiscripts/linux/90-sshd-config.sh
+{{ end }}
+
+{{ if not $installDevTools }}
+# Dev-tool-only Docker setup
+.chezmoiscripts/linux/100-setup-docker.sh
+{{ end }}
+
+{{ if not $enableSyncthing }}
+# Explicit Syncthing feature
+.chezmoiscripts/linux/20-setup-syncthing.sh
+{{ end }}
+{{ end }}
 {{ end }}

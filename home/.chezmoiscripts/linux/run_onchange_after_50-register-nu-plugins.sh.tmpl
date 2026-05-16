@@ -1,8 +1,18 @@
 #!/usr/bin/env bash
+# shellcheck disable=SC1036,SC1050,SC1054,SC1056,SC1065,SC1072,SC1073,SC1083
 # Re-register nushell plugins when nu version changes
+{{ if lookPath "nu" -}}
 # Hash: {{ output "nu" "--version" | trim | sha256sum }}
+{{ else -}}
+# Hash: nu-not-found
+{{ end }}
 
 set -euo pipefail
+
+if ! command -v nu >/dev/null 2>&1; then
+    echo "Nushell not found, skipping plugin registration."
+    exit 0
+fi
 
 echo "Nushell version changed, re-registering plugins..."
 
@@ -15,7 +25,7 @@ plugins=(
 )
 
 for plugin in "${plugins[@]}"; do
-    plugin_path=$(which "$plugin" 2>/dev/null || true)
+    plugin_path=$(command -v "$plugin" || true)
     if [[ -n "$plugin_path" ]]; then
         echo "  Adding $plugin..."
         nu -c "plugin add '$plugin_path'"

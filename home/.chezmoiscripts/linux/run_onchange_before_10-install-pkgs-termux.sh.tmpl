@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1054,SC1072,SC1073,SC1083
+
+set -euo pipefail
+
+{{ $machineProfile := get . "machineProfile" | default "server" -}}
+{{ $enableSyncthing := get . "enableSyncthing" | default false -}}
+{{ $pkgs := .pkgs.termux.base -}}
+{{ if $enableSyncthing -}}
+{{ $pkgs = concat $pkgs .pkgs.termux.syncthing -}}
+{{ end -}}
+
+machine_profile={{ $machineProfile | quote }}
+
+if [ "$machine_profile" != "termux" ]; then
+  exit 0
+fi
+
+if [ ! -d "/data/data/com.termux" ] && [ -z "${TERMUX_VERSION:-}" ]; then
+  exit 0
+fi
+
+if ! command -v pkg >/dev/null 2>&1; then
+  exit 0
+fi
+
+##########################################
+
+echo 'UPDATING SOURCES...'
+pkg update -y
+
+{{ if $pkgs }}
+echo 'INSTALLING PACKAGES...'
+PKGS=({{ $pkgs | quoteList | join " " }})
+PRESENT_PKGS=()
+
+for pkg in "${PKGS[@]}"; do
+  if ! command -v apt-cache >/dev/null 2>&1 || apt-cache show "$pkg" >/dev/null 2>&1; then
+    PRESENT_PKGS+=("$pkg")
+  else
+    echo "Warning: Package '$pkg' not found in repositories. Skipping..."
+  fi
+done
+
+if [ ${#PRESENT_PKGS[@]} -gt 0 ]; then
+  pkg install -y "${PRESENT_PKGS[@]}"
+fi
+{{ end }}

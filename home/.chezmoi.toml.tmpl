@@ -2,9 +2,19 @@
 
 {{ $gpgId := "7430BB68F4020C7409274F3E7C838D9B4A8290F0" }}
 
-{{/* Prompt for SSH port during init (Linux only) */}}
-{{ $sshPort := 22 }}
+{{/* Machine role and optional features (non-Windows only) */}}
+{{ $machineProfile := "desktop" }}
+{{ $installDevTools := false }}
+{{ $enableSyncthing := false }}
 {{ if ne .chezmoi.os "windows" }}
+  {{ $machineProfile = promptChoiceOnce . "machineProfile" "Machine profile" (list "server" "desktop" "termux") "server" }}
+  {{ $installDevTools = promptBoolOnce . "installDevTools" "Install development tools like docker?" false }}
+  {{ $enableSyncthing = promptBoolOnce . "enableSyncthing" "Install and enable Syncthing?" false }}
+{{ end }}
+
+{{/* Prompt for SSH port during init (server profile only) */}}
+{{ $sshPort := 22 }}
+{{ if and (ne .chezmoi.os "windows") (eq $machineProfile "server") }}
   {{ $sshPort = promptIntOnce . "sshPort" "SSH port for sshd_config (default 22)" 22 }}
 {{ end }}
 
@@ -25,6 +35,9 @@ progress = true
 
 [data]
 gpgId = {{ $gpgId | quote }}
+machineProfile = {{ $machineProfile | quote }}
+installDevTools = {{ $installDevTools }}
+enableSyncthing = {{ $enableSyncthing }}
 sshPort = {{ $sshPort }}
 ghProxy = {{ $ghProxy | quote }}
 

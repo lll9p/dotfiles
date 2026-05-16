@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1036,SC1050,SC1054,SC1056,SC1065,SC1072,SC1073,SC1083
+# Enable Syncthing as a user service when explicitly requested.
+
+set -euo pipefail
+
+{{ $machineProfile := get . "machineProfile" | default "server" -}}
+{{ $enableSyncthing := get . "enableSyncthing" | default false -}}
+
+{{ if or (not $enableSyncthing) (eq $machineProfile "termux") }}
+exit 0
+{{ else }}
+echo "Setting up Syncthing service..."
+
+if ! command -v syncthing >/dev/null 2>&1; then
+  echo "[WARNING] Syncthing not installed. Skipping service setup."
+  exit 0
+fi
+
+if ! command -v systemctl >/dev/null 2>&1; then
+  echo "[WARNING] systemctl not found. Skipping Syncthing service setup."
+  exit 0
+fi
+
+systemctl --user enable --now syncthing.service
+
+echo "[OK] Syncthing service enabled and started."
+echo "    Access web UI at: http://localhost:8384"
+{{ end }}

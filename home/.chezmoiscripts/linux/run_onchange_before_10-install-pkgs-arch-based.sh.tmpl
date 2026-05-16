@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1036,SC1050,SC1054,SC1056,SC1065,SC1072,SC1073,SC1083
+
+set -euo pipefail
+
+{{ $machineProfile := get . "machineProfile" | default "server" -}}
+{{ $installDevTools := get . "installDevTools" | default false -}}
+{{ $enableSyncthing := get . "enableSyncthing" | default false -}}
+{{ $pkgs := concat .pkgs.archBased.base (get .pkgs.archBased $machineProfile | default (list)) -}}
+{{ if $installDevTools -}}
+{{ $pkgs = concat $pkgs .pkgs.archBased.dev -}}
+{{ end -}}
+{{ if $enableSyncthing -}}
+{{ $pkgs = concat $pkgs .pkgs.archBased.syncthing -}}
+{{ end -}}
+
+machine_profile={{ $machineProfile | quote }}
+
+if [ "$machine_profile" = "termux" ]; then
+  exit 0
+fi
+
+if [ -d "/data/data/com.termux" ]; then
+  exit 0
+fi
+
+if ! command -v pacman >/dev/null 2>&1; then
+  exit 0
+fi
+
+if [ ! -r /etc/os-release ]; then
+  exit 0
+fi
+
+DISTRO=$(grep -E '^(ID|ID_LIKE)=' /etc/os-release | cut -d= -f2 | tr -d '"' || true)
+
+case "$DISTRO" in
+*arch*) ;;
+*)
+  exit 0
+  ;;
+esac
+
+if [ "$(id -u)" -eq 0 ]; then
+  PACMAN=(pacman)
+elif command -v sudo >/dev/null 2>&1; then
+  PACMAN=(sudo pacman)
+else
+  echo "[WARNING] sudo not found and current user is not root. Skipping Arch package install."
+  exit 0
+fi
+
+##########################################
+
+echo 'UPDATING SOURCES...'
+"${PACMAN[@]}" -Sy
+
+{{ if $pkgs }}
+echo 'INSTALLING PACKAGES...'
+PKGS=({{ $pkgs | quoteList | join " " }})
+PRESENT_PKGS=()
+for pkg in "${PKGS[@]}"; do
+  if pacman -Si "$pkg" >/dev/null 2>&1; then
+    PRESENT_PKGS+=("$pkg")
+  else
+    echo "Warning: Package '$pkg' not found in repositories. Skipping..."
+  fi
+done
+
+if [ ${#PRESENT_PKGS[@]} -gt 0 ]; then
+  "${PACMAN[@]}" -S "${PRESENT_PKGS[@]}" --needed --noconfirm
+fi
+{{ end }}
+
+##########################################
+
+echo 'SETTING UP SERVICES...'

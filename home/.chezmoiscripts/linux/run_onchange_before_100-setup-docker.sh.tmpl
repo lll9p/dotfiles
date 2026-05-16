@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+# shellcheck disable=SC1036,SC1050,SC1054,SC1056,SC1065,SC1072,SC1073,SC1083
+
+set -euo pipefail
+
+{{ $machineProfile := get . "machineProfile" | default "server" -}}
+{{ $installDevTools := get . "installDevTools" | default false -}}
+
+{{ if or (not $installDevTools) (eq $machineProfile "termux") }}
+exit 0
+{{ else }}
+if ! command -v docker >/dev/null 2>&1; then
+  exit 0
+fi
+
+if ! command -v sudo >/dev/null 2>&1; then
+  echo "[WARNING] sudo not found. Skipping Docker group setup."
+  exit 0
+fi
+
+echo "SETTING UP DOCKER..."
+# NOTE: Removed dangerous 'rm -rf ~/.docker' - preserves existing docker config
+sudo groupadd docker >/dev/null 2>&1 || true
+sudo usermod -aG docker "$USER"
+{{ end }}

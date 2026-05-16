@@ -1,62 +1,105 @@
 pkgs:
   archBased:
-    universal:
+    base:
       # Essentials
       - "chezmoi"
       - "git"
-      - "lazygit"
-      - "os-prober"
-      - "tldr"
       - "tmux"
       - "wget"
-
-      # Terminal (requires display server)
-      # - "alacritty"
 
       # Text / Code Editor, IDE
       - "neovim"
       - "vim"
 
       # CLI tools
-      - "aria2"
       - "bat"
-      - "ctags"
-      - "dust"
-      - "exa"
       - "fd"
       - "fzf"
-      - "git-delta"
-      - "gping"
       - "jq"
-      - "just"
-      - "procs"
       - "ripgrep"
       - "rsync"
-      - "sd"
       - "tree"
       - "unzip"
-      - "wget"
-      - "yazi"
-      - "yq"
       - "zip"
-      - "zoxide"
-      - "nushell"
-      - "vivid"
-
-      # Development, languages, interpreters, compilers, etc
-      - "docker"
-      - "docker-compose"
 
       # Security Utilities
       - "age"
       - "gnupg"
       - "openssl"
 
+      # Utils
+      - "bc"
+
+    server:
       # Monitoring, management and stats
       - "btop"
+      - "yq"
+
+    desktop:
+      # Boot / system utilities
+      - "os-prober"
+
+      # Desktop and interactive CLI tools
+      - "aria2"
+      - "ctags"
+      - "dust"
+      - "exa"
+      - "git-delta"
+      - "gping"
+      - "just"
+      - "lazygit"
+      - "procs"
+      - "sd"
+      - "tldr"
+      - "vivid"
+      - "yazi"
+      - "zoxide"
+
+      # Shell
+      - "nushell"
 
       # CLI Fun
       - "fastfetch"
 
+    dev:
+      # Development, languages, interpreters, compilers, etc
+      - "docker"
+      - "docker-compose"
+
+    syncthing:
+      - "syncthing"
+
+  termux:
+    base:
+      # Essentials
+      - "chezmoi"
+      - "git"
+      - "openssh"
+      - "tmux"
+      - "wget"
+
+      # Text / Code Editor
+      - "neovim"
+      - "vim"
+
+      # CLI tools
+      - "bat"
+      - "fd"
+      - "fzf"
+      - "jq"
+      - "ripgrep"
+      - "rsync"
+      - "tree"
+      - "unzip"
+      - "zip"
+
+      # Security Utilities
+      - "age"
+      - "gnupg"
+      - "openssl"
+
       # Utils
       - "bc"
+
+    syncthing:
+      - "syncthing"
