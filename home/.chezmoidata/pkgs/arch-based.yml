@@ -74,6 +74,7 @@ pkgs:
       # Essentials
       - "chezmoi"
       - "git"
+      - "git-delta"
       - "openssh"
       - "tmux"
       - "wget"
