@@ -2,33 +2,16 @@
   "$schema": "https://unpkg.com/@aliou/pi-guardrails@0.12.1/schema.json",
   "enabled": true,
   "applyBuiltinDefaults": true,
-  "features": {
-    "pathAccess": true,
-    "permissionGate": true,
-    "policies": true
-  },
+  "features": { "pathAccess": true, "permissionGate": true, "policies": true },
   "pathAccess": {
     "mode": "ask",
-    "allowedPaths": [
-      "~/.cargo/",
-      "~/.local/share/rtk/",
-      "~/.config/wxbot/",
-      "~/.local/state/wxbot/"
-    ]
+    "allowedPaths": ["~/.cargo/", "~/.local/share/rtk/", "C:/dev/null", "~/.config/wxbot/", "~/.local/state/wxbot/"]
   },
   "permissionGate": {
     "requireConfirmation": true,
     "patterns": [
-      {
-        "description": "git commands require confirmation",
-        "pattern": "(^|[;&|()\\n]\\s*)git(\\s|$)",
-        "regex": true
-      },
-      {
-        "description": "rm commands require confirmation",
-        "pattern": "(^|[;&|()\\n]\\s*)rm(\\s|$)",
-        "regex": true
-      }
+      { "description": "git commands require confirmation", "pattern": "(^|[;&|()\\n]\\s*)git(\\s|$)", "regex": true },
+      { "description": "rm commands require confirmation", "pattern": "(^|[;&|()\\n]\\s*)rm(\\s|$)", "regex": true }
     ],
     "allowedPatterns": [],
     "autoDenyPatterns": []
