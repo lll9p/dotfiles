@@ -1,0 +1,13 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $old := dict -}}
+{{- if ne (.chezmoi.stdin | trim) "" -}}
+{{- $old = fromJson .chezmoi.stdin -}}
+{{- end -}}
+
+{{- $new := includeTemplate "pi/settings.json" | fromJson -}}
+
+{{- if hasKey $old "lastChangelogVersion" -}}
+{{- $new = $new | setValueAtPath "lastChangelogVersion" (get $old "lastChangelogVersion") -}}
+{{- end -}}
+
+{{- $new | toPrettyJson }}

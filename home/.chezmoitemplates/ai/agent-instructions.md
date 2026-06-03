@@ -26,6 +26,7 @@ Never stage or commit `.trellis/` files. During finish-work:
   - .agent/
   - .opencode/
   - .claude/
+  - .pi/
   - CLAUDE.md
   - .ignore
   - .github/copilot-instructions.md

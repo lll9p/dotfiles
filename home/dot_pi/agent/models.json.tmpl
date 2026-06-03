@@ -1,10 +1,10 @@
 {
   "providers": {
-    "anthropic-private": {
-      "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | quote }},
+    "openai": {
+      "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
       "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
     },
-    "openai": {
+    "deepseek": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
       "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
     },

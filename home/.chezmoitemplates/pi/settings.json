@@ -1,0 +1,37 @@
+{
+  "defaultProvider": "openai",
+  "defaultModel": "gpt-5.5",
+  "defaultThinkingLevel": "xhigh",
+  "theme": "light",
+  "quietStartup": true,
+  "compaction": {
+    "enabled": true,
+    "reserveTokens": 16384,
+    "keepRecentTokens": 20000
+  },
+  "retry": {
+    "enabled": true,
+    "maxRetries": 3
+  },
+  "enabledModels": [
+    "gpt-5.*",
+    "gemini-3*",
+    "deepseek-*"
+  ],
+  "packages": [
+    "npm:@aliou/pi-guardrails",
+    "npm:pi-subagents",
+    "npm:pi-web-access",
+    "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@juicesharp/rpiv-todo",
+    "npm:pi-simplify",
+    "npm:pi-rtk",
+    "npm:pi-markdown-preview",
+    "npm:pi-btw",
+    "npm:pi-tool-display",
+    "npm:pi-nano-context"
+  ],
+  "hideThinkingBlock": false,
+  "collapseChangelog": true,
+  "enableInstallTelemetry": false
+}
