@@ -1,0 +1,37 @@
+{
+  "$schema": "https://raw.githubusercontent.com/MasuRii/pi-permission-system/main/schemas/permissions.schema.json",
+
+  "defaultPolicy": {
+    "tools": "allow",
+    "bash": "allow",
+    "mcp": "ask",
+    "skills": "allow",
+    "special": "ask"
+  },
+
+  "tools": {
+    "*": "allow",
+    "edit": "allow",
+    "write": "allow",
+    "read": "allow",
+    "grep": "allow",
+    "find": "allow",
+    "ls": "allow",
+    "bash": "allow"
+  },
+
+  "bash": {
+    "*": "allow",
+    "git *": "ask",
+    "rm *": "ask"
+  },
+  "special": {
+    "external_directory": "ask"
+  },
+  "mcp": {
+    "*": "allow"
+  },
+  "skills": {
+    "*": "allow"
+  }
+}

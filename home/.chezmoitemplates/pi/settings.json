@@ -4,22 +4,11 @@
   "defaultThinkingLevel": "xhigh",
   "theme": "light",
   "quietStartup": true,
-  "compaction": {
-    "enabled": true,
-    "reserveTokens": 16384,
-    "keepRecentTokens": 20000
-  },
-  "retry": {
-    "enabled": true,
-    "maxRetries": 3
-  },
-  "enabledModels": [
-    "gpt-5.*",
-    "gemini-3*",
-    "deepseek-*"
-  ],
+  "compaction": { "enabled": true, "reserveTokens": 16384, "keepRecentTokens": 20000 },
+  "retry": { "enabled": true, "maxRetries": 3 },
+  "enabledModels": ["gpt-5.*", "gemini-3*", "deepseek-*"],
   "packages": [
-    "npm:@aliou/pi-guardrails",
+    "npm:pi-permission-system",
     "npm:pi-subagents",
     "npm:pi-web-access",
     "npm:@juicesharp/rpiv-ask-user-question",
