@@ -67,7 +67,10 @@
   "provider": {
     "openai": {
       "options": { "baseURL": "{env:AI_BASE_URL}/v1", "store": true },
-      "models": { "gpt-5.4": { "limit": { "context": 272000, "output": 128000 } } }
+      "models": {
+        "gpt-5.4": { "limit": { "context": 400000, "input": 272000, "output": 128000 } },
+        "gpt-5.5": { "limit": { "context": 400000, "input": 272000, "output": 128000 } }
+      }
     },
     // "anthropic": {
     //   "name": "claude",
