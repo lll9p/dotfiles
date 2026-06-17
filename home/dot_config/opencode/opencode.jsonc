@@ -72,16 +72,11 @@
         "gpt-5.5": { "limit": { "context": 400000, "input": 272000, "output": 128000 } }
       }
     },
-    // "anthropic": {
-    //   "name": "claude",
-    //   "id": "anthropic",
-    //   "npm": "@ai-sdk/anthropic",
-    //   "options": {
-    //     "baseURL": "{env:AI_BASE_URL}/v1",
-    //     "setCacheKey": true
-    //   },
-    //   "models": {}
-    // },
+    "anthropic": {
+      "npm": "@ai-sdk/anthropic",
+      "options": { "baseURL": "{env:AI_BASE_URL}/v1", "setCacheKey": true },
+      "models": {}
+    },
     "google": {
       "name": "Google",
       "id": "google",
