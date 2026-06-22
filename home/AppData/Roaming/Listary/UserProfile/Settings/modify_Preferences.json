@@ -1,0 +1,58 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $old := dict -}}
+{{- if ne (.chezmoi.stdin | trim) "" -}}
+{{- $old = fromJson .chezmoi.stdin -}}
+{{- end -}}
+
+{{- $desired := includeTemplate "Listary/Preferences.json" . | fromJson -}}
+
+{{- if eq (len $old) 0 -}}
+{{- $desired | toPrettyJson -}}
+{{- else -}}
+{{- $new := $old -}}
+
+{{- $desiredSettings := get $desired "Settings" -}}
+{{- range $key := list "Tutorial.ShowMainV3" "Listary5.SettingsImported" "Listary5.ProLicense.Name" "Listary5.ProLicense.Email" "Listary5.ProLicense.Key" -}}
+{{- $new = $new | setValueAtPath (list "Settings" $key) (get $desiredSettings $key) -}}
+{{- end -}}
+
+{{- $desiredCommands := get (get (get $desired "Commands") "Items") "Insertions" -}}
+{{- $oldCommands := list -}}
+{{- if and (hasKey $new "Commands") (hasKey (get $new "Commands") "Items") (hasKey (get (get $new "Commands") "Items") "Insertions") -}}
+{{- $oldCommands = get (get (get $new "Commands") "Items") "Insertions" -}}
+{{- end -}}
+{{- $managedCommandIds := list -}}
+{{- range $desiredCommands -}}
+{{- $managedCommandIds = append $managedCommandIds (get (get . "Item") "Id") -}}
+{{- end -}}
+{{- $keptCommands := list -}}
+{{- range $oldCommands -}}
+{{- $item := get . "Item" | default dict -}}
+{{- $id := get $item "Id" | default "" -}}
+{{- if not (has $id $managedCommandIds) -}}
+{{- $keptCommands = append $keptCommands . -}}
+{{- end -}}
+{{- end -}}
+{{- $new = $new | setValueAtPath "Commands.Items.Insertions" (concat $keptCommands $desiredCommands) -}}
+
+{{- $desiredActions := get (get (get $desired "Actions") "Items") "Insertions" -}}
+{{- $oldActions := list -}}
+{{- if and (hasKey $new "Actions") (hasKey (get $new "Actions") "Items") (hasKey (get (get $new "Actions") "Items") "Insertions") -}}
+{{- $oldActions = get (get (get $new "Actions") "Items") "Insertions" -}}
+{{- end -}}
+{{- $managedActionTitles := list -}}
+{{- range $desiredActions -}}
+{{- $managedActionTitles = append $managedActionTitles (get (get . "Item") "Title") -}}
+{{- end -}}
+{{- $keptActions := list -}}
+{{- range $oldActions -}}
+{{- $item := get . "Item" | default dict -}}
+{{- $title := get $item "Title" | default "" -}}
+{{- if not (has $title $managedActionTitles) -}}
+{{- $keptActions = append $keptActions . -}}
+{{- end -}}
+{{- end -}}
+{{- $new = $new | setValueAtPath "Actions.Items.Insertions" (concat $keptActions $desiredActions) -}}
+
+{{- $new | toPrettyJson -}}
+{{- end }}

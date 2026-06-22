@@ -1,0 +1,14 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $old := dict -}}
+{{- if ne (.chezmoi.stdin | trim) "" -}}
+{{- $old = fromJsonc .chezmoi.stdin -}}
+{{- end -}}
+
+{{- $desired := includeTemplate "VSCode/settings.json" . | fromJsonc -}}
+{{- $new := $old -}}
+
+{{- range $key, $value := $desired -}}
+{{- $new = $new | setValueAtPath (list $key) $value -}}
+{{- end -}}
+
+{{- $new | toPrettyJson }}
