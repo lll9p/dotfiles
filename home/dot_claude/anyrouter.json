@@ -5,7 +5,7 @@
     "CLAUDE_CODE_ATTRIBUTION_HEADER": "0",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
     "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS": "1",
-    "ENABLE_TOOL_SEARCH": "1",
+    "ENABLE_TOOL_SEARCH": "true",
     "DISABLE_INSTALLATION_CHECKS": "1",
     "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1",
     "CLAUDE_CODE_NEW_INIT": "1",
@@ -27,7 +27,7 @@
   "language": "Chinese",
   "alwaysThinkingEnabled": true,
   "effortLevel": "max",
-  "theme": "light",
+  "theme": "auto",
   "tui": "fullscreen",
   "teammateMode": "in-process"
 }

@@ -7,7 +7,7 @@ function Set-EnvVar {
         [string]$Value
     )
     $Type = if ($Value -match '%.+%') { "ExpandString" } else { "String" }
-    Set-ItemProperty -Path "HKCU:\Environment" -Name $Name -Value $Value -Type $Type
+    New-ItemProperty -Path "HKCU:\Environment" -Name $Name -Value $Value -PropertyType $Type -Force | Out-Null
 }
 
 # Helper to broadcast change
@@ -37,28 +37,37 @@ $ConfigPaths = @(
   {{- .config.windows.envs.path | quoteList | join ", " | replace "\\\\" "\\" -}}
 )
 
-$NewPathsToAdd = @()
-
-foreach ($Path in $ConfigPaths) {
-    # Normalize path for comparison: Expand, Trim trailing slash, Lowercase
-    $ExpandedPath = [System.Environment]::ExpandEnvironmentVariables($Path).TrimEnd('\').ToLower()
-    $Found = $false
-    foreach ($Exist in $ExistingPaths) {
-        $ExpandedExist = [System.Environment]::ExpandEnvironmentVariables($Exist).TrimEnd('\').ToLower()
-        if ($ExpandedPath -eq $ExpandedExist) {
-            $Found = $true
-            break
-        }
-    }
-    if (-not $Found) {
-        $NewPathsToAdd += $Path
+$ConfigPathRecords = foreach ($Path in $ConfigPaths) {
+    [PSCustomObject]@{
+        Raw = $Path
+        Normalized = [System.Environment]::ExpandEnvironmentVariables($Path).TrimEnd('\').ToLowerInvariant()
     }
 }
 
-if ($NewPathsToAdd.Count -gt 0) {
-    Write-Host "Adding new paths to PATH..."
-    # Prepend new paths to prioritize them
-    $UpdatedPath = ($NewPathsToAdd + $ExistingPaths) -join ";"
+$ConfigPathKeys = @{}
+$PreferredPaths = @()
+foreach ($Record in $ConfigPathRecords) {
+    if (-not $ConfigPathKeys.ContainsKey($Record.Normalized)) {
+        $ConfigPathKeys[$Record.Normalized] = $true
+        $PreferredPaths += $Record.Raw
+    }
+}
+
+$SeenPaths = @{}
+$RemainingPaths = @()
+foreach ($Path in $ExistingPaths) {
+    $ExpandedPath = [System.Environment]::ExpandEnvironmentVariables($Path).TrimEnd('\').ToLowerInvariant()
+    if ($ConfigPathKeys.ContainsKey($ExpandedPath) -or $SeenPaths.ContainsKey($ExpandedPath)) {
+        continue
+    }
+
+    $SeenPaths[$ExpandedPath] = $true
+    $RemainingPaths += $Path
+}
+
+$UpdatedPath = ($PreferredPaths + $RemainingPaths) -join ";"
+if ($UpdatedPath -ne $CurrentPathRaw) {
+    Write-Host "Reordering PATH..."
     Set-EnvVar -Name "Path" -Value $UpdatedPath
 }
 

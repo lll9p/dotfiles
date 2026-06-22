@@ -1,0 +1,132 @@
+# yaml-language-server: $schema=https://raw.githubusercontent.com/jesseduffield/lazygit/master/schema/config.json
+
+gui:
+  filterMode: fuzzy
+  showDivergenceFromBaseBranch: arrowAndNumber
+  showNumstatInFilesView: true
+  showRandomTip: false
+  nerdFontsVersion: "3"
+  branchColorPatterns:
+    "^feat/": green
+    "^feature/": green
+    "^fix/": yellow
+    "^bugfix/": yellow
+    "^hotfix/": red
+    "^release/": magenta
+    "^docs/": blue
+    "^chore/": cyan
+
+git:
+  diffContextSize: 5
+  localBranchSortOrder: recency
+
+update:
+  method: never
+
+customCommands:
+  - context: global
+    description: Fetch all remotes, prune stale refs, and update tags
+    command: git fetch --all --prune --tags
+    loadingText: Fetching, pruning, and updating tags...
+    output: log
+
+  - context: remotes
+    description: Prune selected remote
+    prompts:
+      - type: confirm
+        key: Confirm
+        title: Prune remote-tracking branches
+        body: "Delete stale remote-tracking branches for {{.SelectedRemote.Name}}?"
+    command: "git remote prune {{.SelectedRemote.Name}}"
+    loadingText: Pruning remote...
+    output: log
+
+  - context: files
+    description: Conventional commit
+    prompts:
+      - type: menu
+        key: Type
+        title: Type of change
+        options:
+          - name: feat
+            description: A new feature
+            value: feat
+            key: f
+          - name: fix
+            description: A bug fix
+            value: fix
+            key: x
+          - name: docs
+            description: Documentation only changes
+            value: docs
+            key: d
+          - name: refactor
+            description: Code change that neither fixes a bug nor adds a feature
+            value: refactor
+            key: r
+          - name: test
+            description: Adding missing tests or correcting existing tests
+            value: test
+            key: t
+          - name: chore
+            description: Maintenance work
+            value: chore
+            key: c
+          - name: build
+            description: Build system or external dependency changes
+            value: build
+            key: b
+          - name: ci
+            description: CI configuration or script changes
+            value: ci
+            key: i
+          - name: perf
+            description: Performance improvements
+            value: perf
+            key: p
+          - name: style
+            description: Formatting or style-only changes
+            value: style
+            key: s
+          - name: revert
+            description: Revert a previous commit
+            value: revert
+            key: v
+      - type: input
+        key: Scope
+        title: Scope
+        initialValue: ""
+      - type: menu
+        key: Breaking
+        title: Breaking change
+        options:
+          - name: no
+            value: ""
+            key: n
+          - name: yes
+            value: "!"
+            key: y
+      - type: input
+        key: Message
+        title: Commit message
+        initialValue: ""
+      - type: confirm
+        key: Confirm
+        title: Commit
+        body: Create this conventional commit?
+    command: >-
+      git commit --message '{{.Form.Type}}{{if .Form.Scope}}({{.Form.Scope}}){{end}}{{.Form.Breaking}}: {{.Form.Message}}'
+    loadingText: Creating conventional commit...
+    output: log
+
+  - context: localBranches
+    description: Open selected GitHub PR in browser
+    command: "gh pr view --web {{.SelectedLocalBranch.Name}}"
+    loadingText: Opening GitHub PR...
+    output: terminal
+
+  - context: commits
+    description: Open current GitHub PR in browser
+    command: gh pr view --web
+    loadingText: Opening GitHub PR...
+    output: terminal

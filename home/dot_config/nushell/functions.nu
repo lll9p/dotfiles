@@ -210,22 +210,35 @@ export def --env activate [
    }
    $cfg.name | path dirname
   } else {$dir}
- )
- let dir = ($dir | path expand)
- load-env {
-  VIRTUAL_ENVS: (
-   $env | get --optional VIRTUAL_ENVS | default []
+  )
+  let dir = ($dir | path expand)
+  let bin_dir = (if $nu.os-info.name == "windows" { $dir | path join "Scripts" } else { $dir | path join "bin" })
+  let expanded_bin_dir = ($bin_dir | path expand --no-symlink)
+
+  if $nu.os-info.name == "windows" {
+    let python_exe = ($bin_dir | path join "python.exe")
+    let python3_exe = ($bin_dir | path join "python3.exe")
+
+    if ($python_exe | path exists) and (not ($python3_exe | path exists)) {
+      let _link_result = (do -i { ^powershell.exe -NoProfile -NonInteractive -ExecutionPolicy Bypass -Command '& { New-Item -ItemType HardLink -Path $args[0] -Target $args[1] | Out-Null }' $python3_exe $python_exe | complete })
+    }
+  }
+
+  load-env {
+   VIRTUAL_ENVS: (
+    $env | get --optional VIRTUAL_ENVS | default []
    | append {
     dir: $dir
     old_PATH: $env.PATH
     old_PYTHONHOME: ($env | get --optional PYTHONHOME)
     old_PYTHONPATH: ($env | get --optional PYTHONPATH)
    }
-  )
-  PATH: (
-   $env.PATH
-   | prepend (if $nu.os-info.name == "windows" { $dir | path join "Scripts" } else { $dir | path join "bin" })
-  )
+   )
+   PATH: (
+    $env.PATH
+    | where {|path| ($path | path expand --no-symlink) != $expanded_bin_dir }
+    | prepend $bin_dir
+   )
   VIRTUAL_ENV: $dir  # for other scripts, etc
   PYTHONHOME: null
   PYTHONPATH: ([
