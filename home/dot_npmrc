@@ -1,0 +1,2 @@
+registry=https://registry.npmmirror.com
+allow-scripts=@anthropic-ai/claude-code,opencode-ai,@google/genai,protobufjs,msgpackr-extract,@fission-ai/openspec
