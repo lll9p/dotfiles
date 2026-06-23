@@ -6,4 +6,6 @@ pd.set_option("display.max_rows", 8)
 pd.set_option("display.max_columns", 40)
 pd.set_option("display.max_colwidth", 40)
 pd.set_option("display.precision", 3)
-pd.set_option("future.no_silent_downcasting", True)
+
+if int(pd.__version__.split(".", maxsplit=1)[0]) < 3:
+    pd.set_option("future.no_silent_downcasting", True)

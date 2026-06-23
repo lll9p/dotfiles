@@ -1,88 +1,6 @@
 {
-  "AppConfigs": {
-    "TypeConfigs": {
-      "WindowsExplorer": {},
-      "FileDialog": {},
-      "FolderDialog": {},
-      "Desktop": {},
-      "TotalCommander": {},
-      "DirectoryOpus": {},
-      "FreeCommander": {},
-      "XYplorer": {},
-      "xplorer2": {},
-      "Bandizip": {},
-      "AutoCAD": {},
-      "Explzh": {},
-      "Files": {},
-      "OneCommander": {},
-      "WinRAR.ExtractDialog": {},
-      "WPS.FileDialog": {}
-    },
-    "PathConfigs": {}
-  },
-  "Menus": {
-    "Favorites": {
-      "Deletions": [],
-      "Moves": [],
-      "Insertions": [],
-      "Updates": []
-    }
-  },
-  "DiskSearch": {
-    "FolderPriority": {
-      "Deletions": [],
-      "Moves": [],
-      "Insertions": [],
-      "Updates": []
-    },
-    "FileNamePriority": {
-      "Deletions": [],
-      "Moves": [],
-      "Insertions": [],
-      "Updates": []
-    },
-    "SearchFilter": {
-      "Deletions": [],
-      "Moves": [],
-      "Insertions": [],
-      "Updates": []
-    }
-  },
-  "FileSearchWindow": {
-    "Columns": {
-      "Deletions": [],
-      "Moves": [],
-      "Insertions": [],
-      "Updates": [
-        {
-          "Id": "FileName",
-          "UpdatedProperties": {
-            "Width": 200
-          }
-        },
-        {
-          "Id": "Path",
-          "UpdatedProperties": {
-            "Width": 400
-          }
-        },
-        {
-          "Id": "DateModified",
-          "UpdatedProperties": {
-            "Width": 200
-          }
-        }
-      ]
-    },
-    "WindowWidth": 1000,
-    "WindowHeight": 720,
-    "PreviewWidth": 300,
-    "SideBarWidth": 225
-  },
   "Commands": {
     "Items": {
-      "Deletions": [],
-      "Moves": [],
       "Insertions": [
         {
           "Index": -1,
@@ -102,8 +20,8 @@
           "Info": null,
           "Item": {
             "Title": "Open Jupyter Qtconsole",
-            "Path": "jupyter",
-            "Parameter": "qtconsole",
+            "Path": "wscript.exe",
+            "Parameter": {{ printf "\"%s/AppData/Roaming/Listary/UserProfile/Settings/open-qtconsole.vbs\"" (.chezmoi.homeDir | replace "\\" "/") | quote }},
             "Silent": true,
             "Id": "bb5ade23-e62a-4573-a8db-3f23304bd369",
             "Keyword": "qtconsole",
@@ -122,22 +40,11 @@
             "$customType": "CustomCommand"
           }
         }
-      ],
-      "Updates": []
-    }
-  },
-  "WebSearch": {
-    "Items": {
-      "Deletions": [],
-      "Moves": [],
-      "Insertions": [],
-      "Updates": []
+      ]
     }
   },
   "Actions": {
     "Items": {
-      "Deletions": [],
-      "Moves": [],
       "Insertions": [
         {
           "Index": -1,
@@ -149,21 +56,14 @@
             "$customType": "CustomCommand"
           }
         }
-      ],
-      "Updates": []
+      ]
     }
   },
-  "AutoUpdate": {},
   "Settings": {
     "Tutorial.ShowMainV3": false,
     "Listary5.SettingsImported": true,
     "Listary5.ProLicense.Name": {{ .secrets.license.listary.email | decrypt | quote}},
     "Listary5.ProLicense.Email": {{ .secrets.license.listary.email | decrypt | quote}},
     "Listary5.ProLicense.Key": {{ .secrets.license.listary.key | decrypt | quote}}
-  },
-  "Extensions": {
-    "Extensions": {
-      "1a63ea9d-bf25-431f-96e3-17b80027efab": {}
-    }
   }
 }
