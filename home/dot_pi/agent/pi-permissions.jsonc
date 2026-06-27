@@ -1,13 +1,7 @@
 {
   "$schema": "https://raw.githubusercontent.com/MasuRii/pi-permission-system/main/schemas/permissions.schema.json",
 
-  "defaultPolicy": {
-    "tools": "allow",
-    "bash": "allow",
-    "mcp": "ask",
-    "skills": "allow",
-    "special": "ask"
-  },
+  "defaultPolicy": { "tools": "allow", "bash": "allow", "mcp": "ask", "skills": "allow", "special": "ask" },
 
   "tools": {
     "*": "allow",
@@ -20,20 +14,14 @@
     "bash": "allow"
   },
 
-  "bash": {
-    "*": "allow",
-    "git *": "ask",
-    "rm *": "ask"
-  },
+  "bash": { "*": "allow", "git *": "ask", "rm *": "ask" },
   "special": {
     "external_directory": "ask",
-    "external_directory:~/.cargo/*": "allow",
-    "external_directory:~/.local/share/rtk/*": "allow"
+    "external_directory:/home/lao/.cargo/*": "allow",
+    "external_directory:/home/lao/.local/share/rtk/*": "allow",
+    "external_directory:c:/users/lll9p/.cargo/*": "allow",
+    "external_directory:c:/users/lll9p/.local/share/rtk/*": "allow"
   },
-  "mcp": {
-    "*": "allow"
-  },
-  "skills": {
-    "*": "allow"
-  }
+  "mcp": { "*": "allow" },
+  "skills": { "*": "allow" }
 }
