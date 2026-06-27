@@ -26,7 +26,9 @@
     "rm *": "ask"
   },
   "special": {
-    "external_directory": "ask"
+    "external_directory": "ask",
+    "external_directory:~/.cargo/*": "allow",
+    "external_directory:~/.local/share/rtk/*": "allow"
   },
   "mcp": {
     "*": "allow"
