@@ -108,6 +108,7 @@
       }
     },
     "nvidia": { "options": { "baseURL": "{env:AI_BASE_URL}/v1" }, "models": {} },
+    "opencode": { "options": { "baseURL": "{env:AI_BASE_URL}/v1" }, "models": {} },
     "openrouter": { "options": { "baseURL": "{env:AI_BASE_URL}/v1" }, "models": {} },
     "zhipuai": { "options": { "baseURL": "{env:AI_BASE_URL}/v1" }, "models": {} },
     "deepseek": { "options": { "baseURL": "{env:AI_BASE_URL}/v1" }, "models": {} },
@@ -125,8 +126,8 @@
           "limit": { "context": 262144, "output": 32768 },
           "modalities": { "input": ["text", "image", "audio", "video", "pdf"], "output": ["text"] }
         },
-        "Minimax M2.7": {
-          "id": "minimaxai/minimax-m2.7",
+        "Minimax M3": {
+          "id": "minimaxai/minimax-m3",
           "reasoning": true,
           "tool_call": true,
           "options": { "thinking": { "type": "enabled" } },

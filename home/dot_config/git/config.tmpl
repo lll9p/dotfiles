@@ -59,6 +59,7 @@
     | awk '{ add += $1; subs += $2; loc += $1 - $2 } \
     END { printf \"总计增加: %s 行\\n总计删除: %s 行\\n净增行数: %s 行\\n\", add, subs, loc }'; \
     }; f"
+    syncup = "!git fetch && git reset --hard @{u}"
 
 [credential "https://github.com"]
   helper = !'gh' auth git-credential

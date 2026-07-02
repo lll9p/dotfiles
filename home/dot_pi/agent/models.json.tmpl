@@ -8,6 +8,10 @@
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
       "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
     },
+    "opencode-go":{
+      "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
+      "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
+    },
     "google": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1beta" | quote }},
       "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }},
