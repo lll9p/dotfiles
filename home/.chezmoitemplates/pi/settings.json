@@ -18,7 +18,9 @@
     "npm:pi-markdown-preview",
     "npm:pi-btw",
     "npm:pi-tool-display",
-    "npm:pi-nano-context"
+    "npm:pi-nano-context",
+    "npm:pi-intercom",
+    "npm:pi-prompt-template-model"
   ],
   "hideThinkingBlock": false,
   "collapseChangelog": true,

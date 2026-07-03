@@ -2,7 +2,7 @@
   "providers": {
     "openai": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
-      "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
+      "apiKey": {{ .secrets.keys.ai_base_token_simple | decrypt | trim | quote }}
     },
     "deepseek": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
