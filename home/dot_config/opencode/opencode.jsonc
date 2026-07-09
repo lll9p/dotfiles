@@ -107,6 +107,7 @@
         }
       }
     },
+    "xai": { "options": { "baseURL": "{env:AI_BASE_URL}/v1" }, "models": {} },
     "nvidia": { "options": { "baseURL": "{env:AI_BASE_URL}/v1" }, "models": {} },
     "opencode": { "options": { "baseURL": "{env:AI_BASE_URL}/v1" }, "models": {} },
     "openrouter": { "options": { "baseURL": "{env:AI_BASE_URL}/v1" }, "models": {} },
