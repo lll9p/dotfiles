@@ -6,7 +6,7 @@
   "quietStartup": true,
   "compaction": { "enabled": true, "reserveTokens": 16384, "keepRecentTokens": 20000 },
   "retry": { "enabled": true, "maxRetries": 3 },
-  "enabledModels": ["gpt-5.*", "gemini-3*", "deepseek-*", "glm-*"],
+  "enabledModels": ["gpt-5.*", "gemini-3*", "deepseek-*", "glm-*", "grok-*"],
   "packages": [
     "npm:pi-permission-system",
     "npm:pi-subagents",
