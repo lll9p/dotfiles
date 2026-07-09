@@ -52,13 +52,7 @@
   "mcp": {},
   "provider": {
     "openai": {
-      "options": {
-        "baseURL": "{env:AI_BASE_URL}/v1",
-        "store": true,
-        "headerTimeout": 120000,
-        "timeout": 600000,
-        "chunkTimeout": 120000
-      },
+      "options": { "baseURL": "{env:AI_BASE_URL}/v1", "store": true },
       "models": {
         "gpt-5.4": { "limit": { "context": 400000, "input": 272000, "output": 128000 } },
         "gpt-5.5": {
