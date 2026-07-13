@@ -9,6 +9,7 @@
   "enabledModels": ["gpt-5.*", "gemini-3*", "deepseek-*", "glm-*", "grok-*"],
   "packages": [
     "npm:@ayulab/pi-rewind",
+    "npm:@narumitw/pi-statusline",
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:@juicesharp/rpiv-todo",
     "npm:@pi-vault/pi-dcp",
