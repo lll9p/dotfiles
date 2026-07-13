@@ -8,21 +8,32 @@
   "retry": { "enabled": true, "maxRetries": 3 },
   "enabledModels": ["gpt-5.*", "gemini-3*", "deepseek-*", "glm-*", "grok-*"],
   "packages": [
-    "npm:pi-permission-system",
-    "npm:pi-subagents",
-    "npm:pi-web-access",
+    "npm:@ayulab/pi-rewind",
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:@juicesharp/rpiv-todo",
-    "npm:pi-simplify",
-    "npm:pi-rtk",
-    "npm:pi-markdown-preview",
+    "npm:@pi-vault/pi-dcp",
     "npm:pi-btw",
-    "npm:pi-tool-display",
-    "npm:pi-nano-context",
+    "npm:pi-continue",
     "npm:pi-intercom",
-    "npm:pi-prompt-template-model"
+    "npm:pi-markdown-preview",
+    "npm:pi-nano-context",
+    "npm:pi-permission-system",
+    "npm:pi-prompt-template-model",
+    "npm:pi-rtk",
+    "npm:pi-simplify",
+    "npm:pi-smart-compact",
+    "npm:pi-subagents",
+    "npm:pi-tool-display",
+    "npm:pi-web-access"
   ],
   "hideThinkingBlock": false,
   "collapseChangelog": true,
-  "enableInstallTelemetry": false
+  "enableInstallTelemetry": false,
+  "smartCompact": {
+    "profile": "balanced",
+    "summaryModel": "deepseek/deepseek-v4-flash",
+    "autoTrigger": true,
+    "minContextPercent": 60,
+    "backupEnabled": true
+  }
 }
