@@ -2,23 +2,23 @@
   "providers": {
     "openai": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
-      "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
+      "apiKey": "$AI_BASE_TOKEN"
     },
     "xai": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
-      "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
+      "apiKey": "$AI_BASE_TOKEN"
     },
     "deepseek": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
-      "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
+      "apiKey": "$AI_BASE_TOKEN"
     },
     "opencode-go":{
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
-      "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }}
+      "apiKey": "$AI_BASE_TOKEN"
     },
     "google": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1beta" | quote }},
-      "apiKey": {{ .secrets.keys.ai_base_token | decrypt | trim | quote }},
+      "apiKey": "$AI_BASE_TOKEN",
       "api": "google-generative-ai",
       "models": [
         {
