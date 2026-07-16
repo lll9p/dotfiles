@@ -1,38 +1,25 @@
 {
   "defaultProvider": "openai",
-  "defaultModel": "gpt-5.5",
-  "defaultThinkingLevel": "xhigh",
+  "defaultModel": "gpt-5.6-terra",
+  "defaultThinkingLevel": "high",
   "theme": "light",
   "quietStartup": true,
   "compaction": { "enabled": true, "reserveTokens": 32768, "keepRecentTokens": 20000 },
   "retry": { "enabled": true, "maxRetries": 3 },
   "enabledModels": ["gpt-5.*", "gemini-3*", "deepseek-*", "glm-*", "grok-*"],
   "packages": [
-    "npm:@ayulab/pi-rewind",
+    "npm:@gotgenes/pi-permission-system",
+    "npm:@gotgenes/pi-subagents",
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:@juicesharp/rpiv-todo",
-    "npm:@pi-vault/pi-dcp",
+    "npm:@lll9p/pi-better-compaction",
     "npm:pi-btw",
-    "npm:pi-continue",
-    "npm:pi-intercom",
     "npm:pi-markdown-preview",
-    "npm:pi-nano-context",
-    "npm:pi-permission-system",
-    "npm:pi-prompt-template-model",
     "npm:pi-rtk-optimizer",
     "npm:pi-simplify",
-    "npm:pi-subagents",
-    "npm:pi-tool-display",
-    "npm:pi-web-access"
+    "npm:pi-tool-display"
   ],
   "hideThinkingBlock": false,
   "collapseChangelog": true,
-  "enableInstallTelemetry": false,
-  "smartCompact": {
-    "profile": "balanced",
-    "summaryModel": "deepseek/deepseek-v4-flash",
-    "autoTrigger": true,
-    "minContextPercent": 60,
-    "backupEnabled": true
-  }
+  "enableInstallTelemetry": false
 }

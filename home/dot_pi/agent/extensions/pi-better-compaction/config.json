@@ -1,0 +1,12 @@
+{
+  "enabled": true,
+  "compactionThinkingLevel": "off",
+  "allowCompactionContinuityBreak": true,
+  "responsesCompactApis": ["openai-responses", "openai-codex-responses"],
+  "notifyOnLoad": false,
+  "debug": false,
+  "logProviderPayloads": false,
+  "logCompactResponses": false,
+  "redactSensitiveData": true,
+  "artifactRoot": "~/.pi/agent/artifacts/pi-better-compaction"
+}
