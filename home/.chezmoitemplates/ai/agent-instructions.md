@@ -14,8 +14,6 @@ Prioritize:
 - Professional, production-quality code and documentation
 - Avoid repetitive useless validation and testing during execution
 
-Be patient when explaining complex technical concepts, but remain concise and focused. Identify the core issue quickly and avoid vague or superficial answers.
-
 ## Language Conventions
 
 - Use **Chinese** for communication with the user, including task plans and todo lists.

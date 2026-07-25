@@ -3,17 +3,10 @@ return {
    -- Treesitter
    {
       "nvim-treesitter/nvim-treesitter",
-      event = { "BufReadPost", "BufNewFile", "FileType" },
-      lazy = true,
+      lazy = false,
       build = ":TSUpdate",
-      opts = function()
-         return require "configs.treesitter"
-      end,
-      config = function(_, opts)
-         -- if vim.g.__is_windows then
-         --    require("nvim-treesitter.install").compilers = { "clang" }
-         -- end
-         require("nvim-treesitter").setup(opts)
+      config = function()
+         require("configs.treesitter").setup()
       end,
       cond = not vim.g.vscode,
    },

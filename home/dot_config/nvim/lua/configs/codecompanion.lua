@@ -232,7 +232,6 @@ local options = {
       },
       diff = {
          enabled = true,
-         provider = "mini.diff",
       },
    },
 
