@@ -72,7 +72,10 @@
       "Set-Content *": "ask",
       "Out-File *": "ask",
       "Move-Item *": "ask",
-      "Rename-Item *": "ask"
+      "Rename-Item *": "ask",
+      "env *": "allow",
+      "find *": "allow",
+      "xargs *": "allow"
     }
   }
 }
