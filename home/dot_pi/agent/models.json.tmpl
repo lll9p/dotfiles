@@ -2,7 +2,10 @@
   "providers": {
     "openai": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
-      "apiKey": "$AI_BASE_TOKEN"
+      "apiKey": "$AI_BASE_TOKEN",
+      "compat": {
+        "supportsExplicitPromptCacheMode": false
+      }
     },
     "xai": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
