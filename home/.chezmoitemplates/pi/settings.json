@@ -13,6 +13,7 @@
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:@juicesharp/rpiv-todo",
     "npm:@lll9p/pi-better-compaction",
+    "npm:@pi-vault/pi-dcp",
     "npm:pi-btw",
     "npm:pi-schedule-prompt",
     "npm:pi-markdown-preview",
