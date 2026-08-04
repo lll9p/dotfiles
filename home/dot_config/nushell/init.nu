@@ -3,6 +3,7 @@ source env.nu
 source prompt.nu
 source alias.nu
 source functions.nu
+source claude.nu
 source completions.nu
 
 source plugins.nu
