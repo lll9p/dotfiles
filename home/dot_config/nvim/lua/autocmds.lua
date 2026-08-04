@@ -94,6 +94,42 @@ end
 
 local autocmd = vim.api.nvim_create_autocmd
 local ui_helpers = vim.api.nvim_create_augroup("UiHelpers", { clear = true })
+local persistence_filters = vim.api.nvim_create_augroup("PersistenceFilters", { clear = true })
+
+local temp_dir = vim.env.TEMP or vim.env.TMP or vim.env.TMPDIR
+if temp_dir and temp_dir ~= "" then
+   temp_dir = vim.fs.normalize(vim.fn.fnamemodify(temp_dir, ":p"))
+end
+
+local function is_temp_path(path)
+   if not temp_dir or not path or path == "" then
+      return false
+   end
+
+   local normalized = vim.fs.normalize(vim.fn.fnamemodify(path, ":p"))
+   return normalized:sub(1, #temp_dir + 1) == temp_dir .. "/"
+end
+
+-- Agent editors use temporary files. Do not restore or persist those paths in project sessions.
+local function cleanup_temp_entries()
+   for index = vim.fn.argc(), 1, -1 do
+      if is_temp_path(vim.fn.argv(index - 1)) then
+         vim.cmd(index .. "argdelete")
+      end
+   end
+
+   for _, bufnr in ipairs(vim.api.nvim_list_bufs()) do
+      if is_temp_path(vim.api.nvim_buf_get_name(bufnr)) and not vim.bo[bufnr].modified then
+         vim.api.nvim_buf_delete(bufnr, { force = true })
+      end
+   end
+end
+
+autocmd("User", {
+   group = persistence_filters,
+   pattern = { "PersistenceLoadPost", "PersistenceSavePre" },
+   callback = cleanup_temp_entries,
+})
 
 -- disable buggy anims in completion windows
 autocmd("User", {
