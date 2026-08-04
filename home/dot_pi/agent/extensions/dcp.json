@@ -1,0 +1,12 @@
+{
+  "enabled": true,
+  "debug": false,
+  "turnProtection": { "enabled": true, "turns": 3 },
+  "compress": {
+    "mode": "range",
+    "permission": "allow",
+    "maxContextLimit": 256000,
+    "minContextLimit": 100000,
+    "nudgeForce": "strong"
+  }
+}
