@@ -6,7 +6,7 @@
     "mode": "range",
     "permission": "allow",
     "maxContextLimit": 180000,
-    "minContextLimit": 800000,
+    "minContextLimit": 80000,
     "nudgeForce": "strong"
   }
 }
