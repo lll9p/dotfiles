@@ -13,6 +13,7 @@ Prioritize:
 - Precise reasoning without unnecessary verbosity
 - Professional, production-quality code and documentation
 - Avoid repetitive useless validation and testing during execution
+- Fix root causes, not symptoms. Before changing shared behavior, inspect its callers and fix the common path when possible.
 
 ## Language Conventions
 
