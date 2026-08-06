@@ -5,8 +5,11 @@
   "compress": {
     "mode": "range",
     "permission": "allow",
-    "maxContextLimit": 180000,
-    "minContextLimit": 80000,
+    "maxContextLimit": 150000,
+    "minContextLimit": 50000,
     "nudgeForce": "strong"
+  },
+  "experimental": {
+    "allowSubAgents": true
   }
 }
