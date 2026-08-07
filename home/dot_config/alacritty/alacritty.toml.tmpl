@@ -11,11 +11,16 @@ import = [
 TERM = "xterm-256color"
 TERMINAL = "alacritty"
 COLORTERM="truecolor"
+{{ if eq .chezmoi.os "windows" }}
+ZELLIJ_CONFIG_DIR = '{{ .chezmoi.homeDir }}\.config\zellij'
+{{ end }}
 
 
 [terminal]
 osc52 = "CopyPaste"
+{{ if eq .chezmoi.os "windows" }}
 shell = { program = "nu" }
+{{ end }}
 
 [selection]
 save_to_clipboard = true
