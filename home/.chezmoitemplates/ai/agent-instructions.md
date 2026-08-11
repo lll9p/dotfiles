@@ -63,29 +63,23 @@ Do not create a todo list for trivial, single-step tasks where it would add unne
 
 <repository-policy>
 
-## Trellis Is Local-Only
+## Trellis Git Policy
 
-The `.trellis/` directory is intentionally excluded from Git and must remain local to the working environment.
+By default, `.trellis/` is local working state and must not be staged or committed.
 
-Never stage or commit files under `.trellis/`.
+This default is overridden only when the repository-root `AGENTS.md` explicitly states that `.trellis/` must be tracked or committed.
 
-When completing work:
+When the repository-level exception does not apply:
 
 ```bash
+# When completing work:
 task.py archive ... --no-commit
 add_session.py ... --no-commit
-```
 
-Do not run:
-
-```bash
-git add .trellis
-git add -f .trellis
-```
-
-Do not create any commit containing files from `.trellis/`.
-
-Treat Trellis archives, journals, and session records as local bookkeeping only.
+# Do not run:
+# git add .trellis
+# git add -f .trellis
+ ```
 
 ## Agent-Visible Ignored Files
 
