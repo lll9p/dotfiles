@@ -105,6 +105,5 @@ When relevant:
 * Inspect these files for repository-specific instructions.
 * Do not assume an ignored file is absent merely because it is not tracked by Git.
 * Do not stage ignored files with `git add -f` unless the user explicitly requests it and doing so does not violate another repository policy.
-* The stricter local-only rules above always apply to `.trellis/`.
 
 </repository-policy>
