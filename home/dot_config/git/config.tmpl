@@ -11,6 +11,9 @@
   longpaths = true
   pager = delta
   excludesFile = ~/.config/git/ignore
+{{- if eq .chezmoi.os "windows" }}
+  sshCommand = "~/scoop/shims/ssh.exe"
+{{- end}}
 
 [color]
   ui = auto
@@ -45,7 +48,7 @@
 
 {{- if eq .chezmoi.os "windows" }}
 [gpg]
-  program = "~/scoop/apps/git/current/usr/bin/gpg.exe"
+  program = "~/scoop/shims/gpg.exe"
 {{- end}}
 [alias]
   cm = commit -m
