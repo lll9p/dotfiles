@@ -11,9 +11,6 @@
   longpaths = true
   pager = delta
   excludesFile = ~/.config/git/ignore
-{{- if eq .chezmoi.os "windows" }}
-  sshCommand = "~/scoop/shims/ssh.exe"
-{{- end}}
 
 [color]
   ui = auto
