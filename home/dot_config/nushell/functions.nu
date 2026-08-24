@@ -58,13 +58,13 @@ def sync-gpg-agent-startup-tty [] {
 def --env setup-gpg [] {
     let os = $nu.os-info.name
 
+    # Only set SSH_AUTH_SOCK if not already set by system
+    if ('SSH_AUTH_SOCK' not-in $env) {
+        $env.SSH_AUTH_SOCK = (do -i { ^gpgconf --list-dirs agent-ssh-socket | complete | get stdout | str trim })
+    }
+
     if $os == "linux" {
         refresh-gpg-tty
-
-        # Only set SSH_AUTH_SOCK if not already set by system
-        if ('SSH_AUTH_SOCK' not-in $env) {
-            $env.SSH_AUTH_SOCK = (do -i { ^gpgconf --list-dirs agent-ssh-socket | complete | get stdout | str trim })
-        }
 
         if ('TMUX' not-in $env) {
             sync-gpg-agent-startup-tty
