@@ -1,5 +1,6 @@
 {
   "enabled": true,
+  "compactionVersion": "v2",
   "compactionThinkingLevel": "off",
   "allowCompactionContinuityBreak": true,
   "responsesCompactApis": ["openai-responses", "openai-codex-responses"],
