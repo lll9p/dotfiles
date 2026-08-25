@@ -20,7 +20,8 @@
     "npm:pi-markdown-preview",
     "npm:pi-rtk-optimizer",
     "npm:pi-simplify",
-    "npm:pi-tool-display"
+    "npm:pi-tool-display",
+    "git:github.com/DietrichGebert/ponytail"
   ],
   "hideThinkingBlock": false,
   "collapseChangelog": true,
