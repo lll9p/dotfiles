@@ -42,6 +42,34 @@
         }
       ]
     },
+    "modelscope": {
+      "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
+      "apiKey": "$AI_BASE_TOKEN",
+      "api": "openai-completions",
+      "models": [
+        {
+          "id": "Qwen/Qwen3.8-Flash-Next",
+          "name": "Qwen3.8-Flash-Next",
+          "reasoning": true,
+          "input": ["text", "image"],
+          "contextWindow": 262144,
+          "maxTokens": 16384,
+          "cost": { "input": 0, "output": 0, "cacheRead": 0, "cacheWrite": 0 },
+          "compat": {
+            "thinkingFormat": "qwen",
+            "supportsReasoningEffort": true
+          },
+          "thinkingLevelMap": {
+            "minimal": "low",
+            "low": "low",
+            "medium": "medium",
+            "high": "xhigh",
+            "xhigh": "xhigh",
+            "max": "xhigh"
+          }
+        }
+      ]
+    },
     "openai": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
       "apiKey": "$AI_BASE_TOKEN",
