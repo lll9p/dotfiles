@@ -22,20 +22,21 @@
         {
           "id": "gemini-3-flash-free",
           "name": "Gemini 3 Flash Free",
-          "release_date": "2025-11-18",
           "reasoning": true,
-          "contextWindow": 250000,
-          "maxTokens": 64000,
-          "cost": {
-            "input": 0.5,
-            "output": 3,
-            "cacheRead": 0.05,
-            "cacheWrite": 0.05
+          "thinkingLevelMap": {
+            "off": null,
+            "minimal": null,
+            "low": "LOW",
+            "medium": "MEDIUM",
+            "high": "HIGH"
           },
-          "options": {
-            "thinkingConfig": {
-              "includeThoughts": true
-            }
+          "contextWindow": 250000,
+          "maxTokens": 65536,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
           },
           "input": ["text", "image"]
         }
