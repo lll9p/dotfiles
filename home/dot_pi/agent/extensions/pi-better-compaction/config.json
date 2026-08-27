@@ -1,8 +1,9 @@
 {
   "enabled": true,
+  "midRun": { "enabled": true, "thresholdPercent": 80 },
   "compactionVersion": "v2",
   "compactionThinkingLevel": "off",
-  "allowCompactionContinuityBreak": true,
+  "allowCompactionContinuityBreak": false,
   "responsesCompactApis": ["openai-responses", "openai-codex-responses"],
   "notifyOnLoad": false,
   "debug": false,
