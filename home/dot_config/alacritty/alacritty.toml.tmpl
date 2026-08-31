@@ -12,8 +12,6 @@ TERM = "xterm-256color"
 TERMINAL = "alacritty"
 COLORTERM="truecolor"
 {{ if eq .chezmoi.os "windows" }}
-MSYSTEM = "UCRT64"
-CHERE_INVOKING = "1"
 ZELLIJ_CONFIG_DIR = '{{ .chezmoi.homeDir }}\.config\zellij'
 {{ end }}
 
@@ -64,7 +62,7 @@ offset = { x = 1, y = 0 }
 
 [window]
 decorations = "Full"
-dynamic_padding = true
+dynamic_padding = false
 dynamic_title = true
 opacity = 0.95
 startup_mode = "Windowed"

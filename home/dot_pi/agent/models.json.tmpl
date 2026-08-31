@@ -72,6 +72,10 @@
         }
       ]
     },
+    "nvidia": {
+      "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
+      "apiKey": "$AI_BASE_TOKEN"
+    },
     "openai": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
       "apiKey": "$AI_BASE_TOKEN",

@@ -1,8 +1,8 @@
 
 source env.nu
-source prompt.nu
 source alias.nu
 source functions.nu
+source prompt.nu
 source claude.nu
 source completions.nu
 

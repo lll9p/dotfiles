@@ -58,8 +58,8 @@ def sync-gpg-agent-startup-tty [] {
 def --env setup-gpg [] {
     let os = $nu.os-info.name
 
-    # Only set SSH_AUTH_SOCK if not already set by system
-    if ('SSH_AUTH_SOCK' not-in $env) {
+    # Windows OpenSSH uses gpg-agent's named pipe; SSH_AUTH_SOCK points at a regular file and breaks it.
+    if $os != "windows" and ('SSH_AUTH_SOCK' not-in $env) {
         $env.SSH_AUTH_SOCK = (do -i { ^gpgconf --list-dirs agent-ssh-socket | complete | get stdout | str trim })
     }
 
