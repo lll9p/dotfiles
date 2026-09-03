@@ -7,10 +7,10 @@
     "ENABLE_TOOL_SEARCH": "true",
     "DISABLE_INSTALLATION_CHECKS": "1",
     "ANTHROPIC_BETAS": "context-1m-2025-08-07",
-    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-fable-5[1m]",
-    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-fable-5[1m]",
-    "ANTHROPIC_MODEL": "claude-fable-5[1m]",
-    "ANTHROPIC_REASONING_MODEL": "claude-fable-5[1m]"
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "claude-fable-5-1[1m]",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "claude-fable-5-1[1m]",
+    "ANTHROPIC_MODEL": "claude-fable-5-1[1m]",
+    "ANTHROPIC_REASONING_MODEL": "claude-fable-5-1[1m]"
   },
   "attribution": { "commit": "", "pr": "" },
   "includeCoAuthoredBy": false,
