@@ -7,7 +7,17 @@
   "quietStartup": true,
   "compaction": { "enabled": true, "reserveTokens": 32768, "keepRecentTokens": 20000 },
   "retry": { "enabled": true, "maxRetries": 3 },
-  "enabledModels": ["gpt-5.6*", "gemini-3*", "deepseek-*", "qwen*", "glm*", "grok-*", "claude-opus-*"],
+  "enabledModels": [
+    "gpt-5.6*",
+    "gpt-6*",
+    "gemini-3*",
+    "deepseek-*",
+    "qwen*",
+    "glm*",
+    "grok-*",
+    "claude-opus-*",
+    "claude-fable*"
+  ],
   "packages": [
     "npm:@gotgenes/pi-permission-system",
     "npm:@gotgenes/pi-subagents",
