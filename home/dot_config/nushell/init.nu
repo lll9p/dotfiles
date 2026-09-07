@@ -4,6 +4,7 @@ source alias.nu
 source functions.nu
 source prompt.nu
 source claude.nu
+source pi.nu
 source completions.nu
 
 source plugins.nu
