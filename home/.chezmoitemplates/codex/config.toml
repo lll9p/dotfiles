@@ -1,0 +1,21 @@
+model_provider = "anyrouter"
+model = "gpt-6-astra"
+review_model = ""
+model_reasoning_effort = "high"
+
+windows_wsl_setup_acknowledged = true
+
+model_context_window = 525000
+model_auto_compact_token_limit = 472000
+approvals_reviewer = "user"
+
+[model_providers.anyrouter]
+name = "AnyRouter"
+base_url = "https://anyrouter.top/v1"
+wire_api = "responses"
+
+env_key = "ANYROUTER_API_KEY"
+
+request_max_retries = 6
+stream_max_retries = 10
+stream_idle_timeout_ms = 300000

@@ -1,0 +1,18 @@
+{{- /* chezmoi:modify-template */ -}}
+{{- $old := dict -}}
+{{- if ne (.chezmoi.stdin | trim) "" -}}
+{{- $old = fromToml .chezmoi.stdin -}}
+{{- end -}}
+
+{{- $new := includeTemplate "codex/config.toml" . | fromToml -}}
+
+{{- if hasKey $old "projects" -}}
+{{- $new = $new | setValueAtPath "projects" (get $old "projects") -}}
+{{- end -}}
+
+{{- $hooks := get $old "hooks" | default dict -}}
+{{- if hasKey $hooks "state" -}}
+{{- $new = $new | setValueAtPath "hooks.state" (get $hooks "state") -}}
+{{- end -}}
+
+{{- $new | toToml }}
