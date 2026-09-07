@@ -1,0 +1,8 @@
+[
+{{- $keys := keys .secrets.anyrouter_keys | sortAlpha }}
+{{- $n := len $keys }}
+{{- range $i, $name := $keys }}
+  {{- $entry := dict "name" $name "api_key" ((index $.secrets.anyrouter_keys $name) | decrypt | trim) "base_url" "https://anyrouter.top" }}
+  {{ $entry | toJson }}{{ if lt (add $i 1) $n }},{{ end }}
+{{- end }}
+]

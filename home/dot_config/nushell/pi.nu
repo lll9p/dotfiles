@@ -11,7 +11,7 @@ def "pi profiles" [] {
 
 # Pick an API key and launch Pi with it (env scoped to the child process)
 def pi-select [] {
-    let choice = (claude profiles | input list --display name)
+    let choice = (pi profiles | input list --display name)
     print $"Launching Pi with key: ($choice.name) @ ($choice.base_url)"
     with-env {
         PI_ANYROUTER_CC_API_KEY: $choice.api_key
