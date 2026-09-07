@@ -23,6 +23,7 @@
     "npm:@gotgenes/pi-subagents",
     "npm:@juicesharp/rpiv-ask-user-question",
     "npm:@juicesharp/rpiv-todo",
+    "npm:@lll9p/pi-anyrouter",
     "npm:@lll9p/pi-better-compaction",
     "npm:@lll9p/pi-trellis-guard",
     "npm:@pi-vault/pi-dcp",
