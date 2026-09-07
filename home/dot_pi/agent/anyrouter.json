@@ -1,0 +1,35 @@
+{
+  "baseUrl": "https://anyrouter.top",
+  "apiKey": "PI_ANYROUTER_CC_API_KEY",
+  "models": [
+    {
+      "id": "claude-fable-5-1",
+      "name": "Claude Fable 5.1",
+      "reasoning": true,
+      "input": ["text", "image"],
+      "cost": {
+        "input": 10,
+        "output": 50,
+        "cacheRead": 0.25,
+        "cacheWrite": 0
+      },
+      "contextWindow": 1048576,
+      "maxTokens": 128000
+    },
+    {
+      "id": "gpt-6-astra",
+      "name": "GPT-6 Astra",
+      "api": "openai-codex-responses",
+      "reasoning": true,
+      "input": ["text", "image"],
+      "cost": {
+        "input": 10,
+        "output": 50,
+        "cacheRead": 1,
+        "cacheWrite": 0
+      },
+      "contextWindow": 1050000,
+      "maxTokens": 128000
+    }
+  ]
+}
