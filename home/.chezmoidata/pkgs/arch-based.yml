@@ -10,6 +10,8 @@ pkgs:
       # Text / Code Editor, IDE
       - "neovim"
       - "vim"
+      - "tree-sitter-cli"
+      - "base-devel"
 
       # CLI tools
       - "bat"
