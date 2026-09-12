@@ -79,6 +79,12 @@
     "openai": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
       "apiKey": "$AI_BASE_TOKEN",
+      "modelOverrides": {
+        "gpt-6-astra": {
+          "contextWindow": 640000,
+          "maxTokens": 128000
+        }
+      },
       "compat": {
         "supportsExplicitPromptCacheMode": false
       }

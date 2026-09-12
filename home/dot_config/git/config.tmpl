@@ -71,4 +71,11 @@
 [url "{{ .ghProxy }}https://github.com/"]
     insteadOf = https://github.com/
 
+# Public proxy needs no credentials, but it answers with 401 now and then;
+# without this, git asks the GUI credential helpers (helper-selector + GCM)
+# once per repo on every Lazy sync.
+[credential "{{ .ghProxy }}"]
+    helper =
+    helper = "!echo username=proxy; echo password=proxy"
+
 {{ end }}
