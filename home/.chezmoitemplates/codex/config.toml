@@ -19,3 +19,6 @@ env_key = "ANYROUTER_API_KEY"
 request_max_retries = 6
 stream_max_retries = 10
 stream_idle_timeout_ms = 300000
+
+[tui]
+whimsy = false
