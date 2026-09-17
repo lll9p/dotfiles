@@ -6,6 +6,18 @@
           "Index": -1,
           "Info": null,
           "Item": {
+            "$customType": "CustomCommand",
+            "Id": "8c626b2f-0137-4fb4-b0f0-cdd4cdaf4df5",
+            "Keyword": "Zellij",
+            "Parameter": "--command zellij attach -c work",
+            "Path": "alacritty",
+            "Title": "Open Zellij Work"
+          }
+        },
+        {
+          "Index": -1,
+          "Info": null,
+          "Item": {
             "Title": "Open Nvim",
             "Path": "alacritty",
             "Parameter": "--command nvim",
