@@ -1,24 +1,24 @@
 [".config/alacritty/themes/collections"]
-  type = "archive"
-  url = "https://github.com/alacritty/alacritty-theme/archive/refs/heads/master.zip"
-  exact = true
-  stripComponents = 2
-  refreshPeriod = "168h"
-  include = ["**/themes/*.toml"]
+    type = "archive"
+    url = "https://codeload.github.com/alacritty/alacritty-theme/zip/refs/heads/master"
+    exact = true
+    stripComponents = 2
+    refreshPeriod = "168h"
+    include = ["**/themes/*.toml"]
 
 {{- range .nushell_completions }}
 [".config/nushell/completions/{{ . }}/{{ . }}-completions.nu"]
     type = "file"
-    url = "https://raw.githubusercontent.com/nushell/nu_scripts/main/custom-completions/{{ . }}/{{ . }}-completions.nu"
+    url = "https://cdn.jsdelivr.net/gh/nushell/nu_scripts@main/custom-completions/{{ . }}/{{ . }}-completions.nu"
     refreshPeriod = "168h"
 {{- end }}
 
 [".config/nushell/themes/one-half-light.nu"]
     type = "file"
-    url = "https://github.com/nushell/nu_scripts/raw/refs/heads/main/themes/nu-themes/one-half-light.nu"
+    url = "https://cdn.jsdelivr.net/gh/nushell/nu_scripts@main/themes/nu-themes/one-half-light.nu"
     refreshPeriod = "168h"
 
 [".config/opencode/themes/one-half-light.json"]
     type = "file"
-    url = "https://github.com/scaryrawr/base16-opencode/raw/refs/heads/main/themes/base24-one-half-light.json"
+    url = "https://cdn.jsdelivr.net/gh/scaryrawr/base16-opencode@main/themes/base24-one-half-light.json"
     refreshPeriod = "168h"

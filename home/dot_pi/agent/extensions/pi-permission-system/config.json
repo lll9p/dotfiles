@@ -39,6 +39,7 @@
     },
 
     "bash": {
+      "*": "ask",
       "Remove-Item *": "ask",
       "remove-item *": "ask",
       "rm *": "ask",
