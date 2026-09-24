@@ -3,7 +3,7 @@
   "defaultModel": "gpt-5.6-sol",
   "defaultThinkingLevel": "high",
   "theme": "light",
-  "tuiMode": "fullscreen",
+  "tuiMode": "regular",
   "quietStartup": true,
   "compaction": { "enabled": true, "reserveTokens": 32768, "keepRecentTokens": 20000 },
   "retry": { "enabled": true, "maxRetries": 3 },
