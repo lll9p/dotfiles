@@ -15,8 +15,6 @@ nushell_completions = [
   "make",
   "man",
   "npm",
-  "pre-commit",
-  "pytest",
   "rg",
   "rustup",
   "scoop",
