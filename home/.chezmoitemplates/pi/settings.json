@@ -1,8 +1,8 @@
 {
   "defaultProvider": "openai",
-  "defaultModel": "gpt-5.6-sol",
+  "defaultModel": "gpt-6.1-sol",
   "defaultThinkingLevel": "high",
-  "theme": "light",
+  "theme": "system",
   "tuiMode": "regular",
   "quietStartup": true,
   "compaction": { "enabled": true, "reserveTokens": 32768, "keepRecentTokens": 20000 },
