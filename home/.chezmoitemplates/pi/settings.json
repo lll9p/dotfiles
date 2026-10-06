@@ -4,7 +4,7 @@
   "defaultThinkingLevel": "high",
   "defaultTools": ["+codemode"],
   "theme": "system",
-  "tuiMode": "regular",
+  "tuiMode": "fullscreen",
   "quietStartup": true,
   "compaction": { "enabled": true, "reserveTokens": 32768, "keepRecentTokens": 20000 },
   "retry": { "enabled": true, "maxRetries": 3 },
