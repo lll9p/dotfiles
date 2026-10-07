@@ -5,5 +5,6 @@
   "consumedSessionRetentionMinutes": 10,
   "unconsumedSessionRetentionMinutes": 720,
   "abortAllOnInterrupt": true,
-  "midRunUpdates": false
+  "midRunUpdates": false,
+  "excludedExtensionPackages": ["npm:@cortexkit/pi-magic-context"]
 }
