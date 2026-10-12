@@ -28,6 +28,14 @@ let carapace_completer = {|spans|
     carapace $spans.0 nushell ...$spans | from json
 }
 
+$env.config.abbreviations = (
+    $env.config.abbreviations?
+    | default {}
+    | merge {
+        "proxy": "HTTP_PROXY=http://127.0.0.1:1081 HTTPS_PROXY=http://127.0.0.1:1081 ALL_PROXY=socks5://127.0.0.1:1081"
+    }
+)
+
 startup
 
 # Zoxide - sourced from generated file
