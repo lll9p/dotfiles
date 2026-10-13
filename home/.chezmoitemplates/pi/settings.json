@@ -3,7 +3,7 @@
   "defaultModel": "gpt-6.1-sol",
   "defaultThinkingLevel": "high",
   "defaultTools": ["+codemode"],
-  "theme": "system",
+  "theme": "light",
   "tuiMode": "fullscreen",
   "quietStartup": true,
   "compaction": { "enabled": true, "reserveTokens": 32768, "keepRecentTokens": 20000 },
@@ -23,16 +23,16 @@
     "npm:@gotgenes/pi-permission-system",
     "npm:@gotgenes/pi-subagents",
     "npm:@juicesharp/rpiv-ask-user-question",
+    "npm:@izhimu/pi-rtk",
     "npm:@lll9p/pi-better-compaction",
     "npm:pi-btw",
+    "npm:pi-compact-tools",
     "npm:pi-schedule-prompt",
     "npm:pi-markdown-preview",
-    "npm:pi-rtk-optimizer",
-    "npm:pi-simplify",
-    "npm:pi-tool-display",
     "git:github.com/DietrichGebert/ponytail"
   ],
   "hideThinkingBlock": false,
+  "outputPad": 0,
   "collapseChangelog": true,
   "enableInstallTelemetry": false
 }
