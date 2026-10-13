@@ -13,5 +13,6 @@
   "embedding": {
     "provider": "local",
     "model": "Xenova/all-MiniLM-L6-v2"
-  }
+  },
+  "language": "zh"
 }
