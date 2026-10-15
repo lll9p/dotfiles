@@ -158,10 +158,7 @@
     },
     "openai": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},
-      "apiKey": "$AI_BASE_TOKEN",
-      "compat": {
-        "supportsExplicitPromptCacheMode": false
-      }
+      "apiKey": "$AI_BASE_TOKEN"
     },
     "xai": {
       "baseUrl": {{ .secrets.url.ai_base_url | decrypt | trim | printf "%s/v1" | quote }},

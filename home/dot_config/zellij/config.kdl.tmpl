@@ -25,42 +25,18 @@ ui {
 show_startup_tips false
 show_release_notes false
 
+plugins {
+    compact-bar location="zellij:compact-bar" {
+        tooltip "F1"
+    }
+}
+
 
 // ------------------------------------------------------------
 // Keybindings
 // ------------------------------------------------------------
 
 keybinds {
-    // Release Zellij's native Ctrl shortcuts.
-    unbind "Ctrl g"
-    unbind "Ctrl q"
-    unbind "Ctrl p"
-    unbind "Ctrl n"
-    unbind "Ctrl s"
-    unbind "Ctrl o"
-    unbind "Ctrl t"
-    unbind "Ctrl h"
-
-    // Release Zellij's native Alt shortcuts too.
-    // This makes Zellij effectively behave like a prefix-based
-    // multiplexer rather than globally intercepting shortcuts.
-    unbind "Alt f"
-    unbind "Alt n"
-    unbind "Alt i"
-    unbind "Alt o"
-    unbind "Alt h"
-    unbind "Alt Left"
-    unbind "Alt l"
-    unbind "Alt Right"
-    unbind "Alt j"
-    unbind "Alt Down"
-    unbind "Alt k"
-    unbind "Alt Up"
-    unbind "Alt ="
-    unbind "Alt +"
-    unbind "Alt -"
-    unbind "Alt ["
-    unbind "Alt ]"
-    unbind "Alt p"
-    unbind "Alt Shift p"
+    // Use one global unbind node; Zellij only reads the first.
+    unbind "Ctrl q" "Ctrl p" "Ctrl n" "Ctrl s" "Ctrl o" "Ctrl h" "Alt f" "Alt n" "Alt j" "Alt Down" "Alt k" "Alt Up" "Alt =" "Alt +" "Alt -" "Alt [" "Alt ]" "Alt p" "Alt Shift p"
 }

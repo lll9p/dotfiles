@@ -23,3 +23,5 @@ alias gbc = git checkout (git branch --all | fzf | str replace '(\*)' '' | str t
 alias fzf = fzf --bind 'enter:become(nvim {})' --preview 'bat --color=always --style=header,grid --line-range=:500 {}'
 
 alias zss = yazi "~/AppData/Local/nvim-data/sessions"
+
+alias pi-sci = pi --extension npm:pi-scientific-skills
