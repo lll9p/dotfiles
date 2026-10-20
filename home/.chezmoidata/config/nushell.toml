@@ -15,7 +15,6 @@ nushell_completions = [
   "make",
   "man",
   "npm",
-  "rg",
   "rustup",
   "scoop",
   "ssh",

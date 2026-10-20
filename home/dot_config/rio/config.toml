@@ -1,0 +1,21 @@
+[fonts]
+family = "Sarasa Mono SC Nerd Font"
+size = 14
+
+[shell]
+program = "nu"
+args = []
+
+[window]
+opacity = 0.95
+blur = true
+
+[navigation]
+mode = "Tab"
+hide-if-single = true
+max-tab-width = 100
+use-split = true
+
+[cursor]
+shape = "block"
+blinking = true

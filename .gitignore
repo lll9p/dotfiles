@@ -2,3 +2,4 @@
 home/.zsh_history
 home/.zshenv_private
 *.kdbx
+*.swp
