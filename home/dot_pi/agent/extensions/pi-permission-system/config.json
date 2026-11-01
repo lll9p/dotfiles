@@ -30,6 +30,7 @@
     },
 
     "path": {
+      "*.env.example*": "allow",
       "*.env": "deny",
       "*.env.*": "deny",
       "~/.ssh/*": "deny",
