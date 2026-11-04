@@ -1,24 +1,39 @@
+{{- $ghProxy := default "https://gh-proxy.org/" (index . "ghProxy") }}
+
 [".config/alacritty/themes/collections"]
     type = "archive"
-    url = "https://codeload.github.com/alacritty/alacritty-theme/zip/refs/heads/master"
+    urls = [
+        "https://codeload.github.com/alacritty/alacritty-theme/zip/refs/heads/master",
+        {{ printf "%s%s" $ghProxy "https://codeload.github.com/alacritty/alacritty-theme/zip/refs/heads/master" | quote }},
+    ]
     exact = true
     stripComponents = 2
     refreshPeriod = "168h"
     include = ["**/themes/*.toml"]
 
 {{- range .nushell_completions }}
+{{- $url := printf "https://raw.githubusercontent.com/nushell/nu_scripts/main/custom-completions/%s/%s-completions.nu" . . }}
 [".config/nushell/completions/{{ . }}/{{ . }}-completions.nu"]
     type = "file"
-    url = "https://gcore.jsdelivr.net/gh/nushell/nu_scripts@main/custom-completions/{{ . }}/{{ . }}-completions.nu"
+    urls = [
+        {{ $url | quote }},
+        {{ printf "%s%s" $ghProxy $url | quote }},
+    ]
     refreshPeriod = "168h"
 {{- end }}
 
 [".config/nushell/themes/one-half-light.nu"]
     type = "file"
-    url = "https://gcore.jsdelivr.net/gh/nushell/nu_scripts@main/themes/nu-themes/one-half-light.nu"
+    urls = [
+        "https://raw.githubusercontent.com/nushell/nu_scripts/main/themes/nu-themes/one-half-light.nu",
+        {{ printf "%s%s" $ghProxy "https://raw.githubusercontent.com/nushell/nu_scripts/main/themes/nu-themes/one-half-light.nu" | quote }},
+    ]
     refreshPeriod = "168h"
 
 [".config/opencode/themes/one-half-light.json"]
     type = "file"
-    url = "https://gcore.jsdelivr.net/gh/scaryrawr/base16-opencode@main/themes/base24-one-half-light.json"
+    urls = [
+        "https://raw.githubusercontent.com/scaryrawr/base16-opencode/main/themes/base24-one-half-light.json",
+        {{ printf "%s%s" $ghProxy "https://raw.githubusercontent.com/scaryrawr/base16-opencode/main/themes/base24-one-half-light.json" | quote }},
+    ]
     refreshPeriod = "168h"
