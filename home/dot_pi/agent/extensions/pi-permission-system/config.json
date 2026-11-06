@@ -30,13 +30,14 @@
     },
 
     "path": {
-      "*.env.example*": "allow",
       "*.env": "deny",
       "*.env.*": "deny",
       "~/.ssh/*": "deny",
 
       "~/.pi/agent/auth.json": "deny",
-      "~/.pi/agent/models.json": "deny"
+      "~/.pi/agent/models.json": "deny",
+
+      "*.env.example*": "allow"
     },
 
     "bash": {
