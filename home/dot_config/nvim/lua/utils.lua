@@ -48,8 +48,8 @@ end
 
 M.set_gui = function()
    if vim.g.__is_nvim_qt then
-      local function gui_opt(opt, val)
-         vim.rpcnotify(1, "Gui", opt, val)
+      local function gui_opt(opt, ...)
+         vim.rpcnotify(1, "Gui", opt, ...)
       end
       gui_opt("Font", "Sarasa Mono SC Nerd Font:h12")
       gui_opt("Option", "Tabline", 0)
