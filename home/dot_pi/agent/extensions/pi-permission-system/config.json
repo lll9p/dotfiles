@@ -35,7 +35,7 @@
       "~/.ssh/*": "deny",
 
       "~/.pi/agent/auth.json": "deny",
-      "~/.pi/agent/models.json": "deny",
+      "~/.pi/agent/models.json": "allow",
 
       "*.env.example*": "allow"
     },
